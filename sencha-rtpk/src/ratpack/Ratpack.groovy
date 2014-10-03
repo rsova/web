@@ -15,15 +15,17 @@ import db.MongoServiceHandler
 
 ratpack {
 	bindings {
-		try{add new AppModule(new File('./config/', 'Config.groovy'))
-			}catch (Exception e){add new AppModule(new File('./src/ratpack/config/', 'Config.groovy'))} //local
-
+		add new AppModule(launchConfig.baseDir.file("config/Config.groovy").toFile())
 	}
 
   handlers {MongoServiceHandler mongoHandler ->
 	get("/:name?"){ next()}
+	get("base/") {
+		response.send "Running at :" + launchConfig.baseDir
+	  }
+  
 	get("echo/:name?") {
-	  response.send "Ratpack service is alive, back to you with: " + pathTokens.name?:"My own hello"
+	  response.send "Ratpack service is alive, back to you with: " + (pathTokens.name?:"My own hello")
 	}
 	
 	prefix("contacts/:name?", mongoHandler)

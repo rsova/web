@@ -11,6 +11,9 @@ apply plugin: "io.ratpack.ratpack-groovy"
 apply plugin: "idea"
 apply plugin: "eclipse"
 
+//Exlude Dev version of sencha from distribution
+applicationDistribution.exclude("**/public/Dev")
+
 repositories {
   jcenter()
   maven { url "http://repo.springsource.org/repo" } // for springloaded
@@ -32,4 +35,10 @@ dependencies {
   runtime 'org.slf4j:slf4j-simple:1.7.7'
 
   testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+}
+
+task hello {
+	doLast {
+		println 'Hello world!:' + applicationDistribution
+	}
 }
