@@ -1,0 +1,9 @@
+---
+applications:
+- name: sencha-rtpk
+  memory: 512M
+  instances: 1
+  #domain: cfapps.io
+  domain: de.a9sapp.eu
+  path: build/distributions/sencha-rtpk.zip
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git

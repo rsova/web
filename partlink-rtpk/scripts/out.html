@@ -1,0 +1,677 @@
+
+<HTML>
+	<HEAD>
+		<title>WebFLIS - Public Search</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<LINK href="../CSS/flis.css" type="text/css" rel="stylesheet" />
+		
+
+		<link rel="shortcut icon" href="WebFLIS.ico" TYPE="image/ico" />
+		<style type="text/css">
+			.style2 { COLOR: #000000 }
+			.style2 { FONT-WEIGHT: bold; COLOR: #000000 }
+			.style4 { COLOR: #666666 }
+			.style7 { FONT-WEIGHT: bold; COLOR: #009900; FONT-STYLE: italic }
+			.style6 { FONT-WEIGHT: bold; COLOR: #000066; FONT-STYLE: italic }
+			.style7 { FONT-WEIGHT: bold; COLOR: #000066 }
+        </style> 
+		
+	</HEAD>
+	<BODY text="#000000" bgColor="#000000">
+	<div id="skip">
+   <a href="#content">Skip to Main Content </a>
+	</div>
+		
+		
+		<script language="JavaScript" type="text/javascript">
+			<!--
+			// 
+			function go1(){
+			 
+			myWindow = window.open("showimage_large.asp", "Image", ',width=400,height=400,scrollbars=yes,dependent=no,resizable=yes,screenX=1,') 
+				
+			}
+			//-->
+
+		</script>
+		<script language="JavaScript">
+<!--
+function backbutton()
+{
+window.history.go(-1);
+}
+//-->
+		</script>
+		<script language="JavaScript">
+<!--
+function Form_Validator(theForm)
+  {
+       
+	  //var cc = arguments.Value;
+	  //document.forms[0]['txtNiin'].value
+	  
+	  /*var txtNiin = document.forms[0]['txtNiin'].value;	  
+	  var trimmedtxtNiin = txtNiin.replace(/^\s+|\s+$/g, '') ; 	*/
+	  
+	  //var trimmed = str.replace(/^\s+|\s+$/g, '') ; 	
+			
+	  if ((document.forms[0]['txtNiin'].value != "") && (document.forms[0]['txtPART'].value != "")){
+		 alert("A Part Number cannot be entered with a NIIN or NSN");
+		document.forms[0]['txtPART'].focus();
+		return (false);
+		}
+      
+	  //----------- [ Additional Keyword Check ] -----------------	
+	  if (((document.forms[0]['txtNiin'].value != "")||(document.forms[0]['txtCAGE'].value != "")||(document.forms[0]['txtPART'].value != "")) && (document.forms[0]['txtKeyword'].value != "")){
+		 alert("A Keyword cannot be entered with a NIIN, NSN, CAGE or Part Number");
+		document.forms[0]['txtKeyword'].focus();
+		return (false);
+		}		
+	  //----------- [/ Additional Keyword Check ] -----------------
+	  
+      //----------- [ Additional Manufactures Part# Check ] -----------------	
+	  if ((document.forms[0]['txtNiin'].value != ""||document.forms[0]['txtCAGE'].value != ""||document.forms[0]['txtPART'].value != ""||document.forms[0]['txtKeyword'].value != "") && (document.forms[0]['txtManName'].value != ""||document.forms[0]['txtManPartNum'].value != "")){
+		 alert("A Manufacturer's Name/Part Number cannot be entered with a NIIN, NSN, CAGE, Part Number or Keyword");
+		document.forms[0]['txtKeyword'].focus();
+		return (false);
+		}		
+	  //----------- [/ Additional Manufactures Part# Check ] -----------------	
+    
+     //----------- [ Additional Manufactures Part# Check 2] -----------------	
+	  if (document.forms[0]['txtManName'].value != ""||document.forms[0]['txtManPartNum'].value != ""){
+
+     	if (document.forms[0]['txtManName'].value == ""||document.forms[0]['txtManPartNum'].value == ""){
+
+		alert("Both Manufacturer's Name and Part Number must be entered.");
+		document.forms[0]['txtKeyword'].focus();
+		return (false);
+		}	
+	  		
+		}		
+	  //----------- [/ Additional Manufactures Part# Check 2] -----------------	
+     
+        if ((document.forms[0]['txtNiin'].value != "") && (document.forms[0]['txtCAGE'].value != "")){
+		alert("A CAGE Code cannot be entered with a NIIN or NSN");
+		document.forms[0]['txtCAGE'].focus();
+		return (false);
+		}
+				
+		if ((document.forms[0]['txtCAGE'].value != "")&&(document.forms[0]['txtCAGE'].value.length != 5)) {
+		alert("A CAGE Code must be 5 characters");
+		document.forms[0]['txtCAGE'].focus();
+		return (false);
+		}
+								
+		// ---------[ Removed NIIN position check to accomodate just adding a number and padding the differenct Modified 2009-04-22 -Removed check Search to reduce amount of partial partnumber hits ]-------------
+		// -- Modified 2009-08-06
+		//if ((document.forms[0]['txtNiin'].value != "")&& (document.forms[0]['txtNiin'].value.length != 9) && (document.forms[0]['txtNiin'].value.length != 13)){
+		//alert("A NIIN or NSN must = 9 or 13 characters");
+		//document.forms[0]['txtNiin'].focus();
+		//return (false);
+		//}		
+					
+		// ---------[ Search to reduce amount of partial partnumber hits ]-------------
+		if ((document.forms[0]['txtPART'].value.charAt((document.forms[0]['txtPART'].value.length)-1) == "*"))
+		
+		{
+			//if ((document.forms[0]['txtPART'].value.charAt(0)<> "")) {
+			//alert("Good Job");
+			  var checkOK = "@_=:;<>%?'";
+			  var checkStr = document.forms[0]['txtPART'].value.charAt(0);
+			  var allValid = true;
+			  var decPoints = 0;
+			  var allNum = "";
+			  var checkStrLength = 2;
+			  for (i = 0;  i < checkStrLength;  i++)
+		  		{
+				    ch = checkStr.charAt(i);
+				    for (j = 0;  j < checkOK.length;  j++)
+				      if (ch == checkOK.charAt(j)){
+					  alert("Not a valid character in the first position. Please re-enter.");
+						document.forms[0]['txtPART'].focus();
+						return (false);
+				    
+				}
+		
+				
+			 }
+			 	
+ 	 	}
+		
+	// ---------[/ Search to reduce amount of partial partnumber hits ]-------------
+		
+  //---------------------
+   return (true);
+}
+
+//-->
+		</script>
+
+
+<!-- ---------[ClearAllInputBoxes] ----------- -->
+<script language="JavaScript">
+<!--
+ //=======================================
+function ClearAllInputBoxes(theForm)
+  {	  
+	
+	document.forms[0]['txtNiin'].value = "";
+	//document.forms[0]['txtMultipleNiin'].value = "";
+	document.forms[0]['txtKeyword'].value = "";
+	document.forms[0]['txtPART'].value = "";
+	document.forms[0]['txtManName'].value = "";
+	document.forms[0]['txtManPartNum'].value = "";
+	document.forms[0]['txtCAGE'].value = "";
+	//document.forms[0]['txtUITMSN'].value = "";
+	// Added removal for check for 
+	document.forms[0]['chkExpandedSearch'].checked = "";
+	document.forms[0]['chkCage'].checked = "";		
+	
+		 
+  //---------------------
+   return (false);
+  //=======================================
+}
+// end hide -->
+</script>
+<!-- ---------[/ClearAllInputBoxes] ----------- -->
+
+
+
+<!-- --------[  ClearViews  ]  ---------->
+		<script language="JavaScript">
+<!--
+
+function ClearViews(theForm)
+  {	  
+	document.forms[0]['C1'].checked = "";
+	document.forms[0]['C3'].checked = "";
+	document.forms[0]['C6'].checked = "";
+	document.forms[0]['C4'].checked = "";
+	document.forms[0]['C7'].checked = "";
+	document.forms[0]['C9'].checked = "";
+	document.forms[0]['C14'].checked = "";
+	// Added removal for check for 
+	//document.forms[0]['chkExpandedSearch'].checked = "";
+	//document.forms[0]['chkCage'].checked = "";		
+  //---------------------
+   return (false);
+  //=======================================
+}
+// end hide -->
+		</script>
+		<!-- --------[/  ClearViews  ]  ---------->
+		<!-- --------[  CheckAllViews  ]  ---------->
+		<script language="JavaScript">
+<!--
+
+function CheckAllViews(theForm)
+  {	  
+	document.forms[0]['C1'].checked = "checked";
+	document.forms[0]['C3'].checked = "checked";
+	document.forms[0]['C6'].checked = "checked";
+	document.forms[0]['C4'].checked = "checked";
+	document.forms[0]['C7'].checked = "checked";
+	document.forms[0]['C9'].checked = "checked";
+	document.forms[0]['C14'].checked = "checked";
+	document.forms[0]['C14'].focus;
+		
+  //---------------------
+   return (false);
+  //=======================================
+}
+// end hide -->
+		</script>
+		<!-- --------[/  CheckAllViews  ]  ---------->
+
+
+<!-- --------[Popup Window for CAGE search]  ---------->
+ <script type="text/javascript" language="javascript">
+     function openCageDetails() {
+         window.open("https://www.logisticsinformationservice.dla.mil/bincs/begin_search.aspx", "BINCS", "width=1000,height=800,scrollbars=yes,dependent=no,resizable=no,unadorned=yes,top=20,left=20");
+     }                                         
+ </script>
+<!-- --------[Popup Window for CAGE search]  ---------->
+
+
+		
+		<!-- ---------------[Header for top panel]-------------- -->
+		
+		<!-- ---------------[/Header for top panel]-------------- -->
+		
+		<!-- ---------------[Application Header]-------------- -->
+		<div id="panelTop2" style="text-align:center;">
+	
+			<TABLE cellSpacing="0" cellPadding="0" width="766" align="center" border="0">
+				<TR bgColor="#4d4d4d">
+					<TD background="../images/webflis_header3.jpg" bgColor="#4d4d4d" colSpan="7">
+						<TABLE cellSpacing="0" cellPadding="0" width="100%" border="0">
+							<TR>
+								<TD width="10%"><IMG alt="header" src="../images/webflis_header1.jpg" width="274" /></TD>
+								<TD width="90%"><IMG alt="header" src="../images/webflis_header3.jpg" width="281" /></TD>
+							</TR>
+						</TABLE>
+					</TD>
+				</TR>
+			</TABLE>
+	
+</div>
+		<!-- ---------------[/Application Header]-------------- -->
+		
+		<table cellSpacing="0" cellPadding="0" width="766" align="center" border="0">
+			<tr>
+				<td class="boxHeader">
+					<table cellSpacing="1" cellPadding="0" width="100%" border="0">
+						<tr>
+							<td width="27%" background="../images/Slice_08.jpg">
+								<div align="center"></div>
+								<DIV></DIV>
+								<div align="center"><A class="TopNavLinks" href="../"><strong>WebFLIS Home</strong></A></div>							</td>
+							<td width="23%" background="../images/Slice_08.jpg" bgColor="#e9e9e9">
+								<div align="center"></div>							</td>
+							<td width="13%" background="../images/Slice_08.jpg" bgColor="#e9e9e9">
+								<div align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="-2"></font></div>							</td>
+						</tr>
+						<tr bgColor="#ffffff">
+							<td colSpan="7">
+								<!-- Begin Enter Code Here -->
+								<form name="Form1" method="post" action="pub_search.aspx" id="Form1" onSubmit="return Form_Validator(this)">
+<div>
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E69BC198" />
+</div>
+									<A name="top"></A>
+									<a name="content" id="content"></a>
+									
+									<div align="center"><span id="lblResults" style="font-family:Verdana;font-size:X-Small;"></span>
+                                        &nbsp;
+										<span id="lblNIIN" style="color:Red;font-family:Verdana,Arial;font-size:X-Small;"></span>
+                                        &nbsp;
+										
+                                        &nbsp;
+										
+
+                                     
+                                        
+                                        
+                                        </div>
+									<div id="Panel12">
+	
+										
+											<TABLE id="Table68" cellSpacing="1" cellPadding="0" width="600" align="center" border="0">
+                                                <tr>
+                                                    <td>
+                                                        <center>
+                                                            <!-- BEGIN ADD: MODIFIED 2013-12-13, M. COOLEY  -->
+                                                            <!-- DUE TO THE AGE OF THE APPLICATION, AND CONFLICTS BETWEEN DOCUMENT TYPES,
+                                                                AN AJAX POP UP WAS NOT POSSIBLE WITHOUT SIGNIFICANT REWRITES. THIS
+                                                                METHODOLOGY IS DEPRECATED, AND SHOULD BE REPLACED AS SOON AS POSSIBLE -->
+                                                            <script type="text/javascript" language="javascript">
+                                                                function openModal() {
+                                                                    //window.showModalDialog('../ChangeNotice.aspx', '', 'dialogHeight=450px;dialogWidth=760px;scrollbars=no;dependent=no;resizable=no;unadorned=yes');
+                                                                    window.open('../ChangeNotice.asp', 'WebFLIS', 'width=760,height=475');
+                                                                }
+                                                            </script>
+                                                            <center>
+                                                                <caption>
+                                
+                                                                    <!--p class="box_yellow_highlight">Restricted WebFLIS accounts will be disabled after 30 days of inactivity. To enable your account, please contact Password Reset at DSN 661-4999, Commercial 269-961-4999, or PasswordR@dla.mil. /p-->
+                                
+                                                                        <p class="box_change_notice" style="text-align: center">
+                                                                            <!--    'LAUNCH AREA' CONTENT     -->Alert: Last Updated On: 14 July 2014
+                                                                            <br />
+                                                                            <br />
+                                                                            <b>IMPORTANT Upcoming WebFLIS Changes That Will Affect You</b>
+                                                                            <br />
+                                                                            <br />
+                                                                            <!--    'LAUNCH OBJECT'   --><a href="#" onclick="openModal()">[Click Here For 
+                                                                            More Information]</a>
+                                                                        </p>
+                               
+                                                                </caption>
+                                                            </center>
+                                                            <!-- END ADD: MODIFIED 2013-12-13, M. COOLEY  -->
+                                                        </center>
+                                                        </td>
+                                                    </tr>
+                                        		<TR>
+													<TD colSpan="3">
+														<DIV align="center"><B><FONT face="Verdana, Arial, Helvetica, sans-serif" size="-1">
+																	<TABLE id="Table97" style="WIDTH: 603px; HEIGHT: 23px" cellSpacing="0" cellPadding="0"
+																		border="0">
+																		<TR>
+																			<TD style="WIDTH: 5px" background="../images/Results_tab2.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="7" /></TD>
+																			<TD vAlign="bottom" background="../images/Results_tab2-02.jpg">
+																				<P class="BoxHeader1" align="center"><FONT face="Arial"><B><FONT size="2">Web<EM>
+                                                                                    FLIS</EM> National Stock Number (NSN) Output Data</FONT></B></FONT></P>																			</TD>
+																			<TD width="17" background="../images/Results_tab2-03.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="32" /></TD>
+																		</TR>
+																	</TABLE>
+																</FONT></B>														</DIV>
+														<DIV align="center"><B><FONT face="Verdana, Arial, Helvetica, sans-serif" size="-1"><A href="pub_search.aspx">
+                                                            Search again?</A></FONT><FONT face="Verdana, Arial, Helvetica, sans-serif" color="#ff0000" size="-1">
+																	<IMG height="9" alt=" " src="../images/spacer.gif" width="1" /><IMG height="9" alt=" " src="../images/spacer.gif" width="1" /></FONT></B></DIV>													</TD>
+												</TR>
+												<TR>
+													<TD align="center" colSpan="3"></TD>
+												</TR>
+												<TR>
+													<TD class="resultsdetail2" colSpan="3">
+														<DIV align="center">
+															<span id="lblHeader"></span></DIV>													</TD>
+												</TR>
+												<TR>
+													<TD align="center" colSpan="3"></TD>
+												</TR>
+												<TR>
+													<TD vAlign="middle" width="0">
+														<DIV align="center">
+															<a id="hlHeadImage"><img src="../images/clearpixel.gif" alt="Clear pixel" style="border-width:0px;" /></a></DIV>													</TD>
+													<TD vAlign="top" colSpan="2">
+														<TABLE id="Table82" cellSpacing="1" cellPadding="1" width="100%" border="0">
+															<TR>
+																<TD class="ResultsLeftHeader" style="WIDTH: 132px" width="132"><A href="pub_help.aspx?DRN=3960" target="_blank">
+                                                                    NSN:</A></TD>
+																<TD class="resultspick1" colSpan="3"><STRONG>
+																		<span id="lblStatNSN">7920016033650</font>&nbsp</span></STRONG>&nbsp;																</TD>
+															</TR>
+															<TR>
+																<TD class="ResultsLeftHeader" style="WIDTH: 132px" width="132"><FONT face="Verdana, Arial, Helvetica, sans-serif"><A class="InstructionTextBlack" href="pub_help.aspx?DRN=Inam" target="_blank"><strong>
+                                                                    Item Name:</strong></A></FONT></TD>
+																<TD class="resultspick1" colSpan="3">
+																	<span id="lblItemName">BRUSH SET,CLEANING,MEDICAL INSTRUMENT</span></TD>
+															</TR>
+															<TR>
+																<TD class="ResultsLeftHeader" style="WIDTH: 132px" width="132">Query Type:																</TD>
+																<TD class="resultspick1" colSpan="3">PUBLIC</TD>
+															</TR>
+															<TR>
+																<TD class="ResultsLeftHeader" style="WIDTH: 132px" width="132">Date of query:</TD>
+																<TD class="resultspick1" colSpan="3">
+																	<span id="lblQueryDate"></span>10/11/2014 6:28:41 PM</TD>
+															</TR>
+														</TABLE>													</TD>
+												</TR>
+												<TR>
+													<TD colSpan="3">
+														<TABLE id="Table88" cellSpacing="0" cellPadding="0" width="100%" border="0">
+															<TR>
+																<TD width="6" background="../images/Results_Interface-2005.jpg"><IMG height="17" alt=" " src="../images/spacer.gif" width="6" /></TD>
+																<TD class="BoxHeader" width="93%" background="../images/Results_Interface-2005-02.jpg">
+																	<span id="lblHeadText" style="display:inline-block;font-family:verdana;font-size:12px;font-weight:bold;width:550px;"></span></TD>
+																<TD width="45" background="../images/Results_Interface-2005-03.jpg"><IMG height="17" alt=" " src="../images/spacer.gif" width="45" /></TD>
+															</TR>
+														</TABLE>													</TD>
+												</TR>
+											</TABLE>
+									
+</div><span class="resultsdetail2"></span>
+									<div id="Panel14">
+	
+										<div align=center>
+										<BR />
+										<TABLE id="Table31" cellSpacing="0" cellPadding="0" width="550" align="center" border="0">
+											<TR>
+												<TD>
+													<TABLE id="Table32" cellSpacing="0" cellPadding="0" border="0">
+														<TR>
+															<TD background="../images/Results_tab2.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="7" /></TD>
+															<TD vAlign="bottom" background="../images/Results_tab2-02.jpg"><FONT face="Arial" color="#ffffff"><B><FONT size="2">
+                                                                Identification</FONT></B></FONT>															</TD>
+															<TD width="17" background="../images/Results_tab2-03.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="32" /></TD>
+															<TD vAlign="bottom" width="17"><FONT face="Verdana, Arial, Helvetica, sans-serif" size="-2"><span class="style4">
+														<span id="lblIdentificationSection"></span>
+														</span></font></TD>															
+															<TD vAlign="bottom" width="17"><A href="#top"><IMG height="16" alt="back to top" src="../images/icon_top.gif" width="75" border="0" /></A></TD>
+														</TR>
+													</TABLE>													</TD>
+												<TD></TD>
+											</TR>
+											<TR>
+											  <TD>
+<table cellspacing="1" cellpadding="3" border="0" id="dgdIdentification1" style="background-color:White;border-color:White;border-width:0px;border-style:Ridge;font-family:Verdana;font-size:Smaller;width:600px;">
+		<tr class="box_small_3_header" align="center">
+			<td><a href=pub_help.aspx?DRN=4065&Scon=&Sfil=@@@ target=_blank>FIIG</a></td><td><a href=pub_help.aspx?DRN=4080&Scon=&Sfil=@@@ target=_blank>INC</a></td><td><a href=pub_help.aspx?DRN=3843&Scon=all&Sfil=xxx target=_blank>CRIT CD</a></td><td><a href=pub_help.aspx?DRN=4820&Scon=all&Sfil=xxx target=_blank>II</a></td><td><a href=pub_help.aspx?DRN=4765&Scon=all&Sfil=xxx target=_blank>RPD MRC</a></td><td><a href=pub_help.aspx?DRN=0167&Scon=all&Sfil=xxx target=_blank>DMIL</a></td><td><a href=pub_help.aspx?DRN=0138&Scon=all&Sfil=xxx target=_blank>DMIL INT CD</a></td><td><a href=pub_help.aspx?DRN=2180&Scon=&Sfil=@@@ target=_blank>NIIN ASGMT</a></td><td><a href=pub_help.aspx?DRN=0802&Scon=all&Sfil=xxx target=_blank>PMIC</a></td><td><a href=pub_help.aspx?DRN=0801&Scon=all&Sfil=xxx target=_blank>ADP</a></td><td><a href=pub_help.aspx?DRN=2043&Scon=all&Sfil=xxx target=_blank>ESD EMI</a></td><td><a href=pub_help.aspx?DRN=0865&Scon=all&Sfil=xxx target=_blank>HMIC</a></td><td><a href=pub_help.aspx?DRN=2579&Scon=all&Sfil=xxx target=_blank>HCC</a></td>
+		</tr><tr class="resultspick1">
+			<td>A23800</td><td>39211</td><td align="center"><a href="pub_help.aspx?DRN=3843&amp;Scon=1&amp;Sfil=X" target="_blank">X</a></td><td align="center"><a href="pub_help.aspx?DRN=4820&amp;Scon=1&amp;Sfil=4" target="_blank">4</a></td><td align="center"><a href="pub_help.aspx?DRN=4765&amp;Scon=1&amp;Sfil=3" target="_blank">3</a></td><td align="center"><a href="pub_help.aspx?DRN=0167&amp;Scon=1&amp;Sfil=A" target="_blank">A</a></td><td align="center"><a href="pub_help.aspx?DRN=0138&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td>2012061</td><td align="center"><a href="pub_help.aspx?DRN=0802&amp;Scon=1&amp;Sfil=A" target="_blank">A</a></td><td align="center"><a href="pub_help.aspx?DRN=0801&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2043&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=0865&amp;Scon=1&amp;Sfil=N" target="_blank">N</a></td><td align="center"><a href="pub_help.aspx?DRN=2579&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td>
+		</tr>
+	</table>
+												  <TABLE cellSpacing="2" cellPadding="2" width="600" border="0">
+                                                  
+                                                  <TR>
+														  <TD class="box_small_3_header" width="135"><A href="pub_help.aspx?DRN=2107" target="_blank">
+                                                              SCHEDULE B: </A>															</TD>
+														  <TD class="resultspick1" align="left" width="159">
+													    <span id="lblScheduleB"><b><a href=pub_help.aspx?DRN=schb target=_blank></a></b></span></TD>
+															  <TD class="resultspick1" width="71">&nbsp;</TD>
+													          <TD class="resultspick1" align="left" width="209">&nbsp;</TD>
+												    </TR>
+													  <TR>
+														  <TD class="box_small_3_header" align="left"><A href="../pub/pub_help.aspx?DRN=3025&amp;Scon=all&amp;Sfil=xxx" target="_blank">
+                                                              ENAC:</A>															</TD>
+														  <TD align="left" class="resultspick1">
+															  <span id="lblENAC"></span></TD>
+														  <TD class="box_small_3_header" width="71"><A href="pub_help.aspx?DRN=IUID" target="_blank">
+                                                                  IUID Indicator: </A> </TD>
+															<TD class="resultspick1" align="left" width="209"><A href="../pub/pub_help.aspx?DRN=IUID" target="_blank">
+												        <span id="lblIUID">N</span></a></TD>
+												      </TR>
+												  </TABLE>												</TD>
+											</TR>
+										</TABLE>
+										</div>
+									
+</div>
+									
+									
+									
+									<div id="Panel17">
+	
+										<div align=center>
+											<TABLE id="Table33" cellSpacing="0" cellPadding="0" width="550" align="center" border="0">
+												<TR>
+													<TD>
+														<TABLE id="Table34" cellSpacing="0" cellPadding="0" border="0">
+															<TR>
+																<TD background="../images/Results_tab2.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="7" /></TD>
+																<TD vAlign="bottom" background="../images/Results_tab2-02.jpg"><FONT face="Arial" color="#ffffff"><B><FONT size="2">
+                                                                    Reference/Part Number</FONT></B></FONT></TD>
+																<TD width="17" background="../images/Results_tab2-03.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="32" /></TD>
+																<TD vAlign="bottom" width="17"><A href="#top"><IMG height="16" alt="back to top" src="../images/icon_top.gif" width="75" border="0" /></A></TD>
+															</TR>
+														</TABLE>													</TD>
+													<TD></TD>
+												</TR>
+												<TR>
+													<TD>
+														<table cellspacing="1" cellpadding="3" border="0" id="Datagrid17" style="background-color:White;border-color:White;border-width:0px;border-style:Ridge;font-family:Verdana;width:600px;">
+		<tr class="box_small_3_header" align="center">
+			<td><a href=pub_help.aspx?DRN=3570&Scon=&Sfil=@@@ target=_blank>REF/PN</a></td><td><a href=pub_help.aspx?DRN=9250&Scon=&Sfil=@@@ target=_blank>CAGE CD</a></td><td><a href=pub_help.aspx?DRN=2694&Scon=all&Sfil=xxx target=_blank>STAT</a></td><td><a href=pub_help.aspx?DRN=2910&Scon=all&Sfil=xxx target=_blank>RNCC</a></td><td><a href=pub_help.aspx?DRN=4780&Scon=all&Sfil=xxx target=_blank>RNVC</a></td><td><a href=pub_help.aspx?DRN=2640&Scon=all&Sfil=xxx target=_blank>DAC</a></td><td><a href=pub_help.aspx?DRN=2900&Scon=&Sfil=@@@ target=_blank>RNAAC</a></td><td><a href=pub_help.aspx?DRN=2920&Scon=all&Sfil=xxx target=_blank>RNFC</a></td><td><a href=pub_help.aspx?DRN=2923&Scon=all&Sfil=xxx target=_blank>RNSC</a></td><td><a href=pub_help.aspx?DRN=2750&Scon=all&Sfil=xxx target=_blank>RNJC</a></td><td><a href=pub_help.aspx?DRN=4672&Scon=all&Sfil=xxx target=_blank>SADC</a></td><td><a href=pub_help.aspx?DRN=2579&Scon=all&Sfil=xxx target=_blank>HCC</a></td><td><a href=pub_help.aspx?DRN=9076&Scon=&Sfil=@@@ target=_blank>MSDS</a></td>
+		</tr><tr class="resultspick1">
+			<td>31402                           </td><td><a href="https://www.logisticsinformationservice.dla.mil/bincs/begin_search.aspx" target="_blank">89875</a></td><td align="center"><a href="pub_help.aspx?DRN=2694&amp;Scon=1&amp;Sfil=A" target="_blank">A</a></td><td align="center"><a href="pub_help.aspx?DRN=2910&amp;Scon=1&amp;Sfil=5" target="_blank">5</a></td><td align="center"><a href="pub_help.aspx?DRN=4780&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2640&amp;Scon=1&amp;Sfil=4" target="_blank">4</a></td><td align="center">ZZ</td><td align="center"><a href="pub_help.aspx?DRN=2920&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2923&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2750&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=4672&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td><td align="center"><a href="pub_help.aspx?DRN=2579&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td><td align="center">     </td>
+		</tr><tr class="resultspickalt1">
+			<td>6545NCM127090                   </td><td><a href="https://www.logisticsinformationservice.dla.mil/bincs/begin_search.aspx" target="_blank">64616</a></td><td align="center"><a href="pub_help.aspx?DRN=2694&amp;Scon=1&amp;Sfil=A" target="_blank">A</a></td><td align="center"><a href="pub_help.aspx?DRN=2910&amp;Scon=1&amp;Sfil=5" target="_blank">5</a></td><td align="center"><a href="pub_help.aspx?DRN=4780&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2640&amp;Scon=1&amp;Sfil=4" target="_blank">4</a></td><td align="center">ZZ</td><td align="center"><a href="pub_help.aspx?DRN=2920&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2923&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2750&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=4672&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td><td align="center"><a href="pub_help.aspx?DRN=2579&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td><td align="center">     </td>
+		</tr><tr class="resultspick1">
+			<td>BR-4499                         </td><td><a href="https://www.logisticsinformationservice.dla.mil/bincs/begin_search.aspx" target="_blank">0SRE6</a></td><td align="center"><a href="pub_help.aspx?DRN=2694&amp;Scon=1&amp;Sfil=A" target="_blank">A</a></td><td align="center"><a href="pub_help.aspx?DRN=2910&amp;Scon=1&amp;Sfil=3" target="_blank">3</a></td><td align="center"><a href="pub_help.aspx?DRN=4780&amp;Scon=1&amp;Sfil=2" target="_blank">2</a></td><td align="center"><a href="pub_help.aspx?DRN=2640&amp;Scon=1&amp;Sfil=4" target="_blank">4</a></td><td align="center">ZZ</td><td align="center"><a href="pub_help.aspx?DRN=2920&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2923&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=2750&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=4672&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td><td align="center"><a href="pub_help.aspx?DRN=2579&amp;Scon=1&amp;Sfil=  " target="_blank">  </a></td><td align="center">     </td>
+		</tr>
+	</table></TD>
+												</TR>
+											</TABLE>
+										</div>
+									
+</div>
+									<div id="Panel19">
+	
+										<div align=center>
+											<TABLE id="Table48" cellSpacing="0" cellPadding="0" width="550" align="center" border="0">
+												<TR>
+													<TD>
+														<TABLE id="Table49" cellSpacing="0" cellPadding="0" border="0">
+															<TR>
+																<TD background="../images/Results_tab2.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="7" /></TD>
+																<TD vAlign="bottom" background="../images/Results_tab2-02.jpg"><FONT face="Arial" color="#ffffff"><B><FONT size="2">
+                                                                    Management</FONT></B></FONT>																</TD>
+																<TD width="17" background="../images/Results_tab2-03.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="32" /></TD>
+																<TD vAlign="bottom" width="17"><A href="#top"><IMG height="16" alt="back to top" src="../images/icon_top.gif" width="75" border="0" /></A></TD>
+															</TR>
+														</TABLE>													</TD>
+													<TD></TD>
+												</TR>
+												<TR>
+													<TD>
+														<table cellspacing="1" cellpadding="3" border="0" id="Datagrid19" style="background-color:White;border-color:White;border-width:0px;border-style:Ridge;font-family:Verdana;font-size:Smaller;width:600px;">
+		<tr class="box_small_3_header" align="center">
+			<td><a href=pub_help.aspx?DRN=2128&Scon=&Sfil=@@@ target=_blank>EFF-DT</a></td><td><a href=pub_help.aspx?DRN=2833&Scon=all&Sfil=all target=_blank>MOE</a></td><td><a href=pub_help.aspx?DRN=2507&Scon=all&Sfil=xxx target=_blank>AAC</a></td><td><a href=pub_help.aspx?DRN=3690&Scon=all&Sfil=all target=_blank>SOS</a></td><td><a href=pub_help.aspx?DRN=3050&Scon=all&Sfil=all target=_blank>UI</a></td><td><a href=pub_help.aspx?DRN=7075&Scon=&Sfil=@@@ target=_blank>UI_PRICE</a></td><td><a href=pub_help.aspx?DRN=6106&Scon=all&Sfil=xxx target=_blank>QUP</a></td><td><a href=pub_help.aspx?DRN=2863&Scon=all&Sfil=xxx target=_blank>CIIC</a></td><td><a href=pub_help.aspx?DRN=2943&Scon=all&Sfil=xxx target=_blank>SLC </a></td><td><a href=pub_help.aspx?DRN=2934&Scon=all&Sfil=xxx target=_blank>REP </a></td><td><a href=pub_help.aspx?DRN=0745&Scon=all&Sfil=xxx target=_blank>USC </a></td>
+		</tr><tr class="resultspick1">
+			<td>2014274</td><td align="center"><a href="pub_help.aspx?DRN=2833&amp;Scon=1&amp;Sfil=DA" target="_blank">DA</a></td><td align="center"><a href="pub_help.aspx?DRN=2507&amp;Scon=1&amp;Sfil=L" target="_blank">L</a></td><td align="center"><a href="pub_help.aspx?DRN=3690&amp;Scon=1&amp;Sfil=SMS" target="_blank">SMS</a></td><td align="center"><a href="pub_help.aspx?DRN=3050&amp;Scon=1&amp;Sfil=KT" target="_blank">KT</a></td><td align="right">$152.63</td><td align="center"><a href="pub_help.aspx?DRN=6106&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2863&amp;Scon=1&amp;Sfil=U" target="_blank">U</a></td><td align="center"><a href="pub_help.aspx?DRN=2943&amp;Scon=1&amp;Sfil=0" target="_blank">0</a></td><td align="center"><a href="pub_help.aspx?DRN=2934&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=0745&amp;Scon=1&amp;Sfil=A" target="_blank">A</a></td>
+		</tr><tr class="resultspickalt1">
+			<td>2014274</td><td align="center"><a href="pub_help.aspx?DRN=2833&amp;Scon=1&amp;Sfil=DF" target="_blank">DF</a></td><td align="center"><a href="pub_help.aspx?DRN=2507&amp;Scon=1&amp;Sfil=L" target="_blank">L</a></td><td align="center"><a href="pub_help.aspx?DRN=3690&amp;Scon=1&amp;Sfil=SMS" target="_blank">SMS</a></td><td align="center"><a href="pub_help.aspx?DRN=3050&amp;Scon=1&amp;Sfil=KT" target="_blank">KT</a></td><td align="right">$152.63</td><td align="center"><a href="pub_help.aspx?DRN=6106&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2863&amp;Scon=1&amp;Sfil=U" target="_blank">U</a></td><td align="center"><a href="pub_help.aspx?DRN=2943&amp;Scon=1&amp;Sfil=0" target="_blank">0</a></td><td align="center"><a href="pub_help.aspx?DRN=2934&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=0745&amp;Scon=1&amp;Sfil=F" target="_blank">F</a></td>
+		</tr><tr class="resultspick1">
+			<td>2014274</td><td align="center"><a href="pub_help.aspx?DRN=2833&amp;Scon=1&amp;Sfil=DM" target="_blank">DM</a></td><td align="center"><a href="pub_help.aspx?DRN=2507&amp;Scon=1&amp;Sfil=L" target="_blank">L</a></td><td align="center"><a href="pub_help.aspx?DRN=3690&amp;Scon=1&amp;Sfil=SMS" target="_blank">SMS</a></td><td align="center"><a href="pub_help.aspx?DRN=3050&amp;Scon=1&amp;Sfil=KT" target="_blank">KT</a></td><td align="right">$152.63</td><td align="center"><a href="pub_help.aspx?DRN=6106&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2863&amp;Scon=1&amp;Sfil=U" target="_blank">U</a></td><td align="center"><a href="pub_help.aspx?DRN=2943&amp;Scon=1&amp;Sfil=0" target="_blank">0</a></td><td align="center"><a href="pub_help.aspx?DRN=2934&amp;Scon=1&amp;Sfil=Z" target="_blank">Z</a></td><td align="center"><a href="pub_help.aspx?DRN=0745&amp;Scon=1&amp;Sfil=M" target="_blank">M</a></td>
+		</tr><tr class="resultspickalt1">
+			<td>2014274</td><td align="center"><a href="pub_help.aspx?DRN=2833&amp;Scon=1&amp;Sfil=DN" target="_blank">DN</a></td><td align="center"><a href="pub_help.aspx?DRN=2507&amp;Scon=1&amp;Sfil=L" target="_blank">L</a></td><td align="center"><a href="pub_help.aspx?DRN=3690&amp;Scon=1&amp;Sfil=SMS" target="_blank">SMS</a></td><td align="center"><a href="pub_help.aspx?DRN=3050&amp;Scon=1&amp;Sfil=KT" target="_blank">KT</a></td><td align="right">$152.63</td><td align="center"><a href="pub_help.aspx?DRN=6106&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2863&amp;Scon=1&amp;Sfil=U" target="_blank">U</a></td><td align="center"><a href="pub_help.aspx?DRN=2943&amp;Scon=1&amp;Sfil=0" target="_blank">0</a></td><td align="center"><a href="pub_help.aspx?DRN=2934&amp;Scon=1&amp;Sfil= " target="_blank"> </a></td><td align="center"><a href="pub_help.aspx?DRN=0745&amp;Scon=1&amp;Sfil=N" target="_blank">N</a></td>
+		</tr><tr class="resultspick1">
+			<td>2014274</td><td align="center"><a href="pub_help.aspx?DRN=2833&amp;Scon=1&amp;Sfil=DS" target="_blank">DS</a></td><td align="center"><a href="pub_help.aspx?DRN=2507&amp;Scon=1&amp;Sfil=L" target="_blank">L</a></td><td align="center"><a href="pub_help.aspx?DRN=3690&amp;Scon=1&amp;Sfil=SMS" target="_blank">SMS</a></td><td align="center"><a href="pub_help.aspx?DRN=3050&amp;Scon=1&amp;Sfil=KT" target="_blank">KT</a></td><td align="right">$152.63</td><td align="center"><a href="pub_help.aspx?DRN=6106&amp;Scon=1&amp;Sfil=1" target="_blank">1</a></td><td align="center"><a href="pub_help.aspx?DRN=2863&amp;Scon=1&amp;Sfil=U" target="_blank">U</a></td><td align="center"><a href="pub_help.aspx?DRN=2943&amp;Scon=1&amp;Sfil=0" target="_blank">0</a></td><td align="center"><a href="pub_help.aspx?DRN=2934&amp;Scon=1&amp;Sfil=N" target="_blank">N</a></td><td align="center"><a href="pub_help.aspx?DRN=0745&amp;Scon=1&amp;Sfil=I" target="_blank">I</a></td>
+		</tr>
+	</table></TD>
+												</TR>
+											</TABLE>
+										</div>
+									
+</div>
+									
+									
+									
+									
+									<div id="Panel28">
+	
+										 <div align=center>
+											<TABLE id="Table73" cellSpacing="0" cellPadding="0" width="550" align="center" border="0">
+												<TR>
+													<TD>
+														<TABLE id="Table74" cellSpacing="0" cellPadding="0" border="0">
+															<TR>
+																<TD background="../images/Results_tab2.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="7" /></TD>
+																<TD vAlign="bottom" background="../images/Results_tab2-02.jpg"><FONT face="Arial" color="#ffffff"><B><FONT size="2">
+                                                                    Characteristics (Decoded) </FONT></B></FONT>																</TD>
+																<TD width="17" background="../images/Results_tab2-03.jpg"><IMG height="23" alt=" " src="../images/spacer.gif" width="32" /></TD>
+																<TD vAlign="bottom" width="17"><A href="#top"><IMG height="16" alt="back to top" src="../images/icon_top.gif" width="75" border="0" /></A></TD>
+															</TR>
+														</TABLE>													</TD>
+													<TD></TD>
+												</TR>
+												<TR>
+													<TD>
+														<table cellspacing="1" cellpadding="3" border="0" id="Datagrid34" style="background-color:White;border-color:White;border-width:0px;border-style:Ridge;font-family:Verdana;font-size:Smaller;width:600px;">
+		<tr class="box_small_3_header" align="center">
+			<td><a href=pub_help.aspx?DRN=3445&Scon=&Sfil=@@@ target=_blank>MRC</a></td><td><a href=pub_help.aspx?DRN=3614&Scon=&Sfil=@@@ target=_blank>REQUIREMENT STATEMENT</a></td><td><a href=pub_help.aspx?DRN=4128&Scon=&Sfil=@@@ target=_blank>CLEAR TEXT REPLY</a></td>
+		</tr><tr class="resultspick1">
+			<td>NAME</td><td>ITEM NAME</td><td align="justify">BRUSH SET,CLEANING,MEDICAL INSTRUMENT</td>
+		</tr><tr class="resultspickalt1">
+			<td>CXCY</td><td>PART NAME ASSIGNED BY CONTROLLING AGENCY</td><td align="justify">BRUSH SET,CLEANING,LAPROSCOPIC</td>
+		</tr><tr class="resultspick1">
+			<td>FEAT</td><td>SPECIAL FEATURES</td><td align="justify">BRUSH KIT,LAPROSCOPIC STYLET CLEANING; INCLUDES ONE PACKAGE OF EACH OF THE FOLLOWING BRUSHES: BR-18-062, BR-18-070, BR-18-087, BR-18-105, BR-18-125, BR-08-158, BR-24-200, BR-18-250, AND BR-06-375</td>
+		</tr>
+	</table></TD>
+												</TR>
+											</TABLE>
+										</div>
+									
+</div>
+									
+									<!-- --------------[ Part Search ]-------------- -->
+									<!-- --------------[/ Part Search ]-------------- -->
+									<!-- --------------[ Cage Search ]-------------- -->
+									
+									<!-- --------------[/ Part Search ]-------------- -->
+									
+									
+									
+
+									
+									<br />
+                                    
+                                    
+							</font>									</div>
+									<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif">
+											<font size="2">
+												<a id="lblSearchAgain2" href="pub_search.aspx" target="_parent" style="font-family:verdana;font-size:X-Small;font-weight:bold;"> <div align="center">Search again?</div></a></font></font></font></form>
+								<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif">
+										<FONT size="2"></FONT></font></font>
+								<P align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><B><A href="pub_search.aspx"><font size="-1"></font></A></B></font></P>
+						  </td>
+						</tr>
+						<tr bgColor="#ffffff">
+						  <td colSpan="7">&nbsp;</td>
+					  </tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<!-- ------------------- [ Footer I  ]  --------------------- -->
+      <table cellSpacing="0" cellPadding="0" width="766" align="center" border="0">
+        <tr>
+          <td width="150" background="../images/Slice_08.jpg">&nbsp; </td>
+          <td width="473" background="../images/Slice_08.jpg"><div align="center"><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+              Web<em>FLIS</em></font>
+					</strong>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><em></em></font>
+									
+					</div>		  </td>
+          <td width="143" background="../images/Slice_08.jpg"><div align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="-2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+					 <font size=-2>Rev 3.19.5.2</font><font size=-2>WDSS</font></font>															
+					&nbsp;</font></font>
+					</div></td>
+        </tr>
+      </table>
+      <!-- ------------------- [/ Footer I  ]  --------------------- -->
+	  
+	 <!-- ------------------- [  Footer II - Template ]  --------------------- -->
+	 <table width="766" align="center">
+          <tr>
+            <td height="30" class="PageFooter" >			
+			<div align="center">			
+			<BR />
+<span class="WhiteText">
+<a href="/cust.asp" class="LinksSmall">DLA Customer Interaction Center</a>: 
+1-877-352-2255 or DSN 661-7766 Email: <a href="mailto:dlacontactcenter@dla.mil" class="LinksSmall">dlacontactcenter@dla.mil</a><br />
+<a href="http://devweb.logisticsinformationservice.dla.mil/warning.asp" class="LinksSmall">Privacy/Security</a> | <a href="http://dodcio.defense.gov/DoDSection508/Std_Stmt.aspx" class="LinksSmall">Accessibility/Section 508</a> | <a href="http://www.adobe.com/prodindex/acrobat/readstep.html" class="LinksSmall">Download Acrobat</a>
+| <a class="LinksSmall" href="mailto:LogInfoSvcWebmaster@dla.mil">Contact Webmaster </a> 
+<br />
+<br />
+<span class="WhiteText">This Site Reviewed Quarterly for Accessibility Compliance</span><br />
+
+  This Page Last Reviewed: 
+  August 12, 2014
+  
+  
+  
+  </span></p>
+  
+
+<script type='text/javascript'>
+		if((document.getElementById('PageTitle') != null) && (document.getElementById('HeadTitle') != null))
+			document.getElementById('PageTitle').innerHTML = document.getElementById('HeadTitle').innerHTML;
+</script>
+
+
+			</div>
+			</td>
+          </tr>
+	 </table>	  
+	 <!-- ------------------- [/  Footer II - Template ]  --------------------- -->	
+		
+		
+		
+<blockquote>&nbsp;</blockquote>
+		
+		
+	</BODY>
+</HTML>
+
+------------------
