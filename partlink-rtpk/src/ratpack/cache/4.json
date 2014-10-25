@@ -1,0 +1,275 @@
+//http://localhost:5050/lookup/016033650,015127231,010077987,015303893
+[
+  {
+    "items": {
+      "niin": "016033650",
+      "price": "154.26",
+      "assignmentDate": "2012-03-01",
+      "items": [
+        {
+          "text": "DEFENSE MEDICAL STANDARDIZATION",
+          "items": [
+            {
+              "text": "cageCode: 64616",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 301-619-2001",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S2101A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0338",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        },
+        {
+          "text": "KEY SURGICAL, INC.",
+          "items": [
+            {
+              "text": "cageCode: 0SRE6",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 8101 WALLACE RD, EDEN PRAIRIE, MN, UNITED STATES, 55344-2114",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 9529149789 9529149866",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S2401A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0339",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        }
+      ],
+      "text": "[niin:016033650, price:154.26, assignmentDate:2012-03-01]"
+    }
+  },
+  {
+    "items": {
+      "niin": "015127231",
+      "price": "388.99",
+      "assignmentDate": "2003-09-09",
+      "items": [
+        {
+          "text": "PELICAN PRODUCTS, INC.",
+          "items": [
+            {
+              "text": "cageCode: 65442",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 23215 EARLY AVE, TORRANCE, CA, UNITED STATES, 90505-4002",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 8004735422 8004735422 3103269213 3103269213",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S0513A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0339",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        },
+        {
+          "text": "DEFENSE MEDICAL STANDARDIZATION",
+          "items": [
+            {
+              "text": "cageCode: 64616",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 301-619-2001",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S2101A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0338",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        },
+        {
+          "text": "GENERAL DYNAMICS C4 SYSTEMS, INC.",
+          "items": [
+            {
+              "text": "cageCode: 67032",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 400 JOHN QUINCY ADAMS RD, TAUNTON, MA, UNITED STATES, 02780-1036",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 8884832472 8884832472 5088802103 5088802103",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S2206A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0337",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        }
+      ],
+      "text": "[niin:015127231, price:388.99, assignmentDate:2003-09-09]"
+    }
+  },
+  {
+    "items": {
+      "niin": "010077987",
+      "price": "17.60",
+      "assignmentDate": "1975-08-09",
+      "items": [
+        {
+          "text": "GENERAL ELECTRIC COMPANY",
+          "items": [
+            {
+              "text": "cageCode: 08805",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 1975 NOBLE RD NELA PARK, CLEVELAND, OH, UNITED STATES, 44112-1719",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 216-266-6648 216-606-6599",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S3605A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0337",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        }
+      ],
+      "text": "[niin:010077987, price:17.60, assignmentDate:1975-08-09]"
+    }
+  },
+  {
+    "items": {
+      "niin": "015303893",
+      "price": "441.64",
+      "assignmentDate": "2005-05-25",
+      "items": [
+        {
+          "text": "MONAGHAN MEDICAL CORPORATION",
+          "items": [
+            {
+              "text": "cageCode: 66307",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 5 LATOUR AVE STE 1600, PLATTSBURGH, NY, UNITED STATES, 12901-7207",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 5185617330 5185617330 5185615088 5185615088",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S0701A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0337",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        },
+        {
+          "text": "DEFENSE MEDICAL STANDARDIZATION",
+          "items": [
+            {
+              "text": "cageCode: 64616",
+              "leaf": "true"
+            },
+            {
+              "text": "address: 1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013",
+              "leaf": "true"
+            },
+            {
+              "text": "phone: 301-619-2001",
+              "leaf": "true"
+            },
+            {
+              "text": "cao: S2101A",
+              "leaf": "true"
+            },
+            {
+              "text": "adp: HQ0338",
+              "leaf": "true"
+            },
+            {
+              "text": "isWomanOwned: N",
+              "leaf": "true"
+            }
+          ]
+        }
+      ],
+      "text": "[niin:015303893, price:441.64, assignmentDate:2005-05-25]"
+    }
+  }
+]

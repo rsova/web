@@ -15,14 +15,14 @@ import ratpack.path.PathBinders;
 
 
 import javax.inject.Inject
-class MongoService{
+class MongoService {
 
 	@Inject
 	DB db
 	private String collection
 	private final String COMPAIGN = 'compaign'
 
-	@Override
+	//@Override
 	void handle(Context context) {
 		def token = context.pathTokens.name
 		this.collection = context.getRequest().path

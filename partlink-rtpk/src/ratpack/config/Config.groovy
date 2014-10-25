@@ -27,4 +27,11 @@ app {
 	swt{
 		sparklEndPoint ='http://api.xsb.com/sparql/query'
 	}
+	usps{
+		user='066QBASE5466'
+		base = 'http://production.shippingapis.com/ShippingAPITest.dll?'
+		xmlTemplate = '<StandardBRequest USERID="{0}"><OriginZip>{1}</OriginZip><DestinationZip>{2}</DestinationZip></StandardBRequest>'
+		//String user, String base, String xmlTemplate
+	}
+	
 }

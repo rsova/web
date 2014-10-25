@@ -1,0 +1,69 @@
+//[niin:015303893, price:441.64, assignmentDate:2005-05-25]
+{
+  "items": {
+    "niin": "015303893",
+    "price": "441.64",
+    "assignmentDate": "2005-05-25",
+    "items": [
+      {
+        "text": "MONAGHAN MEDICAL CORPORATION",
+        "items": [
+          {
+            "text": "cageCode: 66307",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 5 LATOUR AVE STE 1600, PLATTSBURGH, NY, UNITED STATES, 12901-7207",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 5185617330 5185617330 5185615088 5185615088",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S0701A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0337",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      },
+      {
+        "text": "DEFENSE MEDICAL STANDARDIZATION",
+        "items": [
+          {
+            "text": "cageCode: 64616",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 301-619-2001",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S2101A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0338",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      }
+    ],
+    "text": "[niin:015303893, price:441.64, assignmentDate:2005-05-25]"
+  }
+}

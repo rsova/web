@@ -3,17 +3,17 @@ buildscript {
     jcenter()
   }
   dependencies {
+    //classpath "io.ratpack:ratpack-gradle:0.9.8"
     classpath "io.ratpack:ratpack-gradle:0.9.8"
   }
 }
 
 apply plugin: "io.ratpack.ratpack-groovy"
-apply plugin: "idea"
+//apply plugin: "idea"
 apply plugin: "eclipse"
 
 repositories {
   jcenter()
-  maven { url "http://repo.springsource.org/repo" } // for springloaded
 }
 
 dependencies {
@@ -24,14 +24,20 @@ dependencies {
   //added to get gson library
   compile 'com.google.code.gson:gson:2.2.4'
   compile 'org.json:json:20140107'
-  compile 'org.apache.jena:apache-jena-libs:2.11.0'
+  //compile 'org.apache.jena:apache-jena-libs:2.11.0'
+  compile 'org.apache.jena:jena-arq:2.10.0'
   compile 'org.mongodb:mongo-java-driver:2.11.2'
   //compile 'com.bloidonia:groovy-stream:0.5.4'
   compile 'org.jsoup:jsoup:1.6.1'
+  compile 'org.codehaus.gpars:gpars:1.2.1'
+  
+  compile 'net.sf.ehcache:ehcache-core:2.6.9'
+  compile 'javax:javaee-api:7.0' //Needed for ehcache
+  
 
   // Default SLF4J binding.  Note that this is a blocking implementation.
   // See here for a non blocking appender http://logging.apache.org/log4j/2.x/manual/async.html
-  runtime 'org.slf4j:slf4j-simple:1.7.7'
+  //runtime 'org.slf4j:slf4j-simple:1.7.7'
   
   testCompile 'junit:junit:4.+'
   //testCompile "org.spockframework:spock-core:0.7-groovy-2.0"

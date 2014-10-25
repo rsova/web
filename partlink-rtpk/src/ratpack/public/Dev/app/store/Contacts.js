@@ -8,7 +8,7 @@ Ext.define('App.store.Contacts', {
         model : 'App.model.Contact',
         proxy: {
             type: 'ajax',
-            url: '/contacts',
+            url: '/mock',
             reader: {
                 type: 'json'
                 //rootProperty: 'data'

@@ -1,0 +1,69 @@
+//[niin:016033650, price:154.26, assignmentDate:2012-03-01]
+{
+  "items": {
+    "niin": "016033650",
+    "price": "154.26",
+    "assignmentDate": "2012-03-01",
+    "items": [
+      {
+        "text": "DEFENSE MEDICAL STANDARDIZATION",
+        "items": [
+          {
+            "text": "cageCode: 64616",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 301-619-2001",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S2101A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0338",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      },
+      {
+        "text": "KEY SURGICAL, INC.",
+        "items": [
+          {
+            "text": "cageCode: 0SRE6",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 8101 WALLACE RD, EDEN PRAIRIE, MN, UNITED STATES, 55344-2114",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 9529149789 9529149866",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S2401A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0339",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      }
+    ],
+    "text": "[niin:016033650, price:154.26, assignmentDate:2012-03-01]"
+  }
+}

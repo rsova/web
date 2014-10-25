@@ -1,0 +1,98 @@
+//[niin:015127231, price:388.99, assignmentDate:2003-09-09]
+{
+  "items": {
+    "niin": "015127231",
+    "price": "388.99",
+    "assignmentDate": "2003-09-09",
+    "items": [
+      {
+        "text": "PELICAN PRODUCTS, INC.",
+        "items": [
+          {
+            "text": "cageCode: 65442",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 23215 EARLY AVE, TORRANCE, CA, UNITED STATES, 90505-4002",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 8004735422 8004735422 3103269213 3103269213",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S0513A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0339",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      },
+      {
+        "text": "DEFENSE MEDICAL STANDARDIZATION",
+        "items": [
+          {
+            "text": "cageCode: 64616",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 301-619-2001",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S2101A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0338",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      },
+      {
+        "text": "GENERAL DYNAMICS C4 SYSTEMS, INC.",
+        "items": [
+          {
+            "text": "cageCode: 67032",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 400 JOHN QUINCY ADAMS RD, TAUNTON, MA, UNITED STATES, 02780-1036",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 8884832472 8884832472 5088802103 5088802103",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S2206A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0337",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      }
+    ],
+    "text": "[niin:015127231, price:388.99, assignmentDate:2003-09-09]"
+  }
+}

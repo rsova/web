@@ -1,0 +1,40 @@
+//[niin:010077987, price:17.60, assignmentDate:1975-08-09]
+{
+  "items": {
+    "niin": "010077987",
+    "price": "17.60",
+    "assignmentDate": "1975-08-09",
+    "items": [
+      {
+        "text": "GENERAL ELECTRIC COMPANY",
+        "items": [
+          {
+            "text": "cageCode: 08805",
+            "leaf": "true"
+          },
+          {
+            "text": "address: 1975 NOBLE RD NELA PARK, CLEVELAND, OH, UNITED STATES, 44112-1719",
+            "leaf": "true"
+          },
+          {
+            "text": "phone: 216-266-6648 216-606-6599",
+            "leaf": "true"
+          },
+          {
+            "text": "cao: S3605A",
+            "leaf": "true"
+          },
+          {
+            "text": "adp: HQ0337",
+            "leaf": "true"
+          },
+          {
+            "text": "isWomanOwned: N",
+            "leaf": "true"
+          }
+        ]
+      }
+    ],
+    "text": "[niin:010077987, price:17.60, assignmentDate:1975-08-09]"
+  }
+}
