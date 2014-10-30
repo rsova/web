@@ -45,16 +45,13 @@ class AppModule extends AbstractModule {
 
 		bind(DefaultPGroup).toInstance(new DefaultPGroup(new ResizeablePool(true)))
 
-		//	def cacheConfig = new CacheConfiguration("plCache", 0)
-		//	cacheConfig.transactionalMode(CacheConfiguration.TransactionalMode.OFF)
-
-		CacheManager.getInstance().addCache('plCache')
-		def prods = []
-		prods = new Gson().fromJson(new File("src/ratpack/cache/4.json").text, prods.getClass());
-		for(prod in prods){
-			def elm = new Element(prod.items.niin, prod)
-			elm.timeToLive = 60*60*48 //48 hours
-			CacheManager.getInstance()?.getCache('plCache').put(elm)
-		}
+//		CacheManager.getInstance().addCache('plCache')
+//		def prods = []
+//		prods = new Gson().fromJson(new File("src/ratpack/cache/4.json").text, prods.getClass());
+//		for(prod in prods){
+//			def elm = new Element(prod.items.niin, prod)
+//			elm.timeToLive = 60*60*48 //48 hours
+//			CacheManager.getInstance()?.getCache('plCache').put(elm)
+//		}
 	}
 }

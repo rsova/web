@@ -1,7 +1,72 @@
 package service.partlink.sparql
 
 class Sparql {
-	
+def public static final String NIIC_TO_CAGE_REF_OLD = '''
+select distinct ?prodName ?price ?assignmentDate ?refNum
+where{
+	#?NIIN prod:nationalItemId "001186248".
+	?NIIN prod:nationalItemId ?id.
+	?NIIN rdfs:subClassOf ?prod.
+	?prod rdfs:label ?prodName.
+	?logNiin log:hasProductNIIN ?NIIN . 
+	?logNiin rdfs:label ?id .
+	?logNiin log:hasUnitPrice ?price.
+	?logNiin log:assignmentDate ?assignmentDate.
+    optional {?logNiin log:hasReferenceNumber ?refNum}  
+}
+'''	
+def public static final String NIIC_TO_CAGE_REF = '''
+select distinct ?prodName ?NIIN ?price ?assignmentDate ?refNum
+where{
+	?niinIri prod:nationalItemId ?id.
+	?niinIri rdfs:subClassOf ?prod.
+	?prod rdfs:label ?prodName.
+	?logNiin log:hasProductNIIN ?niinIri. 
+	optional {?logNiin rdfs:label ?NIIN}.
+    optional {?logNiin log:hasUnitPrice ?varPrice}.
+    bind ( COALESCE(?varPrice, "N/A") As ?price)
+    #bind ( ?id As ?NIIN)
+
+    optional {?logNiin log:assignmentDate ?assignmentDate}.
+    optional {?logNiin log:hasReferenceNumber ?refNum}  
+}'''	
+
+def public static final String GAGE_DETAILS_BY_REF = '''
+        SELECT DISTINCT ?name ?address ?cageCode  WHERE {
+		?iri log:hasCage ?cage.
+ 		?cage log:hasCageCode ?cageCode;   
+ 		log:hasCageName ?name;
+ 		vcard:hasAddress ?addr.
+
+		?addr vcard:street-address ?streetAddress.
+		?addr vcard:locality ?locality.
+		optional {?addr vcard:region ?reg}.
+		?addr vcard:country-name ?countryName.
+		?addr vcard:postal-code ?postalCode.
+
+		bind ( COALESCE(?reg, "") As ?region)
+		bind (concat(?streetAddress,', ', ?locality,', ',?region,', ', ?countryName,', ', ?postalCode) as ?address).
+	   }
+	   LIMIT 1
+ '''
+def public static final String GAGE_DETAILS_BY_CODE = '''
+		select distinct ?name ?address 
+		where{
+		?cage log:hasCageCode ?cageCodes.
+		FILTER(?cageCodes IN ($CCTOKENS)).
+		?cage log:hasCageName ?name.
+				
+		?cage vcard:hasAddress ?addr.
+		?addr vcard:street-address ?streetAddress.
+		?addr vcard:locality ?locality.
+		optional {?addr vcard:region ?reg}.
+		?addr vcard:country-name ?countryName.
+		?addr vcard:postal-code ?postalCode.
+		
+		bind ( COALESCE(?reg, "") As ?region)
+		bind (concat(?streetAddress,', ', ?locality,', ',?region,', ', ?countryName,', ', ?postalCode) as ?address).	
+		}  limit 10'''
+
 def public static final String NIIC_TO_SUPPS = '''
 select distinct ?prodName ?name ?id  ?price ?assignmentDate ?name ?cageCode ?address  (group_concat(distinct ?ph; separator = ",") as ?phone) ?cao ?adp ?isWomanOwned  
 where{

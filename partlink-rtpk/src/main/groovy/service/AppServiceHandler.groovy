@@ -15,52 +15,48 @@ import groovyx.gpars.group.*
 import groovyx.gpars.scheduler.ResizeablePool
 import service.web.UspsShippingLookupService
 import service.web.WebLookupService
-//import groovyx.gpars.group.DefaultPGroup
-//import groovyx.gpars.scheduler.ResizeablePool
 
-
-//import java.util.concurrent.*
 // November 17 - December 3	App Web presentations to Judges
 // December 8	Challenge winners announced
-
-//TODO: add mongo save and lookup
-//TODO: flash out sparql endpoint to work with cage codes
-//TODO: add suppliers information to json
 
 class AppServiceHandler implements Handler {
 
 	@Inject
 	DefaultPGroup pooledParallelGroup
 	
+//	@Inject
+//	WebLookupService webLookupService
 	@Inject
-	WebLookupService webLookupService
-	@Inject
-	PartlinkSwtService swtService
-	@Inject
-	UspsShippingLookupService uspsService
+	PartlinkSwtService service
+//	@Inject
+//	UspsShippingLookupService uspsService
 
 	@Override
 	void handle(Context context) {
 		def params = context.pathTokens.niins
+		boolean clientFeed = context.request.path.startsWith("lookup/client")
 		def niins = (params?.contains(','))?params.split(",") as List:[params]
 		def results = []
 		List<Future> handles = []
 		
+		//Start concurrent processing
 		for (niin in niins) {
-			def t = pooledParallelGroup.task (new PartlinkCallableTask(swtService, niin, uspsService))
-			handles.add(t)
+			def task = pooledParallelGroup.task (new PartlinkCallableTask(niin,clientFeed,service))
+			handles.add(task)
 		}
 
+		//Collect results
 		for (handle in handles) {
 			results.add(handle.get())
 		}
 		
-		(!results)?context.clientError( 404):context.getResponse().contentType('application/json').send(toJson(results))
+		(!results)?context.clientError( 404):context.getResponse().contentType('application/json').send(toJson(['items':results]))
 	}
 
-	String toJson(List results){
+	String toJson(Map results){
 		return new GsonBuilder().setPrettyPrinting().create().toJson(results)
 	}
+	
 	//@Override
 	void handleOld(Context context) {
 		def params = context.pathTokens.niins

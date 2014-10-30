@@ -39,6 +39,8 @@ import service.web.parser.WebContentParser
 //http://production.shippingapis.com/ShippingAPITest.dll?API=PriorityMail&XML=<PriorityMailRequest USERID="066QBASE5466"> <OriginZip>55344</OriginZip> <DestinationZip>97653</DestinationZip> </PriorityMailRequest>
 
 //Priority Mail
+import groovy.time.*
+
 def base = 'http://production.shippingapis.com/ShippingAPITest.dll?'
 //def api ='API=PriorityMail'
 def xml =
@@ -53,7 +55,10 @@ base = 'http://production.shippingapis.com/ShippingAPITest.dll?'
 xml = '<StandardBRequest USERID="066QBASE5466"><OriginZip>97653</OriginZip><DestinationZip>55344</DestinationZip></StandardBRequest>'
 params = [API:'StandardB', XML:java.net.URLEncoder.encode(xml)]
 //API=StandardB
+def start = new Date()
 html = new URL(base + params.collect{ k,v -> "$k=$v" }.join('&')).text
+use ( TimeCategory ) {println "time to run : " + (new Date() - start)}
+
 println html
 //def process = new URI(uri)
 //def html = process.getText([API:'PriorityMail',XML:xml])

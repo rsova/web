@@ -1,4 +1,6 @@
 import service.web.parser.WebContentParser
+import groovy.time.*
+def start = new Date()
 
 String NIIN = '016033650'
 NIIN = '015127231'
@@ -13,7 +15,9 @@ uri].execute()
 def html = process.text
 //println html
 def parser = new WebContentParser()
+
 println parser.parse(html)*.'CAGE CD'
+use ( TimeCategory ) {println "time to run : " + (new Date() - start)}
 //def a =  ["curl",  "-H", "Content-Type: application/json", "-H", "Accept: application/json", "-X PUT", "-d", data, uri].execute().text
 //def initialSize = 4096
 //def out = new ByteArrayOutputStream(initialSize)
