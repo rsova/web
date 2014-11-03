@@ -18,6 +18,7 @@ import org.junit.Test;
 import service.partlink.sparql.Sparql
 import service.web.WebLookupService
 import service.web.parser.WebContentParser
+import utils.*
 
 class PartlinkSwtServiceTest {
 	static PartlinkSwtService service
@@ -72,6 +73,12 @@ class PartlinkSwtServiceTest {
 		service.execute(sparql)
 	}
 
+	@Test
+	public void testCamelCaseToLabel() {
+		def camel = 'cageCode'
+		println camel.each {it = it.toUpperCase()}
+		println StringUtil.splitCamelCase(camel);
+	}
 
 	@Test
 	public void testSplit() {

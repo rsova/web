@@ -1,0 +1,18 @@
+Server
+-- Cache enabled
+-- Split one query into 2 for suppliers
+--Add service to lookup for cages
+--Finish suppliers lookup
+--Add usps lookups
+Deploy to cloud
+Remove duplicate suppliers
+Add Mongo call to get assemblages
+Add prising international shipping
+
+Client
+--Have client working again
+--Add picker for asembleges
+Clean up buttons 
+Add map
+Add profiles
+Add pics

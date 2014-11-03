@@ -1,20 +1,32 @@
 package service.web
 
+import java.util.regex.Matcher
+
 class UspsShippingLookupService {
-	//private String user
 	private String base
 	private String xmlTemplate
-
 
 	public UspsShippingLookupService(String user, String base, String xmlTemplate) {
 		this.base = base;
 		this.xmlTemplate = xmlTemplate.replace('{0}', user);
 	}
 	
-	public String getTimePackageServiceStandard(String zipFrom, String zipTo){
+	public Map lookupPackageServiceStandard(String zipFrom, String zipTo){
 		def params = [API:'StandardB', XML:java.net.URLEncoder.encode(xmlTemplate.replace('{1}', zipFrom).replace('{2}', zipTo))]
 		def xml = new URL(base + params.collect{ k,v -> "$k=$v" }.join('&')).text
-		return xml
+		def map = [:]
+		Matcher matcher = xml =~ ~/<Days>(.+)<\/Days>/
+		try {
+			if(matcher?.getAt(0)?.getAt(1)?.toInteger()){
+				map.put('DaysToShip', matcher?.getAt(0)?.getAt(1)?.toInteger())
+			}
+		} catch (Exception e) {}
 		
+		matcher = xml =~ ~/<Message>(.+)<\/Message>/
+		if(matcher?.getAt(0)?.getAt(1)){
+			map.put('Message',matcher?.getAt(0)?.getAt(1))
+		}
+		
+		return map
 	}
 }

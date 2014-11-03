@@ -26,6 +26,7 @@ class PartlinkCallableTask implements Callable<Map> {
 		Map map =  null;
 		try {
 			map = service.lookupSupplierByNiin(this.niin,this.clientFeed);
+			//map = service.generateShippingAdvice(map)
 		} catch (Exception e) {
 			e.printStackTrace();
 			//throw new Exception("Service failed processing this niin: " + niin);

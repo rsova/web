@@ -36,7 +36,8 @@ class WebLookupService {
 		               '-H','Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', '-H','Connection: keep-alive', //headers optional
 		               "-d $magicNbr&txtNiin=$Niin",
 		               uri].execute() 
-		return parser.parse(process.text)?.each {it.put('niin', Niin)}	
+		def html = process.text			   
+		return parser.parse(html)?.each {it.put('niin', Niin)}	
 	}
 
 }

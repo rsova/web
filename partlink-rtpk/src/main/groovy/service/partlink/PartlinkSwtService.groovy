@@ -15,7 +15,7 @@ import net.sf.ehcache.CacheManager
 import service.partlink.sparql.Sparql
 import service.web.UspsShippingLookupService
 import service.web.WebLookupService;
-
+import utils.*
 
 
 class PartlinkSwtService {
@@ -69,7 +69,6 @@ class PartlinkSwtService {
 		query.prefixMap.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 		query.prefixMap.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#")
 		query.prefixMap.setNsPrefix("text", "http://jena.apache.org/text#")
-
 		query.prefixMap.setNsPrefix("swiss", "http://xsb.com/swiss#")
 		query.prefixMap.setNsPrefix("mat", "http://xsb.com/swiss/material#")
 		query.prefixMap.setNsPrefix("log", "http://xsb.com/swiss/logistics#")
@@ -81,16 +80,20 @@ class PartlinkSwtService {
 	}
 
 	public Map lookupSupplierByNiin(String niin){
-		def start = new Date()//profile	start
-			
+		def start = new Date()
+					
 		def product = execute(Sparql.NIIC_TO_CAGE_REF,['var':['id':niin]])
 		def suppliers = []
-		if(product.refNum){
-			product.refNum.each{ refNum ->
+		//Try to get suppliers from PartLink - works most of the time
+		if(product.'refNum'){
+			product.'refNum'.each{ refNum ->
 				def supp = execute(Sparql.GAGE_DETAILS_BY_REF ,['uri':['iri':refNum]])//expected single row	
 				if(!supp.isEmpty()){suppliers.add(supp?.first())}
 			}				
-		}else{
+		}
+		
+		//The join on suppliers is a miss, use web to get cage codes
+		if(suppliers.isEmpty()){
 			def cages = webService.lookupByNiin(niin)
 			if(!cages.isEmpty()){
 				cages=cages*.'CAGE CD'
@@ -99,6 +102,7 @@ class PartlinkSwtService {
 				if(!supps.isEmpty){suppliers.add()}
 			}
 		}
+		
 		Map lineItem = [:]
 		if(!product.isEmpty()){
 			lineItem = product.first() //products all to the same niin, pick the first one
@@ -113,103 +117,53 @@ class PartlinkSwtService {
 	
 	public Map lookupSupplierByNiin(String niin, boolean clientFeed){
 		 Map lineItem = lookupSupplierByNiin(niin)
+		 lineItem = generateShippingEstimate(lineItem)
 		 return  (clientFeed)?generateClientFeed(lineItem):lineItem
 	}
 	
-	public Map lookupSupplierByNiinWithCache(String niin){
-		//List products = execute(Sparql.NIIC_TO_SUPPS, ['prodNiin':'prod:NIIN'+niin])
-		def start = new Date()
-		Map products = CacheManager.getInstance()?.getCache("plCache")?.get(niin)?.getObjectValue()
-		if(!products){
 
-			products = execute(Sparql.NIIC_TO_SUPPS, ['var':['niin':niin]])
-
-			products = [items:generateClientFeed(products)]
-			Element elm = new Element(niin, products)
-			elm.timeToLive = 60*60*48 //48 hours
-			CacheManager.getInstance()?.getCache("plCache").put(elm)
-		}
-
-		use ( TimeCategory ) {
-			println "time to query : " + (new Date() - start)
-		}
-
-		return products
-	}
-	
-	/*
-	 * Original query runs up to 4O seconds, had to brake it up
-	 */
-	public Map lookupSupplierByNiinOrg(String niin){
-		//List products = execute(Sparql.NIIC_TO_SUPPS, ['prodNiin':'prod:NIIN'+niin])
-		def start = new Date()
-		def products = execute(Sparql.NIIC_TO_SUPPS,['var':['niin':niin]])
-		//products = [items:generateClientFeed(products)]
-
-		use ( TimeCategory ) {
-			println "time to query : " + (new Date() - start)
-		}
-
-		return products
-	}
 	protected Map generateClientFeed(Map product){
-		String itemText = "$product.prodName<br><b>\$$product.price<b>, <i>NIIN:$product.NIIN</i>, <font size='3' color='red'> USPS Standard: 3-8 days</font>"
+		String itemTemplate = "$product.prodName<br><b>\$$product.price</b>, <i>Niin:$product.NIIN</i>, <font size='3' color='grey'>$product.estimate</font>"
 		def supps = []
-		for (supp in product.suppliers) {
-			String suppText = supp.name
-			supp.remove('name')
-			Map leafs = generateLeafs(supp)
-			def sup = ['text':suppText]
-			sup.putAll(leafs)
-			supps.add(sup)
+		for (Map sup in product.suppliers) {
+			String supTemplate = "$sup.name, <font size='3' color='blue'><i>Allow $sup.DaysToShip days for delivery</1></font>"
+			sup.remove('name')
+			Map leafs = generateLeafs(sup)
+			def item = ['text':supTemplate]
+			item.putAll(leafs)
+			supps.add(item)
 		}
-		return ['text':itemText,'items':supps]
+		return ['text':itemTemplate,'items':supps]
 	}
 		
 	protected Map generateLeafs(Map pairs){
 		def leafs = []
 		for (pair in pairs) {
-			leafs.add(['text':pair.key<<': '<<pair.value,'leaf':'true'])
+			leafs.add(['text':'<i>'<<StringUtil.splitCamelCase(pair.key)<<'</i>'<<': '<<pair.value,'leaf':'true'])
 		}
 		return [items:leafs]
 	}
 	
-	// Old methods
-	public Map lookupSupplierByNiinJson(String niin){
-		List products = execute(Sparql.NIIC_TO_SUPPS,['var':['prodNiin':'prod:NIIN'+niin]])
-		//List products = execute(Sparql.NIIC_TO_SUPPS, ['prodNiin':'prod:NIIN'+niin])
-		Map first = products.get(0)
-				
-		// LinkedHashMap keeps keys order
-		List supps = []
-		Map commonProd = first.subMap(first.keySet().toArray()[0..2]) 
-		products.each{ Map map -> supps.add(map - commonProd)}
-		commonProd.put('suppliers', supps)
-		return [product:commonProd]
-	}
-	
-	protected Map generateClientFeedOld(List products){
-		Map first = products.get(0)
-		
-		// LinkedHashMap keeps keys order
-		List supps = []
-		Map commonProd = first.subMap(first.keySet().toArray()[0..2])
-		def desc = commonProd.toString()
-		println desc
-		//products.each{ Map map ->
-		for(prod in products){
-			//suplier
-			def sup = prod - commonProd
-			def item = sup.subMap(sup.keySet().toArray()[0])
-			Map itemMap = ['text': item.name]
-			//itemMap.putAll(item)
-			Map leafs = generateLeafs(sup-item)
-			itemMap.putAll(leafs)
-			supps.add(itemMap)
+	protected Map generateShippingEstimate(Map lineItem){
+
+		def sups =  lineItem.'suppliers'
+		for(Map sup in sups){
+			Set range = []
+			if( sup?.'Country'?.equals("UNITED STATES")){
+				if(sup?.'Zip'){
+					sup.putAll(uspsService.lookupPackageServiceStandard(sup?.'Zip'?.substring(0, 5),'96753'))
+				}
+			}
 		}
-		commonProd.put('items', supps)
-		commonProd.put('text', desc )
-		return commonProd
+		
+		String estimate = "Special Order Part"
+		if(sups && !sups.isEmpty()){
+			def range = lineItem.'suppliers'*.'DaysToShip'
+			def est = (range?.size()==1)?range?.getAt(0):''+range.min()<<'-'<<range.max()
+			estimate = 'Standard Shipping : '<<est<<' days'
+		}
+		lineItem.put('estimate',estimate)
+		return lineItem
 	}
 	
 }

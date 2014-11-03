@@ -6,7 +6,7 @@ import org.jsoup.select.Elements;
 import com.google.gson.GsonBuilder;
 
 class WebContentParser {
-	
+
 	public Collection parse(String page){
 		Document doc = Jsoup.parse(page)
 		Elements rows = doc.select("table#Datagrid17").select("tr");
@@ -16,13 +16,14 @@ class WebContentParser {
 			cells.add(rowData*.text())
 		}
 		println cells
-		
-		def keys = cells.get(0)
 		def mathes = []
-		for(i in 1..<cells.size()){
-			def data = [:]
-			keys.eachWithIndex {key, idx ->; data.put(key, cells.get(i).get(idx))}
-			mathes.add(data)
+		if(!cells.isEmpty()){
+			def keys = cells.get(0)
+			for(i in 1..<cells.size()){
+				def data = [:]
+				keys.eachWithIndex {key, idx ->; data.put(key, cells.get(i).get(idx))}
+				mathes.add(data)
+			}
 		}
 		return mathes
 	}

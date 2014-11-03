@@ -1,0 +1,27 @@
+{
+  "head": {
+    "vars": [ "name" , "cageCode" , "address" , "phone" , "cao" , "adp" , "isWomanOwned" ]
+  } ,
+  "results": {
+    "bindings": [
+      {
+        "name": { "type": "literal" , "value": "KEY SURGICAL, INC." } ,
+        "cageCode": { "type": "literal" , "value": "0SRE6" } ,
+        "address": { "type": "literal" , "value": "8101 WALLACE RD, EDEN PRAIRIE, MN, UNITED STATES, 55344-2114" } ,
+        "phone": { "type": "literal" , "value": "9529149789 9529149866" } ,
+        "cao": { "type": "literal" , "value": "S2401A" } ,
+        "adp": { "type": "literal" , "value": "HQ0339" } ,
+        "isWomanOwned": { "type": "literal" , "value": "N" }
+      } ,
+      {
+        "name": { "type": "literal" , "value": "DEFENSE MEDICAL STANDARDIZATION" } ,
+        "cageCode": { "type": "literal" , "value": "64616" } ,
+        "address": { "type": "literal" , "value": "1423 SULTON DR, FREDERICK, MD, UNITED STATES, 21702-5013" } ,
+        "phone": { "type": "literal" , "value": "301-619-2001" } ,
+        "cao": { "type": "literal" , "value": "S2101A" } ,
+        "adp": { "type": "literal" , "value": "HQ0338" } ,
+        "isWomanOwned": { "type": "literal" , "value": "N" }
+      }
+    ]
+  }
+}
