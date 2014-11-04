@@ -16,8 +16,10 @@ class WebsearchOpenHouseTest extends XMLTestCase {
 	//final static def METHOD ='<methodCall><methodName>short</methodName><params><param><value><struct><member><name>dbid</name><value><string>dbid1139259934</string></value></member><member><name>WhatPropType</name><value><array><data><value><string>Residential</string></value></data></array></value></member></struct></value></param></params></methodCall>';
 	final static def METHOD = 'openhouse'
 	static final String SRC_TEST_RESOURCES = 'src/test/resources/'
-	def curl = []
 
+	static final String TIME_TO_RUN_DOUBLE = '/methodResponse[1]/params[1]/param[1]/value[1]/array[1]/data[1]/value[2]/double[1]/text()[1]'
+	def curl = []
+		
 	//	@Before
 	void setUp(){
 		curl = [
@@ -40,38 +42,38 @@ class WebsearchOpenHouseTest extends XMLTestCase {
 		super.tearDown();
 	}
 
-	void test_all_condominium() {
+	void test_type_condominium() {
 		def test = getName().replaceFirst('test_','')
 		curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatPropType':['Condominium']]))
 		def actual = curl.execute().text
 		println actual
 		saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
 
-		String expectedXml = getClass().getClassLoader().getResourceAsStream("$METHOD/$test"+".xml").getText()
-		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener('/methodResponse[1]/params[1]/param[1]/value[1]/array[1]/data[1]/value[2]/double[1]/text()[1]');
+		String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
+		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
 		Diff diff = new Diff(expectedXml, actual);
 		diff.overrideDifferenceListener(listener);
 		assert diff.similar()
 		assert diff.identical()
 	}
 
-	void test_all_land() {
+	void test_type_land() {
 		def test = getName().replaceFirst('test_','')
 		curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatPropType':['Land']]))
 		def actual = curl.execute().text
 
 		println actual
 		saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
-		String expectedXml = getClass().getClassLoader().getResourceAsStream("$METHOD/$test"+".xml").getText()
+		String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
 
-		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener('/methodResponse[1]/params[1]/param[1]/value[1]/array[1]/data[1]/value[2]/double[1]/text()[1]');
+		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
 		Diff diff = new Diff(expectedXml, actual);
 		diff.overrideDifferenceListener(listener);
 		assert diff.similar()
 		assert diff.identical()
 	}
 
-	public void test_all_vacant() throws Exception{
+	public void test_type_vacant() throws Exception{
 		def test = getName().replaceFirst('test_','')
 
 		curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatPropType':['Vacant']]))
@@ -79,55 +81,125 @@ class WebsearchOpenHouseTest extends XMLTestCase {
 
 		println actual
 		saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
-		String expectedXml = getClass().getClassLoader().getResourceAsStream("$METHOD/$test"+".xml").getText()
+		String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
 
-		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener('/methodResponse[1]/params[1]/param[1]/value[1]/array[1]/data[1]/value[2]/double[1]/text()[1]');
+		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
 		Diff diff = new Diff(expectedXml, actual);
 		diff.overrideDifferenceListener(listener);
 		assert diff.similar()
 		assert diff.identical()
 	}
 
-	public void test_all_residential() throws Exception{
+	public void test_type_residential() throws Exception{
 		def test = getName().replaceFirst('test_','')
 		curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatPropType':['Residential']]))
 		def actual = curl.execute().text
 
 		println actual
 		saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
-		String expectedXml = getClass().getClassLoader().getResourceAsStream("$METHOD/$test"+".xml").getText()
+		String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
 
-		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener('/methodResponse[1]/params[1]/param[1]/value[1]/array[1]/data[1]/value[2]/double[1]/text()[1]');
+		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
 		Diff diff = new Diff(expectedXml, actual);
 		diff.overrideDifferenceListener(listener);
 		assert diff.similar()
 		assert diff.identical()
 	}
 
-	void test_all_land_office(){
+	void test_property_office(){
 		def test = getName().replaceFirst('test_','')
 		curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatPropType':['Land'], 'WhatOffice':['8395', '358235']]))
 		def actual = curl.execute().text
 		
 		println actual
 		saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
-		String expectedXml = getClass().getClassLoader().getResourceAsStream("$METHOD/$test"+".xml").getText()
+		String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
 		
-		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener('/methodResponse[1]/params[1]/param[1]/value[1]/array[1]/data[1]/value[2]/double[1]/text()[1]');
+		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
 		Diff diff = new Diff(expectedXml, actual);
 		diff.overrideDifferenceListener(listener);
 		assert diff.similar()
 		assert diff.identical()
 	}
+	
+		void test_office(){
+			def test = getName().replaceFirst('test_','')
+			curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatOffice':['8700', '9913']]))
+			def actual = curl.execute().text
+			
+			println actual
+			saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
+			String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
+			
+			DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
+			Diff diff = new Diff(expectedXml, actual);
+			diff.overrideDifferenceListener(listener);
+			assert diff.similar()
+			assert diff.identical()
+	
+		}
+		void test_agent(){
+			def test = getName().replaceFirst('test_','')
+			curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatAgent':['11156']]))
+			def actual = curl.execute().text
+			
+			println actual
+			saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
+			String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
+			
+			DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
+			Diff diff = new Diff(expectedXml, actual);
+			diff.overrideDifferenceListener(listener);
+			assert diff.similar()
+			assert diff.identical()
 
+		}
+		
+		void test_district(){
+			def test = getName().replaceFirst('test_','')
+			curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatDistrict':['Kihei']]))
+			def actual = curl.execute().text
+			
+			println actual
+			saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
+			String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
+			
+			DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
+			Diff diff = new Diff(expectedXml, actual);
+			diff.overrideDifferenceListener(listener);
+			assert diff.similar()
+			assert diff.identical()
+
+		}
+		
+	void test_office_agent_type_district(){
+		def test = getName().replaceFirst('test_','')
+		curl.add("-d " + XmlRpcHelper.toXmlRpcRequest(METHOD,['dbid':'dbid1139259934','WhatOffice':['8395'],'WhatAgent':['11156'],'WhatPropType':['Land'],'WhatDistrict':['Kihei']]))
+		def actual = curl.execute().text
+		
+		println actual
+		saveToFileIfNotExist(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml", actual)
+		String expectedXml = new File(SRC_TEST_RESOURCES + "$METHOD/$test"+".xml").getText()
+		
+		DifferenceListener listener = new IgnoreNamedElementsDifferenceListener(TIME_TO_RUN_DOUBLE);
+		Diff diff = new Diff(expectedXml, actual);
+		diff.overrideDifferenceListener(listener);
+		assert diff.similar()
+		assert diff.identical()
+
+	}
+	
 	private void saveToFileIfNotExist(String fileName, String response) {
-		def controlFile= new File(fileName)
-		if(! controlFile.exists()){
-			def w = new File(fileName).newWriter()
-			w<<response
-			w.close()			
+		if(! new File(fileName).exists()){
+			saveToFile(fileName, response)
 			fail("Control File Created, re-run the test")
 		}
+	}
+
+	private saveToFile(String fileName, String response) {
+		def w = new File(fileName).newWriter()
+		w<<response
+		w.close()
 	}
 
 }

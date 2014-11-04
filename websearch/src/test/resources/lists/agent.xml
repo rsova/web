@@ -9,7 +9,7 @@
 							<string>Agent</string>
 						</value>
 						<value>
-							<double>0.45478105545044</double>
+							<double>0.25073599815369</double>
 						</value>
 						<value>
 							<array>
@@ -1198,6 +1198,18 @@
 												</value>
 												<value>
 													<string>Matt Beall RB-17738</string>
+												</value>
+											</data>
+										</array>
+									</value>
+									<value>
+										<array>
+											<data>
+												<value>
+													<string>25061</string>
+												</value>
+												<value>
+													<string>Traci Bean RS-76614</string>
 												</value>
 											</data>
 										</array>
@@ -3690,18 +3702,6 @@
 										<array>
 											<data>
 												<value>
-													<string>23410</string>
-												</value>
-												<value>
-													<string>Dina M Danko RB-16636</string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
 													<string>23161</string>
 												</value>
 												<value>
@@ -4066,18 +4066,6 @@
 												</value>
 												<value>
 													<string>Michael C. DiBella RB-19590</string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
-													<string>16838</string>
-												</value>
-												<value>
-													<string>Waioni D. Dickison RS-66424</string>
 												</value>
 											</data>
 										</array>
@@ -4762,18 +4750,6 @@
 												</value>
 												<value>
 													<string>Larry Feinberg RS-53590</string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
-													<string>23491</string>
-												</value>
-												<value>
-													<string>Brendan Fennell RS-73441</string>
 												</value>
 											</data>
 										</array>
@@ -5698,18 +5674,6 @@
 												</value>
 												<value>
 													<string>Steven G Gatchell RB-18362</string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
-													<string>24145</string>
-												</value>
-												<value>
-													<string>Harold Gaubert RS-74158</string>
 												</value>
 											</data>
 										</array>
@@ -11394,18 +11358,6 @@
 										<array>
 											<data>
 												<value>
-													<string>14644</string>
-												</value>
-												<value>
-													<string>Josie Marquez RS-61772</string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
 													<string>20476</string>
 												</value>
 												<value>
@@ -11530,18 +11482,6 @@
 												</value>
 												<value>
 													<string>Alex Masters RS-75706</string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
-													<string>23579</string>
-												</value>
-												<value>
-													<string>Wayne Masuda RB-14390</string>
 												</value>
 											</data>
 										</array>
@@ -15198,6 +15138,18 @@
 										<array>
 											<data>
 												<value>
+													<string>MarinaRETS</string>
+												</value>
+												<value>
+													<string></string>
+												</value>
+											</data>
+										</array>
+									</value>
+									<value>
+										<array>
+											<data>
+												<value>
 													<string></string>
 												</value>
 												<value>
@@ -15715,18 +15667,6 @@
 											<data>
 												<value>
 													<string>VendorTestRETS</string>
-												</value>
-												<value>
-													<string></string>
-												</value>
-											</data>
-										</array>
-									</value>
-									<value>
-										<array>
-											<data>
-												<value>
-													<string>MarinaRETS</string>
 												</value>
 												<value>
 													<string></string>
@@ -18690,6 +18630,18 @@
 										<array>
 											<data>
 												<value>
+													<string>25063</string>
+												</value>
+												<value>
+													<string>Matthew Tarasenko RS-76480</string>
+												</value>
+											</data>
+										</array>
+									</value>
+									<value>
+										<array>
+											<data>
+												<value>
 													<string>13922</string>
 												</value>
 												<value>
@@ -20266,6 +20218,18 @@
 												</value>
 												<value>
 													<string>Robin M. White RS-56981</string>
+												</value>
+											</data>
+										</array>
+									</value>
+									<value>
+										<array>
+											<data>
+												<value>
+													<string>25062</string>
+												</value>
+												<value>
+													<string>Stephen G. White RS-74220</string>
 												</value>
 											</data>
 										</array>
