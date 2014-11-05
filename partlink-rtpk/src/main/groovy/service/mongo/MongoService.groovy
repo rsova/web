@@ -20,15 +20,15 @@ class MongoService {
 	@Inject
 	DB db
 	private String collection
-	private final String COMPAIGN = 'compaign'
+	//private final String COMPAIGN = 'assemblages'
 
-	//@Override
-	void handle(Context context) {
-		def token = context.pathTokens.name
-		this.collection = context.getRequest().path
-		def dbo = (token)?findOneByName(token):findOne()
-		(!dbo)?context.clientError( 404):context.getResponse().contentType('application/json').send(produceResponce(dbo))
-	}
+//	//@Override
+//	void handle(Context context) {
+//		def token = context.pathTokens.name
+//		this.collection = context.getRequest().path
+//		def dbo = (token)?findOneByName(token):findOne()
+//		(!dbo)?context.clientError( 404):context.getResponse().contentType('application/json').send(produceResponce(dbo))
+//	}
 
 	public DBObject findOne(){
 		return db.getCollection(this.collection).findOne()
@@ -42,10 +42,5 @@ class MongoService {
 		return dbo
 	}
 
-	public String produceResponce(def dbo){
-		String jsonStr = JSON.serialize(dbo)
-		JSONObject json = new JSONObject(jsonStr)
-		return json.get('data')
-	}
 }
 

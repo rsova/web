@@ -124,7 +124,7 @@ class PartlinkSwtServiceTest {
 		def obj
 		def start = new Date()
 		//obj =  service.lookupSupplierByNiinOrg('010077987')//1
-		obj =  service.lookupSupplierByNiinOrg('016033650')//1
+		obj =  service.lookupSupplierByNiin('016033650')//1
 		use ( TimeCategory ) {println "time to run : " + (new Date() - start)}
 		println new GsonBuilder().setPrettyPrinting().create().toJson(obj)
 		println "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

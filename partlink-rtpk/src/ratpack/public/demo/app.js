@@ -6,7 +6,7 @@ Ext.application({
         Ext.define('ListItem', {
             extend: 'Ext.data.Model',
             config: {
-                fields: ['text','url']
+                fields: ['text','url','niins','destination']
             }
         });
 
@@ -16,29 +16,25 @@ Ext.application({
            defaultRootProperty: 'items',
             proxy: {
                 type: 'ajax',
-                //url: '/lookup/client/016033650,015127231,010077987,015303893,015208009,001186249,010127380,010767912,015118286,012746352',
-                url: '/gold',
+                url: '/work/assemblages',
                 reader: {
                     type: 'json'
                 } 
             }
         });
-//        var stProxy = Ext.StoreMgr.get("myStore").getProxy();
-//        stProxy.setUrl("http://the.new.url");
-//        Ext.StoreMgr.set("myStore").setProxy(stProxy);
         Ext.create('Ext.NestedList', {
             fullscreen: true,
             store: treeStore,
-            //
+            useTitleAsBackText: false,
+            backText: 'Back',
             listeners: {
             	itemtap: function(me, list, selections, eOpts) {
             		//var rec = view.getStore().getAt(index);
             		if(me.getStore().getAt(selections).get('url')){
                     console.log(list, selections );
             		var rec = me.getStore().getAt(selections);
-            		console.log(rec.getData(), rec.get('url'));
-                    console.log(me.getStore().getProxy().getUrl());// = rec.get('url')
-                    me.getStore().getProxy().setUrl(rec.get('url'));
+            		var url = rec.get('url') + rec.get('destination') + '/' + rec.get('niins')
+                    me.getStore().getProxy().setUrl(url);
                     console.log(me.getStore().getProxy().getUrl());
                     me.getStore().load()
             		}

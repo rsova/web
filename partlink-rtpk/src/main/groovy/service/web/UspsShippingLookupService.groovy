@@ -17,13 +17,13 @@ class UspsShippingLookupService {
 		def map = [:]
 		Matcher matcher = xml =~ ~/<Days>(.+)<\/Days>/
 		try {
-			if(matcher?.getAt(0)?.getAt(1)?.toInteger()){
+			if(matcher.find()){
 				map.put('DaysToShip', matcher?.getAt(0)?.getAt(1)?.toInteger())
 			}
 		} catch (Exception e) {}
 		
 		matcher = xml =~ ~/<Message>(.+)<\/Message>/
-		if(matcher?.getAt(0)?.getAt(1)){
+		if(matcher.find()){
 			map.put('Message',matcher?.getAt(0)?.getAt(1))
 		}
 		

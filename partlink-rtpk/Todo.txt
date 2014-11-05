@@ -4,15 +4,16 @@ Server
 --Add service to lookup for cages
 --Finish suppliers lookup
 --Add usps lookups
+bugs --01496200 - null days to deliver from neitherlands
 Deploy to cloud
-Remove duplicate suppliers
-Add Mongo call to get assemblages
-Add prising international shipping
+--Remove duplicate suppliers
+--Add Mongo call to get assemblages
+Add pricing for international shipping
 
 Client
 --Have client working again
 --Add picker for asembleges
-Clean up buttons 
+--Clean up buttons 
 Add map
 Add profiles
 Add pics

@@ -13,10 +13,12 @@ class PartlinkCallableTask implements Callable<Map> {
 //	protected PartlinkSwtService service
 //	protected UspsShippingLookupService uspsService
 	protected String niin
+	protected String zip
 	protected boolean clientFeed
 	
-	public PartlinkCallableTask(String niin, boolean clientFeed, PartlinkSwtService service) {
+	public PartlinkCallableTask(String niin, String zip, boolean clientFeed, PartlinkSwtService service) {
 		this.niin = niin
+		this.zip = zip
 		this.clientFeed = clientFeed
 		this.service = service
 	}
@@ -25,7 +27,7 @@ class PartlinkCallableTask implements Callable<Map> {
 	public Map call() throws Exception{
 		Map map =  null;
 		try {
-			map = service.lookupSupplierByNiin(this.niin,this.clientFeed);
+			map = service.lookupSupplierByNiin(this.niin, this.zip, this.clientFeed);
 			//map = service.generateShippingAdvice(map)
 		} catch (Exception e) {
 			e.printStackTrace();

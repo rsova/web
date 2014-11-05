@@ -19,12 +19,15 @@ import utils.*
 
 
 class PartlinkSwtService {
+
 	@Inject
 	WebLookupService webService
 	@Inject
 	UspsShippingLookupService uspsService
 
-
+	static final String USA = "UNITED STATES"
+	static final String SPECIAL_ORDER = "Special Order Part"
+	
 	private String serviceUri
 	private Query query
 	//private Cache plCache 
@@ -42,6 +45,7 @@ class PartlinkSwtService {
 			params?.filter?.each{ key, val -> sparql= sparql.replace(key,val)}
 			println sparql
 		}
+		
 		//Query object with aggregation can't be re-used, build it every time
 		Query query = initQuery()
 		QueryFactory.parse(query, sparql , null, Syntax.syntaxSPARQL)
@@ -88,7 +92,13 @@ class PartlinkSwtService {
 		if(product.'refNum'){
 			product.'refNum'.each{ refNum ->
 				def supp = execute(Sparql.GAGE_DETAILS_BY_REF ,['uri':['iri':refNum]])//expected single row	
-				if(!supp.isEmpty()){suppliers.add(supp?.first())}
+				if(!supp.isEmpty()){
+					def supplier = supp?.first()
+					//exclude cage code dups on different ref numberes
+					if(!suppliers*.'CageCode'.contains(supplier.'CageCode')){
+						suppliers.add(supplier)
+					}
+				}
 			}				
 		}
 		
@@ -115,18 +125,19 @@ class PartlinkSwtService {
 		return lineItem
 	}
 	
-	public Map lookupSupplierByNiin(String niin, boolean clientFeed){
+	public Map lookupSupplierByNiin(String niin, String zip, boolean clientFeed){
 		 Map lineItem = lookupSupplierByNiin(niin)
-		 lineItem = generateShippingEstimate(lineItem)
-		 return  (clientFeed)?generateClientFeed(lineItem):lineItem
+		 lineItem = generateShippingEstimate(lineItem, zip)
+		 return  (clientFeed)?generateClientFeed(lineItem,zip):lineItem
 	}
 	
 
-	protected Map generateClientFeed(Map product){
-		String itemTemplate = "$product.prodName<br><b>\$$product.price</b>, <i>Niin:$product.NIIN</i>, <font size='3' color='grey'>$product.estimate</font>"
+	protected Map generateClientFeed(Map product, String zip){
+		String itemTemplate = "$product.prodName<br><b>\$$product.price</b>, <i>Niin:$product.NIIN</i>, <font size='3' color='grey'>$product.estimate to $zip</font>"
 		def supps = []
 		for (Map sup in product.suppliers) {
-			String supTemplate = "$sup.name, <font size='3' color='blue'><i>Allow $sup.DaysToShip days for delivery</1></font>"
+			def msg = (sup.DaysToShip)?"Allow $sup.DaysToShip days for delivery":"Standard Shipping N/A"
+			String supTemplate = "$sup.name, <font size='3' color='blue'><i>$msg</i></font>"
 			sup.remove('name')
 			Map leafs = generateLeafs(sup)
 			def item = ['text':supTemplate]
@@ -144,23 +155,23 @@ class PartlinkSwtService {
 		return [items:leafs]
 	}
 	
-	protected Map generateShippingEstimate(Map lineItem){
+	protected Map generateShippingEstimate(Map lineItem, String zip){
 
 		def sups =  lineItem.'suppliers'
 		for(Map sup in sups){
-			Set range = []
-			if( sup?.'Country'?.equals("UNITED STATES")){
+			if( sup?.'Country'?.equals(USA)){
 				if(sup?.'Zip'){
-					sup.putAll(uspsService.lookupPackageServiceStandard(sup?.'Zip'?.substring(0, 5),'96753'))
+					sup.putAll(uspsService.lookupPackageServiceStandard(sup?.'Zip'?.substring(0, 5),zip))
 				}
 			}
 		}
 		
-		String estimate = "Special Order Part"
+		String estimate = SPECIAL_ORDER
 		if(sups && !sups.isEmpty()){
-			def range = lineItem.'suppliers'*.'DaysToShip'
-			def est = (range?.size()==1)?range?.getAt(0):''+range.min()<<'-'<<range.max()
-			estimate = 'Standard Shipping : '<<est<<' days'
+			Set range = lineItem.'suppliers'*.'DaysToShip'
+			range?.removeAll([null]) //cleanup
+			def days = (range?.size()==1)?range?.getAt(0):''+range.min()<<'-'<<range.max()
+			estimate = 'Standard Shipping : '<<days<<' days'
 		}
 		lineItem.put('estimate',estimate)
 		return lineItem

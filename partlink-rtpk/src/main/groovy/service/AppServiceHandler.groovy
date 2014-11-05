@@ -34,6 +34,7 @@ class AppServiceHandler implements Handler {
 	@Override
 	void handle(Context context) {
 		def params = context.pathTokens.niins
+		def zip = context.pathTokens.zip
 		boolean clientFeed = context.request.path.startsWith("lookup/client")
 		def niins = (params?.contains(','))?params.split(",") as List:[params]
 		def results = []
@@ -41,7 +42,7 @@ class AppServiceHandler implements Handler {
 		
 		//Start concurrent processing
 		for (niin in niins) {
-			def task = pooledParallelGroup.task (new PartlinkCallableTask(niin,clientFeed,service))
+			def task = pooledParallelGroup.task (new PartlinkCallableTask(niin, zip, clientFeed,service))
 			handles.add(task)
 		}
 
@@ -57,36 +58,9 @@ class AppServiceHandler implements Handler {
 		return new GsonBuilder().setPrettyPrinting().create().toJson(results)
 	}
 	
-	//@Override
-	void handleOld(Context context) {
-		def params = context.pathTokens.niins
-		def niins = (params?.contains(','))?params.split(",") as List:[params]
-		def result = null
-		if(niins){
-			def matches = resolveNiinToCageCodes(niins)
-			//def codes = matches*.'CAGE CD'
-			def codes = matches
-			result = resolveCageCodeDetails(codes);
-		}
-		(!result)?context.clientError( 404):context.getResponse().contentType('application/json').send(result)
-
-		//this.collection = context.getRequest().path
-
-		// 1) niin service - look in mongo/webflis
-		// 2) partlink service - get rdf with cage details
-		// 3) build response json
-
-		//		def dbo = (token)?findOneByName(token):findOne()
-		//		(!dbo)?context.clientError( 404):context.getResponse().contentType('application/json').send(produceResponce(dbo))
-	}
-
 	protected Collection resolveNiinToCageCodes(Collection niins){
 		Collection partToCageMap = webLookupService.lookup(niins)
 		return partToCageMap
-	}
-
-	protected Collection resolveCageCodeDetails(List codes){
-		return codes
 	}
 
 	protected produceResponce(Collection col){
