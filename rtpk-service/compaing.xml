@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teams>
+  <personal>
+    <location>321 Apple Street, Honolulu, HI</location>
+    <score>99</score>
+    <utc-personal>
+      <name>Nurse</name>
+      <code>FFMBB</code>
+    </utc-personal>
+    <credentials>
+      <expired>Dec 25, 2016 12:00:00 AM</expired>
+      <description>The American Board of Nursery</description>
+      <issued>Dec 25, 2008 12:00:00 AM</issued>
+      <name>ABS</name>
+      <active>true</active>
+    </credentials>
+    <credentials>
+      <expired>Sep 25, 2015 12:00:00 AM</expired>
+      <description>General Surgery Certification</description>
+      <issued>Sep 1, 2008 12:00:00 AM</issued>
+      <name>GSC-113</name>
+      <active>true</active>
+    </credentials>
+    <credentials>
+      <expired>Sep 10, 2017 12:00:00 AM</expired>
+      <description>States Medical Licensing Examination</description>
+      <issued>Sep 10, 2010 12:00:00 AM</issued>
+      <name>USMLE</name>
+      <active>true</active>
+    </credentials>
+    <fullName>John T. Right</fullName>
+    <available-personal>true</available-personal>
+  </personal>
+
+  <personal>
+    <location>123 Apple Street, Honolulu, HI</location>
+    <score>100</score>
+    <utc-personal>
+      <name>Surgent</name>
+      <code>FFMAA</code>
+    </utc-personal>
+    <credentials>
+      <expired>Dec 25, 2016 12:00:00 AM</expired>
+      <description>The American Board of Surgery Certification</description>
+      <issued>Dec 25, 2008 12:00:00 AM</issued>
+      <name>ABS</name>
+      <active>true</active>
+    </credentials>
+    <credentials>
+      <expired>Sep 25, 2015 12:00:00 AM</expired>
+      <description>General Surgery Certification</description>
+      <issued>Sep 1, 2008 12:00:00 AM</issued>
+      <name>GSC-113</name>
+      <active>true</active>
+    </credentials>
+   <fullName>Mary A. Gold</fullName>
+    <available-personal>true</available-personal>
+  </personal>
+  <team-name>Magic Mock Team</team-name>
+  <utc-team>
+    <name>Mobile Field Surgery Team</name>
+    <code>FFMFS</code>
+  </utc-team>
+</teams>

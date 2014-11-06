@@ -1,9 +1,8 @@
 ---
 applications:
-- name: partlink
+- name: rtpk-service
   memory: 512M
   instances: 1
-  #domain: cfapps.io
-  domain: de.a9sapp.eu
-  path: build/distributions/partlink-rtpk.zip
+  domain: cfapps.io
+  path: build/distributions/rtpk-service.zip
   buildpack: https://github.com/cloudfoundry/java-buildpack.git

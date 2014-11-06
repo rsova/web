@@ -1,0 +1,993 @@
+
+<HTML>
+	<HEAD>
+		<title>WebFLIS - Public Search</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<LINK href="../CSS/flis.css" type="text/css" rel="stylesheet" />
+		
+
+		<link rel="shortcut icon" href="WebFLIS.ico" TYPE="image/ico" />
+		<style type="text/css">
+			.style2 { COLOR: #000000 }
+			.style2 { FONT-WEIGHT: bold; COLOR: #000000 }
+			.style4 { COLOR: #666666 }
+			.style7 { FONT-WEIGHT: bold; COLOR: #009900; FONT-STYLE: italic }
+			.style6 { FONT-WEIGHT: bold; COLOR: #000066; FONT-STYLE: italic }
+			.style7 { FONT-WEIGHT: bold; COLOR: #000066 }
+        </style> 
+		
+	</HEAD>
+	<BODY text="#000000" bgColor="#000000">
+	<div id="skip">
+   <a href="#content">Skip to Main Content </a>
+	</div>
+		
+		
+		<script language="JavaScript" type="text/javascript">
+			<!--
+			// 
+			function go1(){
+			 
+			myWindow = window.open("showimage_large.asp", "Image", ',width=400,height=400,scrollbars=yes,dependent=no,resizable=yes,screenX=1,') 
+				
+			}
+			//-->
+
+		</script>
+		<script language="JavaScript">
+<!--
+function backbutton()
+{
+window.history.go(-1);
+}
+//-->
+		</script>
+		<script language="JavaScript">
+<!--
+function Form_Validator(theForm)
+  {
+       
+	  //var cc = arguments.Value;
+	  //document.forms[0]['txtNiin'].value
+	  
+	  /*var txtNiin = document.forms[0]['txtNiin'].value;	  
+	  var trimmedtxtNiin = txtNiin.replace(/^\s+|\s+$/g, '') ; 	*/
+	  
+	  //var trimmed = str.replace(/^\s+|\s+$/g, '') ; 	
+			
+	  if ((document.forms[0]['txtNiin'].value != "") && (document.forms[0]['txtPART'].value != "")){
+		 alert("A Part Number cannot be entered with a NIIN or NSN");
+		document.forms[0]['txtPART'].focus();
+		return (false);
+		}
+      
+	  //----------- [ Additional Keyword Check ] -----------------	
+	  if (((document.forms[0]['txtNiin'].value != "")||(document.forms[0]['txtCAGE'].value != "")||(document.forms[0]['txtPART'].value != "")) && (document.forms[0]['txtKeyword'].value != "")){
+		 alert("A Keyword cannot be entered with a NIIN, NSN, CAGE or Part Number");
+		document.forms[0]['txtKeyword'].focus();
+		return (false);
+		}		
+	  //----------- [/ Additional Keyword Check ] -----------------
+	  
+      //----------- [ Additional Manufactures Part# Check ] -----------------	
+	  if ((document.forms[0]['txtNiin'].value != ""||document.forms[0]['txtCAGE'].value != ""||document.forms[0]['txtPART'].value != ""||document.forms[0]['txtKeyword'].value != "") && (document.forms[0]['txtManName'].value != ""||document.forms[0]['txtManPartNum'].value != "")){
+		 alert("A Manufacturer's Name/Part Number cannot be entered with a NIIN, NSN, CAGE, Part Number or Keyword");
+		document.forms[0]['txtKeyword'].focus();
+		return (false);
+		}		
+	  //----------- [/ Additional Manufactures Part# Check ] -----------------	
+    
+     //----------- [ Additional Manufactures Part# Check 2] -----------------	
+	  if (document.forms[0]['txtManName'].value != ""||document.forms[0]['txtManPartNum'].value != ""){
+
+     	if (document.forms[0]['txtManName'].value == ""||document.forms[0]['txtManPartNum'].value == ""){
+
+		alert("Both Manufacturer's Name and Part Number must be entered.");
+		document.forms[0]['txtKeyword'].focus();
+		return (false);
+		}	
+	  		
+		}		
+	  //----------- [/ Additional Manufactures Part# Check 2] -----------------	
+     
+        if ((document.forms[0]['txtNiin'].value != "") && (document.forms[0]['txtCAGE'].value != "")){
+		alert("A CAGE Code cannot be entered with a NIIN or NSN");
+		document.forms[0]['txtCAGE'].focus();
+		return (false);
+		}
+				
+		if ((document.forms[0]['txtCAGE'].value != "")&&(document.forms[0]['txtCAGE'].value.length != 5)) {
+		alert("A CAGE Code must be 5 characters");
+		document.forms[0]['txtCAGE'].focus();
+		return (false);
+		}
+								
+		// ---------[ Removed NIIN position check to accomodate just adding a number and padding the differenct Modified 2009-04-22 -Removed check Search to reduce amount of partial partnumber hits ]-------------
+		// -- Modified 2009-08-06
+		//if ((document.forms[0]['txtNiin'].value != "")&& (document.forms[0]['txtNiin'].value.length != 9) && (document.forms[0]['txtNiin'].value.length != 13)){
+		//alert("A NIIN or NSN must = 9 or 13 characters");
+		//document.forms[0]['txtNiin'].focus();
+		//return (false);
+		//}		
+					
+		// ---------[ Search to reduce amount of partial partnumber hits ]-------------
+		if ((document.forms[0]['txtPART'].value.charAt((document.forms[0]['txtPART'].value.length)-1) == "*"))
+		
+		{
+			//if ((document.forms[0]['txtPART'].value.charAt(0)<> "")) {
+			//alert("Good Job");
+			  var checkOK = "@_=:;<>%?'";
+			  var checkStr = document.forms[0]['txtPART'].value.charAt(0);
+			  var allValid = true;
+			  var decPoints = 0;
+			  var allNum = "";
+			  var checkStrLength = 2;
+			  for (i = 0;  i < checkStrLength;  i++)
+		  		{
+				    ch = checkStr.charAt(i);
+				    for (j = 0;  j < checkOK.length;  j++)
+				      if (ch == checkOK.charAt(j)){
+					  alert("Not a valid character in the first position. Please re-enter.");
+						document.forms[0]['txtPART'].focus();
+						return (false);
+				    
+				}
+		
+				
+			 }
+			 	
+ 	 	}
+		
+	// ---------[/ Search to reduce amount of partial partnumber hits ]-------------
+		
+  //---------------------
+   return (true);
+}
+
+//-->
+		</script>
+
+
+<!-- ---------[ClearAllInputBoxes] ----------- -->
+<script language="JavaScript">
+<!--
+ //=======================================
+function ClearAllInputBoxes(theForm)
+  {	  
+	
+	document.forms[0]['txtNiin'].value = "";
+	//document.forms[0]['txtMultipleNiin'].value = "";
+	document.forms[0]['txtKeyword'].value = "";
+	document.forms[0]['txtPART'].value = "";
+	document.forms[0]['txtManName'].value = "";
+	document.forms[0]['txtManPartNum'].value = "";
+	document.forms[0]['txtCAGE'].value = "";
+	//document.forms[0]['txtUITMSN'].value = "";
+	// Added removal for check for 
+	document.forms[0]['chkExpandedSearch'].checked = "";
+	document.forms[0]['chkCage'].checked = "";		
+	
+		 
+  //---------------------
+   return (false);
+  //=======================================
+}
+// end hide -->
+</script>
+<!-- ---------[/ClearAllInputBoxes] ----------- -->
+
+
+
+<!-- --------[  ClearViews  ]  ---------->
+		<script language="JavaScript">
+<!--
+
+function ClearViews(theForm)
+  {	  
+	document.forms[0]['C1'].checked = "";
+	document.forms[0]['C3'].checked = "";
+	document.forms[0]['C6'].checked = "";
+	document.forms[0]['C4'].checked = "";
+	document.forms[0]['C7'].checked = "";
+	document.forms[0]['C9'].checked = "";
+	document.forms[0]['C14'].checked = "";
+	// Added removal for check for 
+	//document.forms[0]['chkExpandedSearch'].checked = "";
+	//document.forms[0]['chkCage'].checked = "";		
+  //---------------------
+   return (false);
+  //=======================================
+}
+// end hide -->
+		</script>
+		<!-- --------[/  ClearViews  ]  ---------->
+		<!-- --------[  CheckAllViews  ]  ---------->
+		<script language="JavaScript">
+<!--
+
+function CheckAllViews(theForm)
+  {	  
+	document.forms[0]['C1'].checked = "checked";
+	document.forms[0]['C3'].checked = "checked";
+	document.forms[0]['C6'].checked = "checked";
+	document.forms[0]['C4'].checked = "checked";
+	document.forms[0]['C7'].checked = "checked";
+	document.forms[0]['C9'].checked = "checked";
+	document.forms[0]['C14'].checked = "checked";
+	document.forms[0]['C14'].focus;
+		
+  //---------------------
+   return (false);
+  //=======================================
+}
+// end hide -->
+		</script>
+		<!-- --------[/  CheckAllViews  ]  ---------->
+
+
+<!-- --------[Popup Window for CAGE search]  ---------->
+ <script type="text/javascript" language="javascript">
+     function openCageDetails() {
+         window.open("https://www.logisticsinformationservice.dla.mil/bincs/begin_search.aspx", "BINCS", "width=1000,height=800,scrollbars=yes,dependent=no,resizable=no,unadorned=yes,top=20,left=20");
+     }                                         
+ </script>
+<!-- --------[Popup Window for CAGE search]  ---------->
+
+
+		
+		<!-- ---------------[Header for top panel]-------------- -->
+		<div id="panelTop1" style="text-align:center;">
+	
+			<TABLE cellPadding="1" width="766" align="center" bgColor="#000000">
+				<TR>
+					<TD height="62">
+					<!-- -------------[Includes]-------------- -->
+					<DIV align="center">					
+					<!-- ImageMap (nav_bar.gif) -->
+<MAP NAME="nav_bar_Map">
+<AREA SHAPE="rect" ALT="Library" COORDS="546,0,592,16" HREF="/forms/forms.asp">
+<AREA SHAPE="rect" ALT="Training" COORDS="489,0,543,16" HREF="/training/default.asp">
+<AREA SHAPE="rect" ALT="Supplier" COORDS="431,0,486,16" HREF="/supplier.asp">
+<AREA SHAPE="rect" ALT="Log Tools" COORDS="365,0,427,16" HREF="/logtools.asp">
+<AREA SHAPE="rect" ALT="Cataloging" COORDS="292,0,361,16" HREF="/dlis-k/default.asp">
+<AREA SHAPE="rect" ALT="Programs" COORDS="226,0,289,16" HREF="/programs.asp">
+<AREA SHAPE="rect" ALT="Services" COORDS="167,0,223,16" HREF="/cservice.asp">
+<AREA SHAPE="rect" ALT="Products" COORDS="105,0,164,16" HREF="/prod.asp">
+<AREA SHAPE="rect" ALT="DLIS Home" COORDS="31,0,103,16" HREF="/default.asp">
+</MAP>
+<!-- End ImageMap-->
+<style>
+.GlobalMessage 
+{
+	background-color: #FFFFFF;
+	text-align: center;
+	border: 2px #FF0000 dashed;	
+	color: #FF0000;
+	padding: 2px;
+	margin-bottom: 5px;
+	width: 760px;
+
+}
+.GlobalMessageBold
+{
+	font-weight: bold;
+}
+
+.mbMessage 
+
+{
+
+border-top-width: 1px;
+border-right-width-value: 1px;
+border-right-width-ltr-source: physical;
+border-right-width-rtl-source: physical;
+border-bottom-width: 1px;
+border-left-width-value: 1px;
+border-left-width-ltr-source: physical;
+border-left-width-rtl-source: physical;
+border-top-style: solid;
+border-right-style-value: solid;
+border-right-style-ltr-source: physical;
+border-right-style-rtl-source: physical;
+border-bottom-style: solid;
+border-left-style-value: solid;
+border-left-style-ltr-source: physical;
+border-left-style-rtl-source: physical;
+border-top-color: #3251a6;
+border-right-color-value: #3251a6;
+border-right-color-ltr-source: physical;
+border-right-color-rtl-source: physical;
+border-bottom-color: #3251a6;
+border-left-color-value: #3251a6;
+border-left-color-ltr-source: physical;
+border-left-color-rtl-source: physical;
+background-color: #FFFF93;
+color: #000000;
+font-size: 11pt;
+font-weight: bold;
+background-image: url("/_MasterPageIncludes/images/MessageBillboard/RegularMessages.gif");
+background-repeat: no-repeat;
+background-position: 2px 2px;
+padding-top: 3px;
+padding-right: 3px;
+padding-bottom: 3px;
+padding-left: 29px;
+text-align: left;
+margin-top: 1px;
+}
+</style>
+
+<!--- [ Example with comments Code goes here ] -->
+<!-- <table width="760" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+<div class="mbMessage">
+	<span>The URL for this Web site will change effective 22 April 2011. A redirect will be in place for 60 days during this transition. Please update bookmarks to reflect the new URL http://www.logisticsinformationservice.dla.mil for future access.
+	</span>
+</div> 	
+	</td>
+  </tr> 
+</table>-->
+<!--- [/ Example with comments Code goes here ] -->
+
+
+
+<!--- [code goes here   Input message between the SPAN Tags and add comment end to this line ] 
+<table width="760" border="1" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+<div class="mbMessage">
+  <span>
+  </span>
+</div> 	
+	</td>
+  </tr> 
+</table>
+<!--- [/ Code goes here ] -->
+
+<script type="text/javascript" language="javascript" src="/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" language="javascript" src="/js/DropDownMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/DropDownMenu.css" />
+
+<table bgcolor="#336699" cellspacing="0" cellpadding="0" border="0" width="760" >
+	<tr>
+		<td valign="top" rowspan="2">
+			<a href="http://www.dla.mil"><img src="/images/DlaLogo.jpg" border="0" alt="DLA Logo" /></a>
+		</td>
+		<td valign="top">
+			<img src="/images/DlisExternalBanner.jpg" border="0" alt="Banner: Defense Logistics Information Service: A Defense Logistics Agency Activity" />
+			<div id="HeadTitle" style="display: none"></div>
+</td>
+	</tr>
+	<tr>
+		<td bgcolor='#336699'>
+			<ul id='nav'>
+				<li><a href='/' alt='Home' title='Home'>Home</a></li>
+				<li><a href='/' alt='About Us' title='About Us'>About Us</a></li>
+				<li><a href='/cust.asp' alt='Customer Support' title='Customer Support'>Customer Support</a></li>
+				<li><a href='http://www.dispositionservices.dla.mil/EFOIA-Privacy/Pages/default.aspx' alt='FOIA' title='FOIA'>FOIA</a></li>
+	 			<li><a href='/toc.asp' alt='Site Map' title='Site Map'>Site Map</a></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+					</DIV> 
+					<!-- -------------[/Includes]-------------- -->
+					</TD>
+				</TR>
+			</TABLE>
+	
+</div>
+		<!-- ---------------[/Header for top panel]-------------- -->
+		
+		<!-- ---------------[Application Header]-------------- -->
+		
+		<!-- ---------------[/Application Header]-------------- -->
+		
+		<table cellSpacing="0" cellPadding="0" width="766" align="center" border="0">
+			<tr>
+				<td class="boxHeader">
+					<table cellSpacing="1" cellPadding="0" width="100%" border="0">
+						<tr>
+							<td width="27%" background="../images/Slice_08.jpg">
+								<div align="center"></div>
+								<DIV></DIV>
+								<div align="center"><A class="TopNavLinks" href="../"><strong>WebFLIS Home</strong></A></div>							</td>
+							<td width="23%" background="../images/Slice_08.jpg" bgColor="#e9e9e9">
+								<div align="center"></div>							</td>
+							<td width="13%" background="../images/Slice_08.jpg" bgColor="#e9e9e9">
+								<div align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="-2"></font></div>							</td>
+						</tr>
+						<tr bgColor="#ffffff">
+							<td colSpan="7">
+								<!-- Begin Enter Code Here -->
+								<form name="Form1" method="post" action="pub_search.aspx" id="Form1" onSubmit="return Form_Validator(this)">
+<div>
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNTMzMDY2Nzk3D2QWAgICD2QWJAIID2QWAgIBDzwrAAsAZAIJD2QWAgIDDzwrAAsAZAIKD2QWAgIBDzwrAAsAZAILD2QWAgIBDzwrAAsAZAIMD2QWAgIBDzwrAAsAZAIND2QWAgIBDzwrAAsAZAIOD2QWAgIDDzwrAAsAZAIPD2QWAgIBDzwrAAsAZAIQD2QWAgIDDzwrAAsAZAIRD2QWBAIDDzwrAAsAZAIFDzwrAAsAZAISD2QWAgIBDzwrAAsAZAITD2QWAgIBDzwrAAsAZAIUD2QWAgIJDzwrAAsAZAIVD2QWAgIFDzwrAAsAZAIWD2QWAgIHDzwrAAsAZAIXD2QWAgIFDzwrAAsAZAIYD2QWAgIFDzwrAAsAZAIZD2QWAgIFDzwrAAsAZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WCQURY2hrRXhwYW5kZWRTZWFyY2gFB2Noa0NhZ2UFAkMxBQJDMwUCQzYFAkM0BQJDNwUCQzkFA0MxNCThyg84CZcp1hAIXCkU7WWhv6pn" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/webflis/WebResource.axd?d=oFloDzvHpPC-99L13h3kCUEjyM5LYO0cXL7ck92b9A-IllEkn9hgCeuDN4lUoqslbtjFYlOlb9A3pdu0cpySlgsMShc1&amp;t=635455195964295654" type="text/javascript"></script>
+
+
+<script src="/webflis/WebResource.axd?d=NK2P0hS_xzNoPuFcO6zOmRPdyFn5uNYmeRfZClDykX8qlGerl7TkD8Ge4FPChMbPnaKSulZN_c9QALwCk9-9iCvkgwQ1&amp;t=635455195964295654" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E69BC198" />
+	<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+	<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWEQK196/RAgLDkqnvDQLHkL+1AgK+sdPcCAK54Yr1AQLIhLeDDAKE3r2bCAK+61kC3v3+/gsC4a+aDQLd7+btDALd797tDALd79LtDALd79rtDALd787tDALd74buDALj04CPBJ5oI514+mUpSMjvGSLrGeZpCy+e" />
+</div>
+									<A name="top"></A>
+									<a name="content" id="content"></a>
+									<div id="panelInput" style="text-align:center;">
+	
+										
+								  <TABLE id="Table10" cellPadding="10" width="225" align="center">
+											<TR vAlign="top">
+												<TD align="center" colSpan="2">
+												  <DIV align="center">
+											        
+                                                       
+												<!-- p class="box_yellow_highlight">We are aware that intermittent system errors are affecting some customers; we are working to correct this problem and expect a fix no later than<br>1 March 2013.  If you experience an error that requires assistance, please call 877-352-2255.</p -->
+                                                  
+                                                    
+                                                     
+                                                    
+                                                    
+                                                    <p><img alt="WebFLIS Search Selection Menu" src="../images/webflis_Inquiry-Selection_p.jpg"
+															/><br>
+                                                      <br>
+                                                    </p>
+												  </DIV>												</TD>
+<center>
+                        <!-- BEGIN ADD: MODIFIED 2013-12-13, M. COOLEY  -->
+                        <!-- DUE TO THE AGE OF THE APPLICATION, AND CONFLICTS BETWEEN DOCUMENT TYPES,
+                            AN AJAX POP UP WAS NOT POSSIBLE WITHOUT SIGNIFICANT REWRITES. THIS
+                            METHODOLOGY IS DEPRECATED, AND SHOULD BE REPLACED AS SOON AS POSSIBLE -->
+                        <script type="text/javascript" language="javascript">
+                            function openModal() {
+                                //window.showModalDialog('../ChangeNotice.aspx', '', 'dialogHeight=450px;dialogWidth=760px;scrollbars=no;dependent=no;resizable=no;unadorned=yes');
+                                window.open('../ChangeNotice.asp', 'WebFLIS', 'width=760,height=475');
+                            }
+                        </script>
+                        <center>
+                            <caption>
+                                
+                                <!--p class="box_yellow_highlight">Restricted WebFLIS accounts will be disabled after 30 days of inactivity. To enable your account, please contact Password Reset at DSN 661-4999, Commercial 269-961-4999, or PasswordR@dla.mil. /p-->
+                                
+                                    <p class="box_change_notice" style="text-align: center">
+                                        <!--    'LAUNCH AREA' CONTENT     -->Alert: Last Updated On: 12 August 2014
+                                        <br />
+                                        <br />
+                                        <b>IMPORTANT Upcoming WebFLIS Changes That Will Affect You</b>
+                                        <br />
+                                        <br />
+                                        <!--    'LAUNCH OBJECT'   --><a href="#" onclick="openModal()">[Click Here For 
+                                        More Information]</a>
+                                    </p>
+                               
+                            </caption>
+                        </center>
+                        <!-- END ADD: MODIFIED 2013-12-13, M. COOLEY  -->
+</center>
+											</TR>
+											<TR>
+												<TD vAlign="top" width="471">
+												  <div align=center>
+												    <TABLE id="Table22" height="100" cellSpacing="0" cellPadding="0" width="250" align="center"
+															border="0">
+                                                      <!-- ====== Header ======== -->
+                                                      <TR>
+                                                        <TD class="boxHeader" width="6" colSpan="2" height="6" rowSpan="2"><IMG height="6" alt="corner" src="../images/instr_tl.gif" width="6" border="0" /></TD>
+                                                        <TD class="boxHeader" width="100%" height="1"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD class="boxHeader" width="6" colSpan="2" height="6" rowSpan="2"><IMG height="6" alt="corner" src="../images/instr_tr.gif" width="6" border="0" /></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD class="boxHeader" height="5"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD width="1" bgColor="#b1b1b1" rowSpan="2"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD class="boxHeader" width="5"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="100%"><DIV class="BoxHeader" align="center">Instructions for performing 
+                                                            searches:</DIV></TD>
+                                                        <TD class="boxHeader" width="5"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="1" bgColor="#b1b1b1" rowSpan="2"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD class="boxHeader" width="100%" colSpan="3" height="3"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                      </TR>
+                                                      <!-- ====== Header ======== -->
+                                                      <TR>
+                                                        <TD width="1" bgColor="#b1b1b1"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="100%" bgColor="#b1b1b1" colSpan="3" height="1"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="1" bgColor="#b1b1b1"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD width="1" bgColor="#b1b1b1" rowSpan="2"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="5" bgColor="#f7f7f7" rowSpan="2"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="100%" bgColor="#f7f7f7"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="5" bgColor="#f7f7f7" rowSpan="2"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="1" bgColor="#b1b1b1" rowSpan="2"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD vAlign="top" align="center" width="100%" bgColor="#f7f7f7" height="100%"><TABLE id="Table95" cellSpacing="2" cellPadding="0" width="100%" bgColor="#f7f7f7" border="0">
+                                                            <TR>
+                                                              <TD vAlign="top" width="100%" bgColor="#f7f7f7"><TABLE class="" id="Table100" cellSpacing="0" cellPadding="5" width="100%" align="center"
+																					border="0">
+                                                                  <TR class="">
+                                                                    <TD><DIV align="justify">
+                                                                        <p class="InstructionTextBlack"> For a <strong>NIIN/NSN</strong> search, leading zeros can be omitted.  Enter up to nine positions for NIIN and thirteen positions for NSN in the NIIN/NSN field and then click on the Go button. NIIN/NSN can be entered with or without dashes.  If dashes are entered, up to sixteen positions are accepted.</p>
+                                                                        <p class="InstructionTextBlack">For an <strong>Item Name</strong> <strong>Keyword</strong> 
+                                                                            search, enter up to three (3) Item Name Keywords and then click on the Go 
+                                                                            button.</p>
+                                                                      <p class="InstructionTextBlack"> For a <strong>Part Number</strong> search, enter 
+                                                                          the part number in the part number field and then click on the Go button.</p>
+                                                                      <p class="InstructionTextBlack">To perform an <strong>Expanded Part Number</strong> 
+                                                                          search enter a part number(no wild card), check the Expanded Part search box and 
+                                                                          click on the Go button.<br>
+                                                                        <br>
+                                                                          To perform a partial <strong>Part Number</strong> search enter three or more 
+                                                                          characters followed by an asterisk (*) and then click on the Go button.</p>
+                                                                      <p class="InstructionTextBlack">For a <strong>CAGE</strong> Code search, enter a 
+                                                                          five-digit numeric or alpha-numeric CAGE Code in the CAGE Code field, check the 
+                                                                          Company Only box and then click on the Go button.</p>
+                                                                      <p class="InstructionTextBlack">For a <strong>CAGE</strong> Code search that will 
+                                                                          retrieve a Part Number pick list, enter a five-digit numeric or alpha-numeric 
+                                                                          CAGE Code in the CAGE Code field, and then click on the Go button.</p>
+                                                                      <p class="InstructionTextBlack">For a <strong>Part Number/CAGE</strong> Code 
+                                                                          combination search, enter a valid Part Number and a five-digit numeric or alpha 
+                                                                          numeric CAGE Code in the appropriate fields and then click on the Go button.</p>
+                                                                      <p><span class="InstructionTextBlack">For a <strong>Manufacturer&#8217;s Name / Part 
+                                                                          Number</strong> 
+                                                                          combination search, enter a Manufacturer&#8217;s Name and Part Number and click on the 
+                                                                          Go button.</span></p>
+                                                                    </DIV></TD>
+                                                                  </TR>
+                                                              </TABLE></TD>
+                                                            </TR>
+                                                        </TABLE></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD width="6" bgColor="#f7f7f7" colSpan="2" height="6" rowSpan="2"><IMG height="6" alt="corner" src="../images/instr_bl.gif" width="6" border="0" /></TD>
+                                                        <TD width="100%" bgColor="#f7f7f7" height="5"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                        <TD width="6" bgColor="#f7f7f7" colSpan="2" height="6" rowSpan="2"><IMG height="6" alt="corner" src="../images/instr_br.gif" width="6" border="0" /></TD>
+                                                      </TR>
+                                                      <TR>
+                                                        <TD width="100%" bgColor="#b1b1b1" height="1"><IMG height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></TD>
+                                                      </TR>
+                                                    </TABLE>
+												  </div>												</TD>
+												<TD vAlign="top" width="360"><table id="TableINput" cellspacing="0" cellpadding="0" width="200" align="center" border="0">
+                                                  <!-- ====== Header ======== -->
+                                                  <tr>
+                                                    <td class="boxHeader" width="6" colspan="2" height="6" rowspan="2"><img height="6" alt="corner" src="../images/instr_tl.gif" width="6" border="0" /></td>
+                                                    <td class="boxHeader" width="100%" height="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0"  /></td>
+                                                    <td class="boxHeader" width="6" colspan="2" height="6" rowspan="2"><img height="6" alt="corner" src="../images/instr_tr.gif" width="6" border="0"  /></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td class="boxHeader" height="5"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td width="1" bgcolor="#b1b1b1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td class="boxHeader" width="5"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td class="boxHeader" width="100%"><div class="BoxHeader" align="center"><font face="Verdana, Arial, Helvetica, sans-serif" />
+                                                        Enter Search Criteria</div></td>
+                                                    <td class="boxHeader" width="5"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="1" bgcolor="#b1b1b1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td class="boxHeader" width="100%" colspan="3" height="3"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                  </tr>
+                                                  <!-- ====== Header ======== -->
+                                                  <tr>
+                                                    <td width="1" bgcolor="#b1b1b1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="100%" bgcolor="#7cabd5" colspan="3" height="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="1" bgcolor="#b1b1b1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td width="1" bgcolor="#b1b1b1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="5" bgcolor="#f7f7f7" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="100%" bgcolor="#f7f7f7"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="5" bgcolor="#f7f7f7" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="1" bgcolor="#b1b1b1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td valign="top" align="center" width="100%" bgcolor="#f7f7f7" height="100%"><table id="Table23" cellspacing="2" cellpadding="0" width="100%" bgcolor="#f7f7f7" border="0">
+                                                        <tr>
+                                                          <td valign="top" width="100%" bgcolor="#f7f7f7"><table class="InstructionText" id="Table24" cellspacing="0" cellpadding="5" width="100%"
+																				align="center" border="0">
+                                                              <tr class="InstructionText">
+                                                                <td><div align="justify">
+                                                                    <table class="InstructionText" id="Table18" cellspacing="1" cellpadding="1" width="200"
+																									border="0">
+                                                                      <tr>
+                                                                        <td align="left"><font size="2">
+                                                                          </font>
+                                                                            <label for="txtNiin" class="InstructionTextBlack"></label>
+                                                                            <table id="Table11" cellspacing="1" cellpadding="0" width="200" bgcolor="#999999" border="0">
+                                                                          <tr>
+                                                                            <td><table class="InstructionText" id="Table70" style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px"
+																															cellspacing="0" cellpadding="0" width="220" bgcolor="#f7f7f7" border="0">
+                                                                                <tr>
+                                                                                  <td>
+                                                                                    <label for="txtNiin" class="InstructionTextBlack">NIIN/NSN</label>
+                                                                                    <input name="txtNiin" type="text" maxlength="16" id="txtNiin" title="For a NIIN/NSN search, leading zeros can be omitted.  Enter up to nine positions for NIIN and thirteen positions for NSN in the NIIN/NSN field and then click on the Go button. NIIN/NSN can be entered with or without dashes.  If dashes are entered, up to sixteen positions are accepted.." class="box" />
+                                                                                      &nbsp;
+<input type="submit" name="btnNIIN" value="Go" id="btnNIIN" title="Go button - Click to perform a search after entering one or more pieces of information per instructions to the left." class="box_small_2" />
+                                                                                      &nbsp;
+<div align="right"></div>
+<label for="txtKeyword" class="InstructionTextBlack">Item Name Keyword(s)</label>
+<input name="txtKeyword" type="text" id="txtKeyword" title="Enter up to three Item Name keywords and then click on the Go button." class="box" /><label for="chkCage"></label>
+                                                                                  </td>
+                                                                                </tr>
+                                                                            </table></td>
+                                                                          </tr>
+                                                                        </table>
+																	    </td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td valign="top"></td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td valign="top"><table id="Table11" cellspacing="1" cellpadding="0" width="200" bgcolor="#999999" border="0">
+                                                                            <tr>
+                                                                              <td><table class="InstructionText" id="Table70" style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px"
+																															cellspacing="0" cellpadding="0" width="220" bgcolor="#f7f7f7" border="0">
+                                                                                  <tr>
+                                                                                    <td>
+																					<!-- [Part] -->
+																					<label for="txtPART" class="InstructionTextBlack">Part Number
+																				 	<input name="txtPART" type="text" maxlength="32" id="txtPART" title="Enter Part Number and then click on the Go button to perform a Part Number search. To perform a partial Part Number search enter three or more characters followed by an asterisk (*) and then click on the Go button. To perform a Part Number/CAGE Code combination search, enter Part Number and CAGE Code and then click on the Go button." class="box" />
+                                                                                    </label>
+																					<br />
+                                                                                        
+                                                                                    <label for="chkExpandedSearch">
+                                                                                    <span title="Expanded Part Number search - To perform an Expanded Part Number search enter a part number(no wild card), check the Expanded Part Number search box and click on the Go button."><input id="chkExpandedSearch" type="checkbox" name="chkExpandedSearch" /></span>
+                                                                                     <font class="LoginBoxText">&nbsp;Expanded Part Number search</font>
+                                                                                     </label>
+																					<!-- [/Part] -->
+																					</td>
+                                                                                  </tr>
+                                                                              </table></td>
+                                                                            </tr>
+                                                                        </table></td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td valign="top"><table id="Table11" cellspacing="1" cellpadding="0" width="200" bgcolor="#999999" border="0">
+                                                                          <tr>
+                                                                            <td><table class="InstructionText" id="Table70" style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px"
+																															cellspacing="0" cellpadding="0" width="220" bgcolor="#f7f7f7" border="0">
+                                                                                <tr>
+                                                                                  <td>
+																				  <!-- [Cage] -->
+																				  	<label for="txtCAGE" class="InstructionTextBlack">Enter CAGE Code
+                                                                                    <input name="txtCAGE" type="text" maxlength="5" id="txtCAGE" title="Three CAGE searches are available.  To perform a CAGE Code/Company only search enter CAGE Code, click on the &#39;Company only&#39; check box and then click on the Go button.  To perform a Part Number/CAGE Code combination search, enter Part Number and CAGE Code and then click on the Go button.  To perform a CAGE Code search to retrieve an NSN pick list enter the CAGE Code and then click on the Go button." class="box" style="width:50px;" />
+																					</label>&nbsp;
+            																			
+																					
+																		            <br>
+																		            <label for="chkCage">
+																					<span title="Company data only box - To perform a company data only search enter the CAGE Code, check the Company only box and click on the Go button."><input id="chkCage" type="checkbox" name="chkCage" /></span>
+																		            <font class="LoginBoxText" > Company data only</font> </label>
+                                                                                  <!-- [/Cage] -->
+																				  </td>
+                                                                                </tr>
+                                                                            </table></td>
+                                                                          </tr>
+                                                                        </table></td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td><table id="Table3" cellspacing="1" cellpadding="0" width="200" bgcolor="#999999" border="0">
+                                                                            <tr>
+                                                                              <td><table class="InstructionText" id="Table1" style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px"
+																															cellspacing="0" cellpadding="0" width="220" bgcolor="#f7f7f7" border="0">
+                                                                                  <tr>
+                                                                                    <td>
+                                                                                        <label for="txtNiin" class="InstructionTextBlack">Manufacturer's Name</label>
+                                                                                        <input name="txtManName" type="text" maxlength="255" id="txtManName" title="Enter Manufacturer&#39;s Name and Part Number and then click on the Go button." class="box" />
+                                                                                        <br />
+ 
+ <label for="txtNiin" class="InstructionTextBlack">&amp; Part Number</label>
+ <br />
+<input name="txtManPartNum" type="text" maxlength="32" id="txtManPartNum" title="Enter Manufacturer&#39;s Name and Part Number and then click on the Go button." class="box" />
+                                                                                        &nbsp;
+                                                                                      
+                                                                                      <label for="label"> </label>                                                                                    </td>
+                                                                                  </tr>
+                                                                              </table></td>
+                                                                            </tr>
+                                                                        </table></td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td></td>
+                                                                        <td></td>
+                                                                      </tr>
+                                                                  </table>
+                                                                  <div align="center">
+                                                                    <INPUT class="box_small_2" title="Reset all fields button - Click to clear all search criteria and then enter new search criteria and click on the Go button."
+										type="submit" value="Reset all fields" onClick="return ClearAllInputBoxes()">
+																	   <br />
+                                                                      <br />
+                                                                  </div>
+                                                                  <table id="Table39" height="100" cellspacing="0" cellpadding="0" align="center" border="0">
+                                                                      <tr>
+                                                                        <td width="6" colspan="2" height="6" rowspan="2"><img height="6" alt=" " src="../images/instr_tl_b.gif" width="6" border="0" /></td>
+                                                                        <td class="boxHeader" width="100%" height="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td class="boxHeader" width="6" colspan="2" height="6" rowspan="2"><img height="6" alt=" " src="../images/instr_tr_b.gif" width="6" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td bgcolor="#cdcdcd" height="5"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td class="boxHeader" width="1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td width="5" bgcolor="#cdcdcd"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td width="100%" bgcolor="#cdcdcd"><div align="center"><strong><font face="Arial" size="2"><strong>
+                                                                            Web</strong><span class="style7">FLIS</span></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+                                                                            Output Selection Views</font></strong> </div></td>
+                                                                        <td width="5" bgcolor="#cdcdcd"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td class="boxHeader" width="1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td width="100%" bgcolor="#cdcdcd" colspan="3" height="3"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td class="boxHeader" width="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td class="boxHeader" width="100%" colspan="3" height="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td class="boxHeader" width="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td class="boxHeader" width="1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td width="5" bgcolor="#f7f7f7" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td width="100%" bgcolor="#f7f7f7"></td>
+                                                                        <td width="5" bgcolor="#f7f7f7" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td class="boxHeader" width="1" rowspan="2"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td valign="top" align="center" width="100%" bgcolor="#f7f7f7" height="100%"><table id="Table40" cellspacing="2" cellpadding="0" width="100%" bgcolor="#f7f7f7" border="0">
+                                                                            <tr>
+                                                                              <td valign="top" width="100%" bgcolor="#f7f7f7"><table class="InstructionText" id="Table41" cellspacing="0" cellpadding="5" width="100%"
+																															align="center" border="0">
+                                                                                  <tr class="InstructionText">
+                                                                                    <td><div align="center"></div>
+                                                                                        <div align="justify">
+                                                                                          <table id="Table42" cellspacing="0" cellpadding="0" border="0">
+                                                                                            <tr>
+<td>
+																					  
+<span style="HEIGHT: 20px"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></span>
+<label class="LoginBoxText" for="C1">
+<span title=" Click in the box to select  Identification Data"><input id="C1" type="checkbox" name="C1" checked="checked" /></span>
+<strong class="style6">I</strong>dentification Data</label></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="1"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+<label class="LoginBoxText" for="C3">       
+<span title="Click in the box to select  MOE Rule Coded Data"><input id="C3" type="checkbox" name="C3" /></span> 
+<strong class="style6">M</strong>OE Rule Coded&nbsp;Data</label>
+                                                                                              </font></font></font></font></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                            <td><font face="Verdana, Arial, Helvetica, sans-serif"><font size="1"><font face="Verdana, Arial, Helvetica, sans-serif">
+<label class="LoginBoxText" for="C6"><span title="Click in the box to select  Ref/PN Data"><input id="C6" type="checkbox" name="C6" checked="checked" /></span></label>
+                                                                                                </font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="1">
+                                                                                                <label class="LoginBoxText" for="C4"><span class="style6">R</span>ef/PN Data</label>
+                                                                                                </font></font></font></font></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                              <td><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font size="1">
+<label class="LoginBoxText" for="C4">
+<span title="Click in the box to select Management Data"><input id="C4" type="checkbox" name="C4" checked="checked" /></span> 
+<span class="style6">M</span>anagement Data</label>
+</font></font></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                              <td><font face="Verdana, Arial, Helvetica, sans-serif"><font size="1"><font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif"><font size="1"><font face="Verdana, Arial, Helvetica, sans-serif">
+
+<label class="LoginBoxText" for="C7">                                                        <span title="Click in the box to select  Phrase Data"><input id="C7" type="checkbox" name="C7" /></span><span class="style6">
+                                                                                                  P</span>hrase Data</label>
+
+</font></font></font><font size="1"></font></font> </font></font> </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                              <td><font face="Verdana, Arial, Helvetica, sans-serif"><font size="1"><font face="Verdana, Arial, Helvetica, sans-serif">
+<label class="LoginBoxText" for="C9">
+<span title="Click in the box to select  Freight Data"><input id="C9" type="checkbox" name="C9" /></span> 
+<span class="style7"><i>F</i></span>reight Data</label>
+</font></font></font> </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                              <td><font face="Verdana, Arial, Helvetica, sans-serif"><font size="1"><font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><font face="Verdana, Arial, Helvetica, sans-serif">
+<label class="LoginBoxText" for="C14">
+                                                                                                <span title="Click in the box to select Characteristics Decoded Data"><input id="C14" type="checkbox" name="C14" checked="checked" /></span><span class="style7"><i>
+                                                                                                  D</i></span>ecoded Characteristics Data</label></font></font><font size="1"></font></font></font></font></td>
+                                                                                            </tr>
+                                                                                          </table>
+                                                                                        </div></td>
+                                                                                  </tr>
+                                                                              </table></td>
+                                                                            </tr>
+                                                                        </table></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td width="6" bgcolor="#f7f7f7" colspan="2" height="6" rowspan="2"><img height="6" alt=" " src="../images/instr_bl_b.gif" width="6" border="0" /></td>
+                                                                        <td width="100%" bgcolor="#f7f7f7" height="5"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                        <td width="6" bgcolor="#f7f7f7" colspan="2" height="6" rowspan="2"><img height="6" alt=" " src="../images/instr_br_b.gif" width="6" border="0" /></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td class="boxHeader" width="100%" height="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                                      </tr>
+                                                                  </table>
+                                                                  <div align="center"><br />
+                                                                        <input class="box_small_2" title="Clear all views - Click to clear all views." onClick="return ClearViews()"
+																										type="submit" value="Clear all" name="Submit" />
+                                                                        <input class="box_small_2" title="Select all views - Click to select all views." onClick="return CheckAllViews()"
+																										type="submit" value="Select all" name="Submit2" />
+                                                                  </div>
+                                                                </div></td>
+                                                              </tr>
+                                                          </table></td>
+                                                        </tr>
+                                                    </table></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td width="6" bgcolor="#f7f7f7" colspan="2" height="6" rowspan="2"><img height="6" alt="corner" src="../images/instr_bl.gif" width="6" border="0" /></td>
+                                                    <td width="100%" bgcolor="#f7f7f7" height="5"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                    <td width="6" bgcolor="#f7f7f7" colspan="2" height="6" rowspan="2"><img height="6" alt="corner" src="../images/instr_br.gif" width="6" border="0" /></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td width="100%" bgcolor="#b1b1b1" height="1"><img height="1" alt=" " src="../images/spacer.gif" width="1" border="0" /></td>
+                                                  </tr>
+                                                </table>
+											  <P>&nbsp;</P>												</TD>
+											</TR>
+										</TABLE>
+									
+</div>
+									
+									<div align="center"><span id="lblResults" style="font-family:Verdana;font-size:X-Small;"></span>
+                                        &nbsp;
+										<span id="lblNIIN" style="color:Red;font-family:Verdana,Arial;font-size:X-Small;"></span>
+                                        &nbsp;
+										
+                                        &nbsp;
+										
+
+                                     
+                                        
+                                        
+                                        </div>
+									<span class="resultsdetail2"></span>
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									<!-- --------------[ Part Search ]-------------- -->
+									<!-- --------------[/ Part Search ]-------------- -->
+									<!-- --------------[ Cage Search ]-------------- -->
+									
+									<!-- --------------[/ Part Search ]-------------- -->
+									
+									
+									
+
+									
+									<br />
+                                    
+                                    
+							</font>									</div>
+									<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif">
+											<font size="2">
+												</font></font></font>
+
+<script type="text/javascript">
+//<![CDATA[
+WebForm_AutoFocus('txtNiin');//]]>
+</script>
+</form>
+								<font face="Verdana, Arial, Helvetica, sans-serif"><font face="Verdana, Arial, Helvetica, sans-serif">
+										<FONT size="2"></FONT></font></font>
+								<P align="center"><font face="Verdana, Arial, Helvetica, sans-serif" size="2"><B><A href="pub_search.aspx"><font size="-1"></font></A></B></font></P>
+						  </td>
+						</tr>
+						<tr bgColor="#ffffff">
+						  <td colSpan="7">&nbsp;</td>
+					  </tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		<!-- ------------------- [ Footer I  ]  --------------------- -->
+      <table cellSpacing="0" cellPadding="0" width="766" align="center" border="0">
+        <tr>
+          <td width="150" background="../images/Slice_08.jpg">&nbsp; </td>
+          <td width="473" background="../images/Slice_08.jpg"><div align="center"><strong><font face="Verdana, Arial, Helvetica, sans-serif" size="2"> 
+              Web<em>FLIS</em></font>
+					</strong>
+					<font face="Verdana, Arial, Helvetica, sans-serif" size="-1"><em></em></font>
+									
+					</div>		  </td>
+          <td width="143" background="../images/Slice_08.jpg"><div align="right"><font face="Verdana, Arial, Helvetica, sans-serif" size="-2"><font face="Verdana, Arial, Helvetica, sans-serif" size="2">
+					 <font size=-2>Rev 3.19.5.2</font><font size=-2>WDSS</font></font>															
+					&nbsp;</font></font>
+					</div></td>
+        </tr>
+      </table>
+      <!-- ------------------- [/ Footer I  ]  --------------------- -->
+	  
+	 <!-- ------------------- [  Footer II - Template ]  --------------------- -->
+	 <table width="766" align="center">
+          <tr>
+            <td height="30" class="PageFooter" >			
+			<div align="center">			
+			<BR />
+<span class="WhiteText">
+<a href="/cust.asp" class="LinksSmall">DLA Customer Interaction Center</a>: 
+1-877-352-2255 or DSN 661-7766 Email: <a href="mailto:dlacontactcenter@dla.mil" class="LinksSmall">dlacontactcenter@dla.mil</a><br />
+<a href="http://devweb.logisticsinformationservice.dla.mil/warning.asp" class="LinksSmall">Privacy/Security</a> | <a href="http://dodcio.defense.gov/DoDSection508/Std_Stmt.aspx" class="LinksSmall">Accessibility/Section 508</a> | <a href="http://www.adobe.com/prodindex/acrobat/readstep.html" class="LinksSmall">Download Acrobat</a>
+| <a class="LinksSmall" href="mailto:LogInfoSvcWebmaster@dla.mil">Contact Webmaster </a> 
+<br />
+<br />
+<span class="WhiteText">This Site Reviewed Quarterly for Accessibility Compliance</span><br />
+
+  This Page Last Reviewed: 
+  August 12, 2014
+  
+  
+  
+  </span></p>
+  
+
+<script type='text/javascript'>
+		if((document.getElementById('PageTitle') != null) && (document.getElementById('HeadTitle') != null))
+			document.getElementById('PageTitle').innerHTML = document.getElementById('HeadTitle').innerHTML;
+</script>
+
+
+			</div>
+			</td>
+          </tr>
+	 </table>	  
+	 <!-- ------------------- [/  Footer II - Template ]  --------------------- -->	
+		
+		
+		
+<blockquote>&nbsp;</blockquote>
+		
+		
+	</BODY>
+</HTML>

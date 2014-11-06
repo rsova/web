@@ -24,6 +24,7 @@ Ext.application({
         Ext.create('Ext.NestedList', {
             fullscreen: true,
             store: treeStore,
+            title: "Partlink Worksheet",
             useTitleAsBackText: false,
             backText: 'Back',
             listeners: {

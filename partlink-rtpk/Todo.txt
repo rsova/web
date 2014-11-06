@@ -5,10 +5,12 @@ Server
 --Finish suppliers lookup
 --Add usps lookups
 bugs --01496200 - null days to deliver from neitherlands
-Deploy to cloud
 --Remove duplicate suppliers
 --Add Mongo call to get assemblages
-Add pricing for international shipping
+Deploy to cloud !!!!!!
+Test
+Clean up and document
+Add pricing for international shipping ?
 
 Client
 --Have client working again
@@ -17,3 +19,5 @@ Client
 Add map
 Add profiles
 Add pics
+
+Create presentation

@@ -1,0 +1,973 @@
+<?xml version="1.0" ?>
+<methodResponse>
+	<params>
+		<param>
+			<value>
+				<array>
+					<data>
+						<value>
+							<string>Condo</string>
+						</value>
+						<value>
+							<double>0.10464406013489</double>
+						</value>
+						<value>
+							<array>
+								<data>
+									<value>
+										<string>515 Liholiho Street</string>
+									</value>
+									<value>
+										<string>71 Miner Place</string>
+									</value>
+									<value>
+										<string>85 Walaka Street</string>
+									</value>
+									<value>
+										<string>Aina o Kane</string>
+									</value>
+									<value>
+										<string>aina-nalu</string>
+									</value>
+									<value>
+										<string>Alaeloa</string>
+									</value>
+									<value>
+										<string>Aloha Pualani</string>
+									</value>
+									<value>
+										<string>Andaz Residences</string>
+									</value>
+									<value>
+										<string>Auhana Kuleana</string>
+									</value>
+									<value>
+										<string>Awihi Townhouse</string>
+									</value>
+									<value>
+										<string>Bay Vista Apts</string>
+									</value>
+									<value>
+										<string>Boardwalk</string>
+									</value>
+									<value>
+										<string>Carmel Apts</string>
+									</value>
+									<value>
+										<string>Chandelier Center</string>
+									</value>
+									<value>
+										<string>Channel House</string>
+									</value>
+									<value>
+										<string>Coconut Grove</string>
+									</value>
+									<value>
+										<string>Cottages at Kulamalu</string>
+									</value>
+									<value>
+										<string>Gardens at West Maui</string>
+									</value>
+									<value>
+										<string>Gardens Upcountry</string>
+									</value>
+									<value>
+										<string>Grand Champions</string>
+									</value>
+									<value>
+										<string>Hale Hui Kai</string>
+									</value>
+									<value>
+										<string>Hale Iliili</string>
+									</value>
+									<value>
+										<string>Hale Kai I</string>
+									</value>
+									<value>
+										<string>Hale Kai O Kihei I</string>
+									</value>
+									<value>
+										<string>Hale Kai O Kihei II</string>
+									</value>
+									<value>
+										<string>Hale Kamaole</string>
+									</value>
+									<value>
+										<string>Hale Kanani</string>
+									</value>
+									<value>
+										<string>Hale Mahialani</string>
+									</value>
+									<value>
+										<string>Hale Mahina</string>
+									</value>
+									<value>
+										<string>Hale Nani</string>
+									</value>
+									<value>
+										<string>Hale Napili Apts</string>
+									</value>
+									<value>
+										<string>Hale Ono Loa</string>
+									</value>
+									<value>
+										<string>Hale Pau Hana</string>
+									</value>
+									<value>
+										<string>Hale Royale</string>
+									</value>
+									<value>
+										<string>Hale Wailana</string>
+									</value>
+									<value>
+										<string>Haleakala Gardens</string>
+									</value>
+									<value>
+										<string>Haleakala Shores</string>
+									</value>
+									<value>
+										<string>Hana Kai-Maui</string>
+									</value>
+									<value>
+										<string>Happy Valley Village</string>
+									</value>
+									<value>
+										<string>Harbor Lights</string>
+									</value>
+									<value>
+										<string>Hawealani Condominium</string>
+									</value>
+									<value>
+										<string>Hokulani Golf Villas</string>
+									</value>
+									<value>
+										<string>Hololani</string>
+									</value>
+									<value>
+										<string>Hono Kai</string>
+									</value>
+									<value>
+										<string>Hono Koa</string>
+									</value>
+									<value>
+										<string>Honokeana Cove</string>
+									</value>
+									<value>
+										<string>Honokowai East</string>
+									</value>
+									<value>
+										<string>Honokowai Palms</string>
+									</value>
+									<value>
+										<string>Honua Kai - Hoku Lani</string>
+									</value>
+									<value>
+										<string>Honua Kai - Konea</string>
+									</value>
+									<value>
+										<string>Hoolea Terrace at Kehalani</string>
+									</value>
+									<value>
+										<string>Hoolei</string>
+									</value>
+									<value>
+										<string>Hotel Hana-Maui Condominiums</string>
+									</value>
+									<value>
+										<string>Hotel Molokai</string>
+									</value>
+									<value>
+										<string>Hoyochi Nikko</string>
+									</value>
+									<value>
+										<string>Iao Gardens</string>
+									</value>
+									<value>
+										<string>Iao Parkside I</string>
+									</value>
+									<value>
+										<string>Iao Parkside II</string>
+									</value>
+									<value>
+										<string>Iao Parkside III</string>
+									</value>
+									<value>
+										<string>Iao Parkside IV-A</string>
+									</value>
+									<value>
+										<string>Iao Parkside IV-B</string>
+									</value>
+									<value>
+										<string>Iao Parkside IV-C</string>
+									</value>
+									<value>
+										<string>Iliahi at Kehalani</string>
+									</value>
+									<value>
+										<string>International Colony Club I</string>
+									</value>
+									<value>
+										<string>International Colony Club II</string>
+									</value>
+									<value>
+										<string>Island Sands</string>
+									</value>
+									<value>
+										<string>Island Surf</string>
+									</value>
+									<value>
+										<string>Kaanapali Alii</string>
+									</value>
+									<value>
+										<string>Kaanapali Beach Club</string>
+									</value>
+									<value>
+										<string>Kaanapali Beach Vacation Resort</string>
+									</value>
+									<value>
+										<string>Kaanapali Plantation</string>
+									</value>
+									<value>
+										<string>Kaanapali Royal</string>
+									</value>
+									<value>
+										<string>Kaanapali Shores</string>
+									</value>
+									<value>
+										<string>Kahana Beach Resort</string>
+									</value>
+									<value>
+										<string>Kahana Falls</string>
+									</value>
+									<value>
+										<string>Kahana Manor</string>
+									</value>
+									<value>
+										<string>Kahana Outrigger</string>
+									</value>
+									<value>
+										<string>Kahana Reef</string>
+									</value>
+									<value>
+										<string>Kahana Sunset</string>
+									</value>
+									<value>
+										<string>Kahana Villa</string>
+									</value>
+									<value>
+										<string>Kahana Village</string>
+									</value>
+									<value>
+										<string>Kahekili Grove</string>
+									</value>
+									<value>
+										<string>Kahului Ikena</string>
+									</value>
+									<value>
+										<string>Kai Ani Village</string>
+									</value>
+									<value>
+										<string>Kai Makani</string>
+									</value>
+									<value>
+										<string>Kai Malu</string>
+									</value>
+									<value>
+										<string>Kalama Gardens</string>
+									</value>
+									<value>
+										<string>Kalama Terrace</string>
+									</value>
+									<value>
+										<string>Kalama Townhouses</string>
+									</value>
+									<value>
+										<string>Kalama Villa</string>
+									</value>
+									<value>
+										<string>Kaleialoha</string>
+									</value>
+									<value>
+										<string>Kamaole Beach Club</string>
+									</value>
+									<value>
+										<string>Kamaole Beach Royale</string>
+									</value>
+									<value>
+										<string>Kamaole Nalu</string>
+									</value>
+									<value>
+										<string>Kamaole One</string>
+									</value>
+									<value>
+										<string>Kamaole Sands</string>
+									</value>
+									<value>
+										<string>Kamoa Views</string>
+									</value>
+									<value>
+										<string>Kanai A Nalu</string>
+									</value>
+									<value>
+										<string>Kanani Wailea</string>
+									</value>
+									<value>
+										<string>Kane</string>
+									</value>
+									<value>
+										<string>Kanoe Apts</string>
+									</value>
+									<value>
+										<string>Kanoe Palms</string>
+									</value>
+									<value>
+										<string>Kanoelani Apts</string>
+									</value>
+									<value>
+										<string>Kapalua Bay Villas I</string>
+									</value>
+									<value>
+										<string>Kapalua Bay Villas II</string>
+									</value>
+									<value>
+										<string>Kapalua Golf Villas</string>
+									</value>
+									<value>
+										<string>Kapalua Ironwoods</string>
+									</value>
+									<value>
+										<string>Kapalua Ridge</string>
+									</value>
+									<value>
+										<string>Kapu Townhouses</string>
+									</value>
+									<value>
+										<string>Kauhale Makai</string>
+									</value>
+									<value>
+										<string>Ke Alii Ocean Villas</string>
+									</value>
+									<value>
+										<string>Ke Nani Kai</string>
+									</value>
+									<value>
+										<string>Kealaloa Court</string>
+									</value>
+									<value>
+										<string>Kealia</string>
+									</value>
+									<value>
+										<string>Keawakapu</string>
+									</value>
+									<value>
+										<string>Kehalani Gardens</string>
+									</value>
+									<value>
+										<string>Keonekai Villages</string>
+									</value>
+									<value>
+										<string>Kihei Akahi</string>
+									</value>
+									<value>
+										<string>Kihei Alii Kai</string>
+									</value>
+									<value>
+										<string>Kihei Bay Surf</string>
+									</value>
+									<value>
+										<string>Kihei Bay Vista</string>
+									</value>
+									<value>
+										<string>Kihei Beach</string>
+									</value>
+									<value>
+										<string>Kihei Cove</string>
+									</value>
+									<value>
+										<string>Kihei Garden Estates</string>
+									</value>
+									<value>
+										<string>Kihei Holiday</string>
+									</value>
+									<value>
+										<string>Kihei Islana</string>
+									</value>
+									<value>
+										<string>Kihei Kai</string>
+									</value>
+									<value>
+										<string>Kihei Kai Nani</string>
+									</value>
+									<value>
+										<string>Kihei Manor</string>
+									</value>
+									<value>
+										<string>Kihei Pacific Plaza</string>
+									</value>
+									<value>
+										<string>Kihei Palms</string>
+									</value>
+									<value>
+										<string>Kihei Parkshore</string>
+									</value>
+									<value>
+										<string>Kihei Resort</string>
+									</value>
+									<value>
+										<string>Kihei Sands</string>
+									</value>
+									<value>
+										<string>Kihei Shores</string>
+									</value>
+									<value>
+										<string>Kihei Surfside</string>
+									</value>
+									<value>
+										<string>Kihei View Apts</string>
+									</value>
+									<value>
+										<string>Kihei Villa</string>
+									</value>
+									<value>
+										<string>Kihei Villages I</string>
+									</value>
+									<value>
+										<string>Kihei Villages II</string>
+									</value>
+									<value>
+										<string>Kihei Villages III</string>
+									</value>
+									<value>
+										<string>Kihei Villages IV</string>
+									</value>
+									<value>
+										<string>Kihei Villages V</string>
+									</value>
+									<value>
+										<string>Kihei Villages VI</string>
+									</value>
+									<value>
+										<string>Kipa Village</string>
+									</value>
+									<value>
+										<string>Koa Kai</string>
+									</value>
+									<value>
+										<string>Koa Lagoon</string>
+									</value>
+									<value>
+										<string>Koa Resort</string>
+									</value>
+									<value>
+										<string>Kuau Plaza</string>
+									</value>
+									<value>
+										<string>Kulakane</string>
+									</value>
+									<value>
+										<string>Kulaview</string>
+									</value>
+									<value>
+										<string>Kuleana I</string>
+									</value>
+									<value>
+										<string>Kuleana II</string>
+									</value>
+									<value>
+										<string>Lahaina Residential</string>
+									</value>
+									<value>
+										<string>Lahaina Roads</string>
+									</value>
+									<value>
+										<string>Lahaina Shores</string>
+									</value>
+									<value>
+										<string>Lanai City Apartments</string>
+									</value>
+									<value>
+										<string>Lanakila</string>
+									</value>
+									<value>
+										<string>Laulea</string>
+									</value>
+									<value>
+										<string>Laulima Lane</string>
+									</value>
+									<value>
+										<string>Lauloa</string>
+									</value>
+									<value>
+										<string>Leilani Kai</string>
+									</value>
+									<value>
+										<string>Leinaala</string>
+									</value>
+									<value>
+										<string>Leinani Apts</string>
+									</value>
+									<value>
+										<string>Lokahi</string>
+									</value>
+									<value>
+										<string>Loke Hale</string>
+									</value>
+									<value>
+										<string>Lokelani</string>
+									</value>
+									<value>
+										<string>Luana Kai</string>
+									</value>
+									<value>
+										<string>Maalaea Banyans</string>
+									</value>
+									<value>
+										<string>Maalaea Kai</string>
+									</value>
+									<value>
+										<string>Maalaea Mermaid</string>
+									</value>
+									<value>
+										<string>Maalaea Surf</string>
+									</value>
+									<value>
+										<string>Maalaea Yacht Marina</string>
+									</value>
+									<value>
+										<string>Mahana</string>
+									</value>
+									<value>
+										<string>Mahina Surf</string>
+									</value>
+									<value>
+										<string>Mahinahina Beach</string>
+									</value>
+									<value>
+										<string>Makani A Kai</string>
+									</value>
+									<value>
+										<string>Makani Sands</string>
+									</value>
+									<value>
+										<string>Makena Place</string>
+									</value>
+									<value>
+										<string>Makena Sunset</string>
+									</value>
+									<value>
+										<string>Makena Surf</string>
+									</value>
+									<value>
+										<string>Mana Kai</string>
+									</value>
+									<value>
+										<string>Masters</string>
+									</value>
+									<value>
+										<string>Maui Banyan</string>
+									</value>
+									<value>
+										<string>Maui Beach Club</string>
+									</value>
+									<value>
+										<string>Maui Beachfront Resort</string>
+									</value>
+									<value>
+										<string>Maui Eldorado I</string>
+									</value>
+									<value>
+										<string>Maui Eldorado II</string>
+									</value>
+									<value>
+										<string>Maui Gardens</string>
+									</value>
+									<value>
+										<string>Maui Hill</string>
+									</value>
+									<value>
+										<string>Maui Isana Resort</string>
+									</value>
+									<value>
+										<string>Maui Kaanapali Villas</string>
+									</value>
+									<value>
+										<string>Maui Kai</string>
+									</value>
+									<value>
+										<string>Maui Kamaole</string>
+									</value>
+									<value>
+										<string>Maui Lani Terraces</string>
+									</value>
+									<value>
+										<string>Maui Ocean Club, Lahaina Tower</string>
+									</value>
+									<value>
+										<string>Maui Parkshore</string>
+									</value>
+									<value>
+										<string>Maui Realty Suites</string>
+									</value>
+									<value>
+										<string>Maui Sands I</string>
+									</value>
+									<value>
+										<string>Maui Sands II</string>
+									</value>
+									<value>
+										<string>Maui Sunset</string>
+									</value>
+									<value>
+										<string>Maui View Villas</string>
+									</value>
+									<value>
+										<string>Maui Vista</string>
+									</value>
+									<value>
+										<string>Mauian Hotel</string>
+									</value>
+									<value>
+										<string>Menehune Shores</string>
+									</value>
+									<value>
+										<string>Milowai</string>
+									</value>
+									<value>
+										<string>Miranda</string>
+									</value>
+									<value>
+										<string>Molokai Beach Cottages</string>
+									</value>
+									<value>
+										<string>Molokai Shores</string>
+									</value>
+									<value>
+										<string>Montage Residences Kapalua Bay</string>
+									</value>
+									<value>
+										<string>Mount Thomas</string>
+									</value>
+									<value>
+										<string>Na Hale O Makena</string>
+									</value>
+									<value>
+										<string>Na Holokai</string>
+									</value>
+									<value>
+										<string>Nani Kai Hale</string>
+									</value>
+									<value>
+										<string>Napili Bay</string>
+									</value>
+									<value>
+										<string>Napili Gardens</string>
+									</value>
+									<value>
+										<string>Napili Lani</string>
+									</value>
+									<value>
+										<string>Napili Point I</string>
+									</value>
+									<value>
+										<string>Napili Point II</string>
+									</value>
+									<value>
+										<string>Napili Puamala</string>
+									</value>
+									<value>
+										<string>Napili Ridge</string>
+									</value>
+									<value>
+										<string>Napili Shores</string>
+									</value>
+									<value>
+										<string>Napili Sunset</string>
+									</value>
+									<value>
+										<string>Napili Surf</string>
+									</value>
+									<value>
+										<string>Napili Village</string>
+									</value>
+									<value>
+										<string>Napili Villas</string>
+									</value>
+									<value>
+										<string>Napilihau Villages I</string>
+									</value>
+									<value>
+										<string>Noelani</string>
+									</value>
+									<value>
+										<string>Nohonani</string>
+									</value>
+									<value>
+										<string>One Konou Place</string>
+									</value>
+									<value>
+										<string>One Napili Way</string>
+									</value>
+									<value>
+										<string>Opukea at Lahaina</string>
+									</value>
+									<value>
+										<string>Pacific Shores</string>
+									</value>
+									<value>
+										<string>Paki Maui I II</string>
+									</value>
+									<value>
+										<string>Paki Maui III</string>
+									</value>
+									<value>
+										<string>Palms at Manele I</string>
+									</value>
+									<value>
+										<string>Palms at Wailea I</string>
+									</value>
+									<value>
+										<string>Paniolo Country Estates</string>
+									</value>
+									<value>
+										<string>Paniolo Hale</string>
+									</value>
+									<value>
+										<string>Papakea Resort I II</string>
+									</value>
+									<value>
+										<string>Papali Wailea</string>
+									</value>
+									<value>
+										<string>Parkview Square</string>
+									</value>
+									<value>
+										<string>Pikake</string>
+									</value>
+									<value>
+										<string>Pines at Koele</string>
+									</value>
+									<value>
+										<string>Pires Place</string>
+									</value>
+									<value>
+										<string>Pohailani Maui</string>
+									</value>
+									<value>
+										<string>Poinciana Place</string>
+									</value>
+									<value>
+										<string>Polo Beach Club</string>
+									</value>
+									<value>
+										<string>Polynesian Shores</string>
+									</value>
+									<value>
+										<string>Puamana</string>
+									</value>
+									<value>
+										<string>Puna II</string>
+									</value>
+									<value>
+										<string>Puna Point I</string>
+									</value>
+									<value>
+										<string>Punahoa Beach Apts</string>
+									</value>
+									<value>
+										<string>Puunoa Beach Estates</string>
+									</value>
+									<value>
+										<string>Puuone Gardens</string>
+									</value>
+									<value>
+										<string>Puuone Hale Alii</string>
+									</value>
+									<value>
+										<string>Puuone Terrace</string>
+									</value>
+									<value>
+										<string>Puuone Towers and Plaza</string>
+									</value>
+									<value>
+										<string>Royal Kahana</string>
+									</value>
+									<value>
+										<string>Royal Maui Kai</string>
+									</value>
+									<value>
+										<string>Royal Mauian</string>
+									</value>
+									<value>
+										<string>Royal Menehune</string>
+									</value>
+									<value>
+										<string>Sands of Kahana</string>
+									</value>
+									<value>
+										<string>Shores of Maui</string>
+									</value>
+									<value>
+										<string>Southpointe at Waiakoa</string>
+									</value>
+									<value>
+										<string>Spinnaker</string>
+									</value>
+									<value>
+										<string>Sugar Beach Resort</string>
+									</value>
+									<value>
+										<string>Sugar Cove</string>
+									</value>
+									<value>
+										<string>Terraces Manele Bay I</string>
+									</value>
+									<value>
+										<string>Terraces Manele Bay II</string>
+									</value>
+									<value>
+										<string>Terraces Manele Bay III</string>
+									</value>
+									<value>
+										<string>Terraces Manele Bay IV</string>
+									</value>
+									<value>
+										<string>Terraces Manele Bay V</string>
+									</value>
+									<value>
+										<string>The Breakers</string>
+									</value>
+									<value>
+										<string>The Ritz Hotel Suites</string>
+									</value>
+									<value>
+										<string>The Suites at Wailea</string>
+									</value>
+									<value>
+										<string>Uluniu Townhouse</string>
+									</value>
+									<value>
+										<string>US Duplex</string>
+									</value>
+									<value>
+										<string>Valley Isle Resort</string>
+									</value>
+									<value>
+										<string>Villas at Kahana Ridge</string>
+									</value>
+									<value>
+										<string>Villas at Kehalani</string>
+									</value>
+									<value>
+										<string>Villas at Kenolio I</string>
+									</value>
+									<value>
+										<string>Villas at Kenolio II</string>
+									</value>
+									<value>
+										<string>Villas at Koele I</string>
+									</value>
+									<value>
+										<string>Villas at Koele II</string>
+									</value>
+									<value>
+										<string>Vintage at Kaanapali</string>
+									</value>
+									<value>
+										<string>Wailana Kai</string>
+									</value>
+									<value>
+										<string>Wailana Sands</string>
+									</value>
+									<value>
+										<string>Wailea Beach Villas</string>
+									</value>
+									<value>
+										<string>Wailea Ekahi I</string>
+									</value>
+									<value>
+										<string>Wailea Ekahi II</string>
+									</value>
+									<value>
+										<string>Wailea Ekahi III</string>
+									</value>
+									<value>
+										<string>Wailea Ekolu</string>
+									</value>
+									<value>
+										<string>Wailea Elua I A</string>
+									</value>
+									<value>
+										<string>Wailea Elua I B</string>
+									</value>
+									<value>
+										<string>Wailea Elua II</string>
+									</value>
+									<value>
+										<string>Wailea Fairway Villas</string>
+									</value>
+									<value>
+										<string>Wailea Palms</string>
+									</value>
+									<value>
+										<string>Wailea Point I II III</string>
+									</value>
+									<value>
+										<string>Wailea Town Center</string>
+									</value>
+									<value>
+										<string>Wailuku Manor</string>
+									</value>
+									<value>
+										<string>Wailuku Townhouses</string>
+									</value>
+									<value>
+										<string>Waiohuli Beach Duplex</string>
+									</value>
+									<value>
+										<string>Waiohuli Beach Hale</string>
+									</value>
+									<value>
+										<string>Waipuilani</string>
+									</value>
+									<value>
+										<string>Walaka Apartments</string>
+									</value>
+									<value>
+										<string>Walaka Maui</string>
+									</value>
+									<value>
+										<string>Wavecrest</string>
+									</value>
+									<value>
+										<string>Wells St Prof Center</string>
+									</value>
+									<value>
+										<string>West Maui Trades</string>
+									</value>
+									<value>
+										<string>West Molokai Resort</string>
+									</value>
+									<value>
+										<string>Whaler I</string>
+									</value>
+									<value>
+										<string>Whaler II</string>
+									</value>
+									<value>
+										<string>White Sea Terrace</string>
+									</value>
+									<value>
+										<string>_Residential House</string>
+									</value>
+									<value>
+										<string>_Vacant Land</string>
+									</value>
+								</data>
+							</array>
+						</value>
+					</data>
+				</array>
+			</value>
+		</param>
+	</params>
+</methodResponse>
