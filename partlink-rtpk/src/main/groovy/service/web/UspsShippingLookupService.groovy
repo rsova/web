@@ -11,6 +11,7 @@ class UspsShippingLookupService {
 		this.xmlTemplate = xmlTemplate.replace('{0}', user);
 	}
 	
+	// Call to the usps web service to provide estimate for package shipping between 2 zipcodes 
 	public Map lookupPackageServiceStandard(String zipFrom, String zipTo){
 		def params = [API:'StandardB', XML:java.net.URLEncoder.encode(xmlTemplate.replace('{1}', zipFrom).replace('{2}', zipTo))]
 		def xml = new URL(base + params.collect{ k,v -> "$k=$v" }.join('&')).text
@@ -20,7 +21,7 @@ class UspsShippingLookupService {
 			if(matcher.find()){
 				map.put('DaysToShip', matcher?.getAt(0)?.getAt(1)?.toInteger())
 			}
-		} catch (Exception e) {}
+		} catch (Exception e) {/*swallow*/}
 		
 		matcher = xml =~ ~/<Message>(.+)<\/Message>/
 		if(matcher.find()){

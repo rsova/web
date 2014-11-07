@@ -7,7 +7,7 @@ Server
 bugs --01496200 - null days to deliver from neitherlands
 --Remove duplicate suppliers
 --Add Mongo call to get assemblages
-Deploy to cloud !!!!!!
+--Deploy to cloud !!!!!!
 Test
 Clean up and document
 Add pricing for international shipping ?

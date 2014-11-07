@@ -25,6 +25,7 @@ Ext.application({
             fullscreen: true,
             store: treeStore,
             title: "Partlink Worksheet",
+            loadingText: 'Loading <b>Partlink</b> data...',
             useTitleAsBackText: false,
             backText: 'Back',
             listeners: {

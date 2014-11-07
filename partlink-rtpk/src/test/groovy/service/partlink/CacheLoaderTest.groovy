@@ -16,11 +16,11 @@ public class CacheLoaderTest {
 	@Test
 	public void test() {
 		def list = []
-		def dir = new File("src/ratpack/cache")
+		def dir = new File("src/test/groovy/cache")
 		dir.eachFileRecurse (FileType.FILES) { file -> list << file }
 		list.each {println it.path}
 
-		def json = new File("src/ratpack/cache/4.json").text
+		def json = new File("src/test/groovy/cache/4.json").text
 		def prods = []
 		prods= new Gson().fromJson(json, prods.getClass());
 		CacheManager.getInstance().addCache('test')

@@ -19,23 +19,23 @@ import utils.*
 
 
 class PartlinkSwtService {
-
-	@Inject
-	WebLookupService webService
-	@Inject
-	UspsShippingLookupService uspsService
-
 	static final String USA = "UNITED STATES"
 	static final String SPECIAL_ORDER = "Special Order Part"
 	
 	private String serviceUri
 	private Query query
-	//private Cache plCache 
+
+	@Inject
+	WebLookupService webService
+	
+	@Inject
+	UspsShippingLookupService uspsService
 
 	public PartlinkSwtService(String serviceUri){
 		this.serviceUri = serviceUri
 	}
 	
+	//Method uses Parameterized query to set all the variable parameters
 	protected List execute(String sparql, Map params = null) {		
 		if(params){
 			ParameterizedSparqlString queryStr = new ParameterizedSparqlString(sparql);
@@ -53,8 +53,6 @@ class PartlinkSwtService {
 		x.setTimeout(30000)//30 sec
 		ResultSet results = x.execSelect()
 		def vars = results.getResultVars()
-		//ByteArrayOutputStream out = new ByteArrayOutputStream();
-		//ResultSetFormatter.outputAsJSON(out,results)
 		def all = []		
 		while (results.hasNext()) {
 		    QuerySolution row = results.next();
@@ -66,6 +64,7 @@ class PartlinkSwtService {
 		return all		
 	}
 
+	//Initialize query and set name spaces
 	private Query initQuery() {
 		Query query = QueryFactory.create()
 		query.limit = 50
@@ -83,6 +82,8 @@ class PartlinkSwtService {
 		return query
 	}
 
+	//Working horse of the app method. Runs sequence of sparql and ws calls to put together
+	//information for part suppliers 
 	public Map lookupSupplierByNiin(String niin){
 		def start = new Date()
 					
@@ -125,19 +126,21 @@ class PartlinkSwtService {
 		return lineItem
 	}
 	
+	// Looks up suppliers and generates additional advice for shipping.
+	// Generates the web client app feed 
 	public Map lookupSupplierByNiin(String niin, String zip, boolean clientFeed){
 		 Map lineItem = lookupSupplierByNiin(niin)
 		 lineItem = generateShippingEstimate(lineItem, zip)
 		 return  (clientFeed)?generateClientFeed(lineItem,zip):lineItem
 	}
 	
-
+	// Modifies and decorates data for web application. 
 	protected Map generateClientFeed(Map product, String zip){
 		String itemTemplate = "$product.prodName<br><b>\$$product.price</b>, <i>Niin:$product.NIIN</i>, <font size='3' color='grey'>$product.estimate to $zip</font>"
 		def supps = []
 		for (Map sup in product.suppliers) {
 			def msg = (sup.DaysToShip)?"Allow $sup.DaysToShip days for delivery":"Standard Shipping N/A"
-			String supTemplate = "$sup.name, <font size='3' color='blue'><i>$msg</i></font>"
+			String supTemplate = "$sup.name, <font size='3' color='blue'><br><i>$msg</i></font>"
 			sup.remove('name')
 			Map leafs = generateLeafs(sup)
 			def item = ['text':supTemplate]
@@ -146,7 +149,8 @@ class PartlinkSwtService {
 		}
 		return ['text':itemTemplate,'items':supps]
 	}
-		
+	
+	// Handles lower level records	
 	protected Map generateLeafs(Map pairs){
 		def leafs = []
 		for (pair in pairs) {
@@ -155,6 +159,7 @@ class PartlinkSwtService {
 		return [items:leafs]
 	}
 	
+	// Utilizes usps web service to provide shipping estimates
 	protected Map generateShippingEstimate(Map lineItem, String zip){
 
 		def sups =  lineItem.'suppliers'

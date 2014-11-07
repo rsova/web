@@ -68,9 +68,7 @@ cageCode: "FAE78"
 					}
 				}
 			}
-//			ranges.add("Usps standard:" + (range.size()==1)?range.getAt(0):range.min()<<'-'<<range.max())
 		}
- 	//map.each 
 	println new GsonBuilder().setPrettyPrinting().create().toJson(map)
 	}
 	

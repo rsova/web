@@ -1,6 +1,7 @@
 package utils
 
 class StringUtil {
+	//Little helper method to make text more human readable
 	static String splitCamelCase(String s) {
 		return s.replaceAll(
 		   String.format("%s|%s|%s",

@@ -17,10 +17,11 @@ import com.google.inject.AbstractModule
 import com.mongodb.BasicDBObject
 import com.mongodb.DB
 import com.mongodb.MongoClient
-
+import org.apache.log4j.BasicConfigurator
 import service.partlink.PartlinkSwtService
 
 class AppModule extends AbstractModule {
+	static final String WORKLOAD_CACHE = 'workload'	
 	private static ConfigObject config;
 
 	public AppModule(File cfg){
@@ -29,7 +30,8 @@ class AppModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-
+		BasicConfigurator.configure();
+		
 		MongoClient client = new MongoClient(config.mongo.host as String, config.mongo.port)
 		DB db = client.getDB(config.mongo.db)
 		db.authenticate(config.mongo.user, config.mongo.pass as char[])
@@ -45,13 +47,6 @@ class AppModule extends AbstractModule {
 
 		bind(DefaultPGroup).toInstance(new DefaultPGroup(new ResizeablePool(true)))
 
-//		CacheManager.getInstance().addCache('plCache')
-//		def prods = []
-//		prods = new Gson().fromJson(new File("src/ratpack/cache/4.json").text, prods.getClass());
-//		for(prod in prods){
-//			def elm = new Element(prod.items.niin, prod)
-//			elm.timeToLive = 60*60*48 //48 hours
-//			CacheManager.getInstance()?.getCache('plCache').put(elm)
-//		}
+		CacheManager.getInstance().addCache(WORKLOAD_CACHE)
 	}
 }

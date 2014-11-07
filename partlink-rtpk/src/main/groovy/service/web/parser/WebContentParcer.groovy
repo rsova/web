@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 
 class WebContentParser {
 
+	// Uses WebFlis web site to get cage codes information from other authoritative source.
 	public Collection parse(String page){
 		Document doc = Jsoup.parse(page)
 		Elements rows = doc.select("table#Datagrid17").select("tr");
