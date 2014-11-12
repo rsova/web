@@ -37,8 +37,10 @@ Project layout
                    |
                    +- // tests in here!
 
-That's it! You can start the basic app with
+If you have groovy installed allready, start the app with from the root directory.
 
     ./gradlew run
+    
+install groovy: http://groovy.codehaus.org/Installing+Groovy    
 
 
