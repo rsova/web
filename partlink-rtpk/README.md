@@ -1,5 +1,7 @@
-Partlink Application. 
-Easily finds suppliers for individual items and advices estimated shipping time.
+Partlink Application.
+-----------------------------
+
+<i>Easily finds suppliers for individual items and advices estimated shipping time.</i>
 -----------------------------
 
 * Find suppliers for individual part using NIIN.
