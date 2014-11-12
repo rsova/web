@@ -24,12 +24,8 @@ class AppServiceHandler implements Handler {
 	@Inject
 	DefaultPGroup pooledParallelGroup
 	
-//	@Inject
-//	WebLookupService webLookupService
 	@Inject
 	PartlinkSwtService service
-//	@Inject
-//	UspsShippingLookupService uspsService
 
 	@Override
 	void handle(Context context) {

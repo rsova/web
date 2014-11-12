@@ -9,7 +9,9 @@ bugs --01496200 - null days to deliver from neitherlands
 --Add Mongo call to get assemblages
 --Deploy to cloud !!!!!!
 Test
-Clean up and document
+Replace print out with Logging
+Order items by name
+--Clean up and document
 Add pricing for international shipping ?
 
 Client

@@ -10,11 +10,11 @@ WHERE{
 	?prod rdfs:label ?prodName.
 	?logNiin log:hasProductNIIN ?niinIri. 
 	OPTIONAL {?logNiin rdfs:label ?NIIN}.
-    OPTIONAL {?logNiin log:hasUnitPrice ?varPrice}.
-    BIND ( COALESCE(?varPrice, "N/A") As ?price)
-
-    OPTIONAL {?logNiin log:assignmentDate ?assignmentDate}.
-    OPTIONAL {?logNiin log:hasReferenceNumber ?refNum}  
+	OPTIONAL {?logNiin log:hasUnitPrice ?varPrice}.
+	BIND ( COALESCE(?varPrice, "N/A") As ?price)
+	
+	OPTIONAL {?logNiin log:assignmentDate ?assignmentDate}.
+	OPTIONAL {?logNiin log:hasReferenceNumber ?refNum}  
 }'''	
 
 def public static final String GAGE_DETAILS_BY_REF = '''

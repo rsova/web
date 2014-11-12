@@ -1,20 +1,19 @@
 package db
+import groovy.xml.*
+
+import javax.inject.Inject
+
+import org.json.JSONObject
+
+import ratpack.handling.Context
+import ratpack.handling.Handler
+
 import com.mongodb.BasicDBObject
 import com.mongodb.DB
 import com.mongodb.DBCursor
 import com.mongodb.DBObject
-import org.json.JSONObject
-import org.json.XML
-import ratpack.file.MimeTypes
-import ratpack.handling.Context
-import ratpack.handling.Handler
-import ratpack.http.Response
+import com.mongodb.WriteResult
 import com.mongodb.util.JSON
-import groovy.xml.*
-import ratpack.path.PathBinders;
-
-
-import javax.inject.Inject
 class MongoServiceHandler implements Handler {
 
 	@Inject
@@ -33,7 +32,7 @@ class MongoServiceHandler implements Handler {
 	public DBObject findOne(){
 		return db.getCollection(this.collection).findOne()
 	}
-
+	
 	def findOneByName(String token){
 		BasicDBObject whereQuery = new BasicDBObject();
 		whereQuery.put('name', token);

@@ -1,27 +1,21 @@
 package service.partlink
 
-import javax.inject.Inject;
-
-import groovyx.gpars.GParsPool;
-
-import com.google.gson.GsonBuilder
-import com.hp.hpl.jena.query.*
-import com.hp.hpl.jena.rdf.model.*
-
 import groovy.time.*
-import net.sf.ehcache.Element
-import net.sf.ehcache.management.Cache
-import net.sf.ehcache.CacheManager
+
+import javax.inject.Inject
 import service.partlink.sparql.Sparql
 import service.web.UspsShippingLookupService
-import service.web.WebLookupService;
+import service.web.WebLookupService
 import utils.*
 
+import com.hp.hpl.jena.query.*
+import com.hp.hpl.jena.rdf.model.*
+import groovy.util.logging.Slf4j
 
+@Slf4j
 class PartlinkSwtService {
 	static final String USA = "UNITED STATES"
-	static final String SPECIAL_ORDER = "Special Order Part"
-	
+	static final String SPECIAL_ORDER = "Special Order Part"	
 	private String serviceUri
 	private Query query
 
@@ -35,6 +29,24 @@ class PartlinkSwtService {
 		this.serviceUri = serviceUri
 	}
 	
+	//Initialize query and set name spaces
+	private Query initQuery() {
+		Query query = QueryFactory.create()
+		query.limit = 50
+		query.prefixMap.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
+		query.prefixMap.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+		query.prefixMap.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#")
+		query.prefixMap.setNsPrefix("text", "http://jena.apache.org/text#")
+		query.prefixMap.setNsPrefix("swiss", "http://xsb.com/swiss#")
+		query.prefixMap.setNsPrefix("mat", "http://xsb.com/swiss/material#")
+		query.prefixMap.setNsPrefix("log", "http://xsb.com/swiss/logistics#")
+		query.prefixMap.setNsPrefix("prod", "http://xsb.com/swiss/product#")
+		query.prefixMap.setNsPrefix("vcard", "http://www.w3.org/2006/vcard/ns#")
+		query.prefixMap.setNsPrefix("type", "http://xsb.com/swiss/types#")
+		query.prefixMap.setNsPrefix("proc", "http//xsb.com/swiiss/process#")
+		return query
+	}
+
 	//Method uses Parameterized query to set all the variable parameters
 	protected List execute(String sparql, Map params = null) {		
 		if(params){
@@ -43,7 +55,7 @@ class PartlinkSwtService {
 			params?.uri?.each{ key, val -> queryStr.setIri(key,val)}
 			sparql = queryStr.toString()
 			params?.filter?.each{ key, val -> sparql= sparql.replace(key,val)}
-			println sparql
+			log.info( sparql)
 		}
 		
 		//Query object with aggregation can't be re-used, build it every time
@@ -64,28 +76,9 @@ class PartlinkSwtService {
 		return all		
 	}
 
-	//Initialize query and set name spaces
-	private Query initQuery() {
-		Query query = QueryFactory.create()
-		query.limit = 50
-		query.prefixMap.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
-		query.prefixMap.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-		query.prefixMap.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#")
-		query.prefixMap.setNsPrefix("text", "http://jena.apache.org/text#")
-		query.prefixMap.setNsPrefix("swiss", "http://xsb.com/swiss#")
-		query.prefixMap.setNsPrefix("mat", "http://xsb.com/swiss/material#")
-		query.prefixMap.setNsPrefix("log", "http://xsb.com/swiss/logistics#")
-		query.prefixMap.setNsPrefix("prod", "http://xsb.com/swiss/product#")
-		query.prefixMap.setNsPrefix("vcard", "http://www.w3.org/2006/vcard/ns#")
-		query.prefixMap.setNsPrefix("type", "http://xsb.com/swiss/types#")
-		query.prefixMap.setNsPrefix("proc", "http//xsb.com/swiiss/process#")
-		return query
-	}
-
 	//Working horse of the app method. Runs sequence of sparql and ws calls to put together
 	//information for part suppliers 
 	public Map lookupSupplierByNiin(String niin){
-		def start = new Date()
 					
 		def product = execute(Sparql.NIIC_TO_CAGE_REF,['var':['id':niin]])
 		def suppliers = []
@@ -121,8 +114,6 @@ class PartlinkSwtService {
 			lineItem.putAll(['suppliers': suppliers]) 
 		}
 		
-		use (TimeCategory) {println "time to query : " + (new Date() - start) }//profile end
-
 		return lineItem
 	}
 	

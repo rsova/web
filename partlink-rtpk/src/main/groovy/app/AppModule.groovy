@@ -20,6 +20,7 @@ import com.mongodb.MongoClient
 import org.apache.log4j.BasicConfigurator
 import service.partlink.PartlinkSwtService
 
+
 class AppModule extends AbstractModule {
 	static final String WORKLOAD_CACHE = 'workload'	
 	private static ConfigObject config;
