@@ -1,19 +1,16 @@
-Ratpack project template
+Partlink Application. 
+Easily finds suppliers for individual items and advices estimated shipping time.
 -----------------------------
 
-You have just created a basic Groovy Ratpack application. It doesn't do much
-at this point, but we have set you up with a standard project structure, a
-simple home page, and Spock for writing tests (because you'd be mad not to
-use it).
+* Find suppliers for individual part using NIIN.
+* Find suppliers for list of parts presented as an Assemblage, with idividual shipping advice to zip code.
+* JSON response to Webservice, with data organized in comprehensive tree structure.  
+* Desctop and Mobile client as an example of tracking specific Assemblages. Webkit browsers supported (Chrome, Safari, IE-10)
+* Use of the Partlink tripple store. Extended search to other logistic authorities such as WebFLIS to find NIIN to Cage Code relationship.
+* Batch parrallel processing of individual NIINs, group takes as long as single request.
 
-In this project you get:
-
-* A Gradle build file with pre-built Gradle wrapper
-* A tiny home page at src/ratpack/templates/index.html (it's a template)
-* A routing file at src/ratpack/ratpack.groovy
-* Reloading enabled in build.gradle
-* A standard project structure:
-
+Project layout
+----------------------------
     <proj>
       |
       +- src
@@ -24,10 +21,7 @@ In this project you get:
           |     +- ratpack.properties
           |     +- public          // Static assets in here
           |          |
-          |          +- images
-          |          +- lib
-          |          +- scripts
-          |          +- styles
+          |          +- app  // sencha touch application files
           |
           +- main
           |   |
@@ -39,10 +33,10 @@ In this project you get:
               |
               +- groovy
                    |
-                   +- // Spock tests in here!
+                   +- // tests in here!
 
 That's it! You can start the basic app with
 
     ./gradlew run
 
-but it's up to you to add the bells, whistles, and meat of the application.
+
