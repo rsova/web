@@ -1,7 +1,10 @@
-Partlink Application.
+# Partlink Application
+
+
 -----------------------------
 
-<i>Easily finds suppliers for individual items and advices estimated shipping time.</i>
+#### Find suppliers for part using NIIN.
+#### Estimate delivery to customer destination using USPS web service.
 -----------------------------
 
 * Find suppliers for individual part using NIIN.
