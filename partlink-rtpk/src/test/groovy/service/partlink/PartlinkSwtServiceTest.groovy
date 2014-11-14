@@ -104,7 +104,7 @@ class PartlinkSwtServiceTest {
 
 	}
 
-	@Test
+	//@Test
 	void test6() {
 		GParsExecutorsPool.withPool {
 			Collection<Future> result = [1, 2, 3, 4, 5].collectParallel{it * 10}

@@ -62,7 +62,7 @@ class PartlinkSwtService {
 		Query query = initQuery()
 		QueryFactory.parse(query, sparql , null, Syntax.syntaxSPARQL)
 		QueryExecution x = QueryExecutionFactory.sparqlService(serviceUri,query)
-		x.setTimeout(30000)//30 sec
+		x.setTimeout(15000)//15 sec
 		ResultSet results = x.execSelect()
 		def vars = results.getResultVars()
 		def all = []		
@@ -82,10 +82,17 @@ class PartlinkSwtService {
 					
 		def product = execute(Sparql.NIIC_TO_CAGE_REF,['var':['id':niin]])
 		def suppliers = []
-		//Try to get suppliers from PartLink - works most of the time
+		//Try to get suppliers from PartLink, sometimes can't match niin to cage codes.
 		if(product.'refNum'){
-			product.'refNum'.each{ refNum ->
-				def supp = execute(Sparql.GAGE_DETAILS_BY_REF ,['uri':['iri':refNum]])//expected single row	
+			
+			for (refNum in product.'refNum') {
+				def supp
+				try {
+				   supp = execute(Sparql.GAGE_DETAILS_BY_REF ,['uri':['iri':refNum]])//expected single row	
+				} catch (Exception e) {
+					e.printStackTrace()
+					continue
+				}
 				if(!supp.isEmpty()){
 					def supplier = supp?.first()
 					//exclude cage code dups on different ref numberes
@@ -96,14 +103,24 @@ class PartlinkSwtService {
 			}				
 		}
 		
-		//The join on suppliers is a miss, use web to get cage codes
+		//The join on suppliers is a miss, use WebFLIS to get cage codes
 		if(suppliers.isEmpty()){
-			def cages = webService.lookupByNiin(niin)
-			if(!cages.isEmpty()){
-				cages=cages*.'CAGE CD'
-				def tokens = cages.collect{ "'$it'" }.join(',')
-				def supps=execute(Sparql.GAGE_DETAILS_BY_CODE,['filter': ['$CCTOKENS':tokens]])
-				if(!supps.isEmpty){suppliers.add()}
+			def data = webService.lookupByNiin(niin)
+			if(!data.isEmpty()){
+				
+				def cages = data*.'CAGE CD'
+				cages?.removeAll([null])
+				if(!cages.isEmpty()){
+					def tokens = cages.collect{ "'$it'" }.join(',')
+					 suppliers=execute(Sparql.GAGE_DETAILS_BY_CODE,['filter': ['$CCTOKENS':tokens]])
+				}
+				
+				//Also product could be a miss
+				if(product.isEmpty()){
+					def prod = data*.'PROD'
+					prod?.removeAll([null])
+					product.add(["prodName":prod.first(), 'NIIN':niin, 'price':'N/A',"assignmentDate":'N/A' ])
+				}
 			}
 		}
 		

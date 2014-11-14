@@ -34,7 +34,7 @@ class WebLookupService {
 		               "-d $magicNbr&txtNiin=$Niin",
 		               uri].execute() 
 		def html = process.text			   
-		return parser.parse(html)?.each {it.put('niin', Niin)}	
+		return parser.parse(html)	
 	}
 
 }
