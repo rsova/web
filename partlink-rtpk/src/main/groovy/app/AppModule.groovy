@@ -41,7 +41,7 @@ class AppModule extends AbstractModule {
 
 		bind(PartlinkSwtService).toInstance(new PartlinkSwtService(config.swt.sparklEndPoint))
 
-		bind(WebLookupService).toInstance(new WebLookupService(config.web.uri, config.web.magicNbr))
+		bind(WebLookupService).toInstance(new WebLookupService(config.web.uri))
 		bind(WebContentParser).toInstance(new WebContentParser())
 
 		bind(UspsShippingLookupService).toInstance(new UspsShippingLookupService(config.usps.user,config.usps.base, config.usps.xmlTemplate ))

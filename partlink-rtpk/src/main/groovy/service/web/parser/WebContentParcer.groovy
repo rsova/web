@@ -12,7 +12,7 @@ class WebContentParser {
 	static final String ROW = "tr";
 	static final String ITEM_NAME = "lblItemName"
 	static final String TABLE_REFS = "Datagrid17"
-//	static final String TABLE_MNGMNT = "Datagrid19"
+	static final String TABLE_MNGMNT = "Datagrid19"
 	
 
 	// Uses WebFlis web site to get cage codes information from other authoritative source.
@@ -22,7 +22,7 @@ class WebContentParser {
 		String productName = doc?.getElementById(ITEM_NAME)?.text()
 		matches.add(['PROD':productName])		
 		matches.add(processTable(doc,TABLE_REFS))// cage codes
-		//matches.add(processTable(doc,TABLE_MNGMNT))//price
+		matches.add(processTable(doc,TABLE_MNGMNT))//price
 		return matches
 	}
 

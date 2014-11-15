@@ -117,9 +117,11 @@ class PartlinkSwtService {
 				
 				//Also product could be a miss
 				if(product.isEmpty()){
-					def prod = data*.'PROD'
-					prod?.removeAll([null])
-					product.add(["prodName":prod.first(), 'NIIN':niin, 'price':'N/A',"assignmentDate":'N/A' ])
+					def prodNames = data*.'PROD'
+					def prices = data*.'UI_PRICE'
+					prodNames?.removeAll([null])
+					prices?.removeAll([null])
+					product.add(["prodName":prodNames.first(), 'NIIN':niin, 'price':prices.first(),"assignmentDate":'N/A' ])
 				}
 			}
 		}
