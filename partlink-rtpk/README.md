@@ -7,12 +7,14 @@
 #### Estimate delivery to customer destination using USPS web service.
 -----------------------------
 
-* Discover Relationsips between NIINs and Suppliers.
-* Find suppliers for list of parts presented as an Assemblage, with idividual shipping advice to zip code.
-* JSON response to Webservice, with data organized in comprehensive tree structure.  
-* Desctop and Mobile client as an example of tracking specific Assemblages. Webkit browsers supported (Chrome, Safari, IE-10)
-* Use of the Partlink tripple store. Extended search to other logistic authorities such as WebFLIS to find NIIN to Cage Code relationship.
-* Batch parrallel processing of individual NIINs, group takes as long as single request.
+* Discover Relationships between NIINs and Suppliers.
+* Find suppliers for list of parts presented as an Assemblage, with individual shipping advice to zip code.
+* Response to Web Service client, with data organized in comprehensive tree structure.
+* Content Type aware responds with JSON or XML.   
+* Desktop and Mobile client application for tracking specific Assemblages. Webkit browsers supported (Chrome, Safari, IE-10)
+* Use of the PartLink triple store. 
+* Extended search to other logistic authorities such as WebFLIS to find NIIN to Cage Code relationship.
+* Batch parallel processing of individual NIINs, group takes as long as single request.
 
 Project layout
 ----------------------------
