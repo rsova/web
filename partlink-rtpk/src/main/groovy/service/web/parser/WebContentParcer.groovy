@@ -35,7 +35,7 @@ class WebContentParser {
 			cells.add(rowData*.text())
 		}
 
-		log.info(cells?.toString())
+		//log.info(cells?.toString())
 
 		if(!cells.isEmpty()){
 			def keys = cells.get(0)

@@ -1,0 +1,61 @@
+// Apply the groovy plugin to add support for Groovy
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'hl7-test-generator-boot'
+	version =  '0.1.0'
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+	mavenCentral()
+	jcenter()
+	maven{  url 'http://hl7api.sourceforge.net/m2' }
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+// In this section you declare the dependencies for your production and test code
+dependencies {
+
+	//Spring boot
+	classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
+	// tag::jetty[]
+	compile("org.springframework.boot:spring-boot-starter-web") { exclude module: "spring-boot-starter-tomcat" }
+	compile("org.springframework.boot:spring-boot-starter-jetty")
+	// end::jetty[]
+	// tag::actuator[]
+	compile("org.springframework.boot:spring-boot-starter-actuator")
+	// end::actuator[]
+
+	// We use the latest groovy 2.x version for building this library
+	//compile 'org.codehaus.groovy:groovy-all:2.3.6'
+	//Matching eclipse compiler
+	compile 'org.codehaus.groovy:groovy-all:2.3.7'
+
+	// Hapi
+	compile 'ca.uhn.hapi:hapi-base:2.2'
+	compile 'ca.uhn.hapi:hapi-structures-v24:2.2'
+
+	// We use the awesome Spock testing and specification framework
+	testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+	testCompile 'junit:junit:4.11'
+}
+
+task wrapper(type: Wrapper) { gradleVersion = '2.3' }
+
+
+//<repository>
+//<id>hapi-sf</id>
+//<name>HAPI Sourceforge Repository</name>
+//<url>http://hl7api.sourceforge.net/m2</url>
+//</repository>
+//And then adding the following to your dependencies section (add the structures versions you need). Note that the example below assumes you are using HAPI release 1.2. Adjust the version accordingly if you are using a different release.
+//
+//<!--
+// Add hapi-structures-v22, v23, etc. depending on which versions
+// of HL7 you need to create or parse
+//-->

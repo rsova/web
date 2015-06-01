@@ -1,8 +1,10 @@
 package service.partlink
 
 import groovy.time.*
+import groovy.util.logging.Slf4j
 
 import javax.inject.Inject
+
 import service.partlink.sparql.Sparql
 import service.web.UspsShippingLookupService
 import service.web.WebLookupService
@@ -10,7 +12,7 @@ import utils.*
 
 import com.hp.hpl.jena.query.*
 import com.hp.hpl.jena.rdf.model.*
-import groovy.util.logging.Slf4j
+import com.hp.hpl.jena.sparql.engine.http.QueryEngineHTTP
 
 @Slf4j
 class PartlinkSwtService {
@@ -32,7 +34,7 @@ class PartlinkSwtService {
 	//Initialize query and set name spaces
 	private Query initQuery() {
 		Query query = QueryFactory.create()
-		query.limit = 50
+		query.limit = 10
 		query.prefixMap.setNsPrefix("rdfs", "http://www.w3.org/2000/01/rdf-schema#")
 		query.prefixMap.setNsPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 		query.prefixMap.setNsPrefix("owl", "http://www.w3.org/2002/07/owl#")
@@ -44,6 +46,15 @@ class PartlinkSwtService {
 		query.prefixMap.setNsPrefix("vcard", "http://www.w3.org/2006/vcard/ns#")
 		query.prefixMap.setNsPrefix("type", "http://xsb.com/swiss/types#")
 		query.prefixMap.setNsPrefix("proc", "http//xsb.com/swiiss/process#")
+//		
+//		swiss: http://xsb.com/swiss#
+//		mat: http://xsb.com/swiss/material#
+//		log: http://xsb.com/swiss/logistics#
+//		prod: http://xsb.com/swiss/product#
+//		vcard: http://www.w3.org/2006/vcard/ns#
+//		rdfs: http://www.w3.org/2000/01/rdf-schema#
+//		type: http://xsb.com/swiss/types#
+//		proc: http//xsb.com/swiiss/process#
 		return query
 	}
 
@@ -60,12 +71,17 @@ class PartlinkSwtService {
 		
 		//Query object with aggregation can't be re-used, build it every time
 		Query query = initQuery()
+		//QueryFactory.parse(query, sparql , null, Syntax.syntaxARQ)
 		QueryFactory.parse(query, sparql , null, Syntax.syntaxSPARQL)
-		QueryExecution x = QueryExecutionFactory.sparqlService(serviceUri,query)
-		x.setTimeout(15000)//15 sec
+		//QueryExecution x = QueryExecutionFactory.sparqlService(serviceUri,query)
+		QueryEngineHTTP x = QueryExecutionFactory.sparqlService(serviceUri,query)
+		//x.setTimeout(25000)//15 sec
+		//x.setSelectContentType(null);
 		ResultSet results = x.execSelect()
 		def vars = results.getResultVars()
-		def all = []		
+		def all = []
+		//def size = results.;
+		
 		while (results.hasNext()) {
 		    QuerySolution row = results.next();
 			def rowMap = [:]
@@ -94,7 +110,8 @@ class PartlinkSwtService {
 					continue
 				}
 				if(!supp.isEmpty()){
-					def supplier = supp?.first()
+					//def supplier = supp?.first()
+					def supplier = supp?.find{true}
 					//exclude cage code dups on different ref numberes
 					if(!suppliers*.'CageCode'.contains(supplier.'CageCode')){
 						suppliers.add(supplier)
@@ -121,14 +138,16 @@ class PartlinkSwtService {
 					def prices = data*.'UI_PRICE'
 					prodNames?.removeAll([null])
 					prices?.removeAll([null])
-					product.add(["prodName":prodNames.first(), 'NIIN':niin, 'price':prices.first(),"assignmentDate":'N/A' ])
+					//product.add(["prodName":prodNames?.first(), 'NIIN':niin, 'price':prices?.first(),"assignmentDate":'N/A' ])
+					product.add(["prodName":prodNames?.find{true}, 'NIIN':niin, 'price':prices?.find{true}?:'N/A',"assignmentDate":'N/A' ])
 				}
 			}
 		}
 		
 		Map lineItem = [:]
 		if(!product.isEmpty()){
-			lineItem = product.first() //products all to the same niin, pick the first one
+			//lineItem = product.first() //products all to the same niin, pick the first one
+			lineItem = product.find{true} //products all to the same niin, pick the first one
 			lineItem.remove('refNum')
 			lineItem.putAll(['suppliers': suppliers]) 
 		}
@@ -146,18 +165,20 @@ class PartlinkSwtService {
 	
 	// Modifies and decorates data for web application. 
 	protected Map generateClientFeed(Map product, String zip){
-		String itemTemplate = "$product.prodName<br><b>\$$product.price</b>, <i>Niin:$product.NIIN</i>, <font size='3' color='grey'>$product.estimate to $zip</font>"
+		def price = product?.price?.startsWith('$')?product?.price:'$'<<product?.price
+		String itemTemplate = "<font size='3' color='brown'>$product.estimate to $zip</font><br> $product.prodName <b>$price</b>  <i>Niin:$product.NIIN</i>"
+		String idx = "$product.prodName $product.price $product.NIIN $product.estimate "
 		def supps = []
 		for (Map sup in product.suppliers) {
 			def msg = (sup.DaysToShip)?"Allow $sup.DaysToShip days for delivery":"Standard Shipping N/A"
 			String supTemplate = "$sup.name, <font size='3' color='blue'><br><i>$msg</i></font>"
 			sup.remove('name')
-			Map leafs = generateLeafs(sup)
 			def item = ['text':supTemplate]
+			Map leafs = generateLeafs(sup)
 			item.putAll(leafs)
 			supps.add(item)
 		}
-		return ['text':itemTemplate,'items':supps]
+		return ['text':itemTemplate, 'idx':idx,'items':supps]
 	}
 	
 	// Handles lower level records	
@@ -172,7 +193,7 @@ class PartlinkSwtService {
 	// Utilizes usps web service to provide shipping estimates
 	protected Map generateShippingEstimate(Map lineItem, String zip){
 
-		def sups =  lineItem.'suppliers'
+		def sups =  lineItem?.'suppliers'
 		for(Map sup in sups){
 			if( sup?.'Country'?.equals(USA)){
 				if(sup?.'Zip'){

@@ -3,7 +3,7 @@ package service.partlink.sparql
 class Sparql {
 	
 def public static final String NIIC_TO_CAGE_REF = '''
-SELECT DISTINCT ?prodName ?NIIN ?price ?assignmentDate ?refNum
+SELECT distinct  ?refNum ?prodName ?NIIN ?price ?assignmentDate
 WHERE{
 	?niinIri prod:nationalItemId ?id.
 	?niinIri rdfs:subClassOf ?prod.
@@ -18,7 +18,7 @@ WHERE{
 }'''	
 
 def public static final String GAGE_DETAILS_BY_REF = '''
-SELECT DISTINCT ?name ?Address ?Country ?Zip ?CageCode  
+SELECT DISTINCT ?name ?Address ?Country ?Zip ?CageCode ?name
 WHERE {
 	?iri log:hasCage ?cage.
 	?cage log:hasCageCode ?CageCode;   
@@ -36,7 +36,7 @@ WHERE {
 } LIMIT 1 '''
 
 def public static final String GAGE_DETAILS_BY_CODE = '''
-	SELECT DISTINCT ?Address ?Country ?Zip ?CageCode 
+	SELECT DISTINCT ?Address ?Country ?Zip ?CageCode ?name
 	WHERE{
 	?cage log:hasCageCode ?CageCode.
 	FILTER(?CageCode IN ($CCTOKENS)).
