@@ -10,13 +10,18 @@ import org.springframework.context.annotation.ComponentScan
 //@ComponentScan("hapi.adt.a01")
 //@ComponentScan({"com.teradata.notification","com.teradata.dal"})
 class Hl7TestMessageGeneratorApp {
+/*
+// Ez7Gen Ez7Maker
+// EzGen7
+// 7EzGen
+ */
 
 //TODO 
 // - Spring Boot
 // - Controller
-// Properties reader
-// XML parser
-// Message generator
+// - Properties reader
+// - XML parser
+// - Message generator
 				
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(Hl7TestMessageGeneratorApp.class, args);
