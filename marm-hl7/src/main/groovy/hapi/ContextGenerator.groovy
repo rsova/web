@@ -14,8 +14,8 @@ class ContextGenerator {
 		HapiContext context = new DefaultHapiContext();
 		Parser parser = context.getPipeParser();
 		String encodedMessage = parser.encode(hl7Msg);
-		System.out.println("Printing ER7 Encoded Message:");
-		System.out.println(encodedMessage);
+		//System.out.println("Printing ER7 Encoded Message:");
+		//System.out.println(encodedMessage);
 		return encodedMessage
 	}
 }

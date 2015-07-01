@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ez7Gen</title>
+<!-- <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootswatch/3.2.0/paper/bootstrap.min.css'>
+<link rel="stylesheet" href="css/style.css"
+ -->
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-route.js"></script>
+<script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+<script src="js/index.js"></script>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container" ng-app="app" ng-controller="main">
+	<p/>
+		<p>
+			<button type="button" class="btn btn-lg btn-success" href="#/">Generate</button>
+			<button type="button" class="btn btn-lg btn-warning">Edit</button>
+			<button type="button" class="btn btn-lg btn-primary">Validate</button>
+		</p>
+
+		<div class="text-center">
+			<p>Demo: HL7 Message Generator Client</p>
+		</div>
+
+
+		<div class="btn-group" dropdown dropdown-append-to-body>
+			<button type="button" class="btn btn-default dropdown-toggle"
+				dropdown-toggle>
+				HL7 Version <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#">2.3</a></li>
+				<li><a href="#">2.4</a></li>
+				<li><a href="#">2.5</a></li>
+			</ul>
+		</div>
+
+		<!-- Single button using append-to-body -->
+		<div class="btn-group" dropdown dropdown-append-to-body>
+			<button type="button" class="btn btn-default dropdown-toggle"
+				dropdown-toggle>
+				Message Type <span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#">ADT_01</a></li>
+				<li><a href="#">ORU_01</a></li>
+				<li><a href="#">DFT_P03</a></li>
+			</ul>
+		</div>
+
+		<h4><i>Version</i>: 2.4 <i>Message</i> : ADT_A01</h4>
+
+		<pre>{{payload.message}}</pre>
+		
+		<hr/>
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<label ng-click="isCollapsed = !isCollapsed">MSH|^~\&|MARMSendingSystem||||20150608135410.921-1000||ADT^A01^ADT_A01|16801|P|2.4|123</label>
+				</h4>
+			</div>
+			<div collapse="isCollapsed" >
+				<div class="panel-body">
+				<pre>
+MSH                            Header
+MARMSendingSystem              Sending Application
+20150608135410.921-1000        Date Time of Message
+ADT^A01^ADT_A01                Message Type
+	ADT                        Message Code
+	AO1                        Trigger Event
+	ADT_A01                    Message Structure
+16801                          Message Control ID
+P                              Processing ID
+2.4                            Version ID
+123                            Sequence Number
+				</pre>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- 	<script src='http://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js'></script>
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js'></script>
+ -->
+	<!--     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.13/angular.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+    <script src="js/index.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+ -->
+</body>
+</html>

@@ -47,7 +47,7 @@ dependencies {
 	// tag::actuator[]
 	compile("org.springframework.boot:spring-boot-starter-actuator")
 	// end::actuator[]
-
+	
 	// We use the latest groovy 2.x version for building this library
 	//compile 'org.codehaus.groovy:groovy-all:2.3.6'
 	//Matching eclipse compiler

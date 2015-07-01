@@ -1,0 +1,39 @@
+
+
+<div class="text-center">
+	<p>Demo: HL7 Message Generator Client</p>
+</div>
+
+
+<div class="btn-group" dropdown dropdown-append-to-body>
+	<button type="button" class="btn btn-default dropdown-toggle"
+		dropdown-toggle>
+		HL7 Version <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li>2.3</li>
+		<li>2.4</li>
+		<li>2.5</li>
+	</ul>
+</div>
+
+<!-- Single button using append-to-body -->
+<div class="btn-group" dropdown dropdown-append-to-body>
+	<button type="button" class="btn btn-default dropdown-toggle"
+		dropdown-toggle>
+		Message Type <span class="caret"></span>
+	</button>
+	<ul class="dropdown-menu" role="menu">
+		<li>ADT_01</li>
+		<li>ORU_01</li>
+		<li>DFT_P03</li>
+	</ul>
+</div>
+
+<h4>
+	<i>Version</i>: 2.4 <i>Message</i> : ADT_A01
+</h4>
+
+<pre>{{payload.message}}</pre>
+
+

@@ -22,11 +22,14 @@ public class AppController {
 	ContextGenerator contextGenerator
 	//AdtMessageGenerator adtMessageGenerator
 
-	@RequestMapping("/")
-	public String index() {
-		return "HL7 Test Generator is up and running";
+	@RequestMapping("/resource")
+	public Map<String,Object> home() {
+		Map<String,Object> model = new HashMap<String,Object>();
+		model.put("id", UUID.randomUUID().toString());
+		model.put("content", "Hello World");
+		return model;
 	}
-
+	
 	@RequestMapping(value="/generate/{version}/{message}")
 	@ResponseBody
 	public Map generate( @PathVariable String version, @PathVariable String message){
@@ -34,12 +37,13 @@ public class AppController {
 		String msg = ''
 		
 		try {
-			System.out.println("Generate version: " + version +" message: " + message )
+			System.err.println("Generate version: " + version +" message: " + message )
 			
 			List segmentList = new ProfileParser(version, message).coreSegments
 
 			def hl7Msg = messageFactory.generate(version, message, segmentList)
 			msg = contextGenerator.outAsEr7(hl7Msg)
+			msg = msg.replace('\r','\n' )
 
 		} catch (Exception e) {
 		    println e.message

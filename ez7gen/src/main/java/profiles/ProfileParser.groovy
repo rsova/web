@@ -9,9 +9,6 @@ class ProfileParser {
 	final static String MASK = '*'
 	final static String LBRCKT = '['
 	final static String RBRCKT = ']'
-	final static String LBRS = '{'
-	final static String RBRS = '}'
-	final static String SEGCNTRL = '~'
 	final static String BLNK = ''
 
 	String version
@@ -46,10 +43,9 @@ class ProfileParser {
 		return list
 	}
 
-	static public String removeOuterBrackets(String struct) {
+	protected removeOuterBrackets(String struct) {
 		struct = replaceFirst(struct, LBRCKT, BLNK)
 		struct = replaceLast(struct, RBRCKT, BLNK)
-		return struct
 	}
 
 	protected String removeOptionalSegments(String segments, String replacementToken ){
@@ -70,42 +66,13 @@ class ProfileParser {
 		return segments
 	}
 
-	static public String replaceFirst(String string, String substring, String replacement){
+	protected String replaceFirst(String string, String substring, String replacement){
 		int index = string.indexOf(substring);
 		return (index == -1)?string:replacement + string.substring(index+substring.length());
 	}
 	
-	static public String replaceLast(String string, String substring, String replacement){
+	protected String replaceLast(String string, String substring, String replacement){
 		int index = string.lastIndexOf(substring);
 		return (index == -1)?string: string.substring(0, index) + replacement + string.substring(index+substring.length());
-	}
-	
-	protected Map getSegments(){
-		String xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
-		def msgStructure = removeOuterBrackets(getMessageStructure(xml, messageType))
-		return processSegments(msgStructure)
-	}
-
-	private Map processSegments(String segments) {
-		def segColl = []
-		Integer idx = 0;
-
-		while(segments.contains("[")){
-
-			Matcher matcher = segments =~ /\[([^\[\]]*)\]/
-
-			StringBuffer sb = new StringBuffer();
-			while (matcher.find()) {
-				matcher.appendReplacement(sb, idx.toString());
-				idx++
-			}
-			matcher.appendTail(sb);
-			segments = sb.toString()
-			System.out.println(segments);
-
-			matcher.each{ segColl.add(it);}
-		}
-		segColl.eachWithIndex {o,i -> println i +": "+o }
-		return [profile: segments, collection: segColl]
 	}
 }
