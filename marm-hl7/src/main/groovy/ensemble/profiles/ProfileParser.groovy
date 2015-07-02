@@ -1,5 +1,7 @@
 package ensemble.profiles
 
+import groovy.util.slurpersupport.NodeChild
+
 import java.util.regex.Matcher
 
 import org.apache.commons.io.IOUtils
@@ -21,24 +23,68 @@ class ProfileParser {
 		this.version = version;
 		this.messageType = messageType;
 	}
+	
+	protected Map getSegments(){
+		String xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+		String segments = getMessageStructure(xml, messageType)
+		return processSegments(segments)
+	}
+
+	private Map processSegments(String segments) {
+		def segColl = []
+		Integer idx = 0;
+
+		while(segments.contains("[")){
+
+			Matcher matcher = segments =~ /\[([^\[\]]*)\]/
+
+			StringBuffer sb = new StringBuffer();
+			while (matcher.find()) {
+				matcher.appendReplacement(sb, idx.toString());
+				idx++
+			}
+			matcher.appendTail(sb);
+			segments = sb.toString()
+			System.out.println(segments);
+
+			matcher.each{ segColl.add(it);}
+		}
+		segColl.eachWithIndex {o,i -> println i +": "+o }
+		return [profile: segments, collection: segColl]
+	}
 
 	public List getCoreSegments(){
 		String xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
-		def msgStructure = getMessageStructure(xml, messageType)
+		String msgStructure = getMessageStructure(xml, messageType)
 		def reqSegments = getRequiredSegments(msgStructure)
 		return reqSegments
 	}
-
+		
 	protected String getMessageStructure(String xml, String message) {
 		def export = new XmlSlurper().parseText(xml)
-		// Get Message Type Attributes
-		def attributes = export.Document.Category.MessageType.findAll { it.@name == message}.collect { div -> return [name:div.@name.text(),structure: div.@structure.text(), returntype: div.@returntype.text()]}
-		//Get Message Structure Profile by Message Structure Name
-		def struct = attributes.get(0).structure
-		def segments = export.Document.Category.MessageStructure.findAll { it.@name == struct}.collect { div -> return div.@definition}
-		return segments
+		String strtructAttribute = export.Document.Category.MessageType.find{ it.@name == message}.@structure.text()
+		def structure = export.Document.Category.MessageStructure.find{ it.@name == strtructAttribute}.@definition.text()
+		return structure
+	}
+		
+		//R = Required; N = Not required; C = Conditionally Required/Recommended.
+	protected List getSegmentStructure(String xml, String segment) {
+		def export = new XmlSlurper().parseText(xml)
+		NodeChild node = export.Document.Category.SegmentStructure.find{ it.@name == segment}
+		//Collect all attributes
+		//List pieces = node.SegmentSubStructure.collect{ return[datatype:it.@datatype, required: it.@required, ifrepeating:it.@ifrepeating, codetable:it.@codetable] }
+		List pieces = node.SegmentSubStructure.collect{ return it.attributes() }
+		pieces.each{println it}
+		return pieces
 	}
 
+	protected List getCodeTable(String xml, String tableName) {
+		def export = new XmlSlurper().parseText(xml)
+		List values = export.Document.Category.CodeTable.find { it.@name == tableName}.Enumerate.collect{return it.attributes() }
+		values.each{println it}
+		return values
+	}
+	
 	protected List getRequiredSegments(String struct){
 		String requiredSegments = removeOptionalSegments(struct, MASK)
 		List list = requiredSegments.split('~')
@@ -53,7 +99,7 @@ class ProfileParser {
 	}
 
 	protected String removeOptionalSegments(String segments, String replacementToken ){
-		segments = removeOuterBrackets(segments)
+		//segments = removeOuterBrackets(segments)
 
 		//Remove all optional segments
 		while (segments.contains(LBRCKT)){
@@ -80,32 +126,4 @@ class ProfileParser {
 		return (index == -1)?string: string.substring(0, index) + replacement + string.substring(index+substring.length());
 	}
 	
-	protected Map getSegments(){
-		String xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
-		def msgStructure = removeOuterBrackets(getMessageStructure(xml, messageType))
-		return processSegments(msgStructure)
-	}
-
-	private Map processSegments(String segments) {
-		def segColl = []
-		Integer idx = 0;
-
-		while(segments.contains("[")){
-
-			Matcher matcher = segments =~ /\[([^\[\]]*)\]/
-
-			StringBuffer sb = new StringBuffer();
-			while (matcher.find()) {
-				matcher.appendReplacement(sb, idx.toString());
-				idx++
-			}
-			matcher.appendTail(sb);
-			segments = sb.toString()
-			System.out.println(segments);
-
-			matcher.each{ segColl.add(it);}
-		}
-		segColl.eachWithIndex {o,i -> println i +": "+o }
-		return [profile: segments, collection: segColl]
-	}
 }
