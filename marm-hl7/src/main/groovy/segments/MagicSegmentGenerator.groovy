@@ -1,0 +1,86 @@
+package segments
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value
+
+import types.TypeAwareFieldGenerator
+import ca.uhn.hl7v2.model.AbstractMessage
+import ca.uhn.hl7v2.model.AbstractSegment
+import ca.uhn.hl7v2.model.primitive.ID
+import ca.uhn.hl7v2.model.v24.datatype.CE
+import ca.uhn.hl7v2.model.v24.datatype.EI
+import ca.uhn.hl7v2.model.v24.datatype.TS
+import ca.uhn.hl7v2.model.v24.datatype.XAD
+import ca.uhn.hl7v2.model.v24.datatype.XCN
+import ca.uhn.hl7v2.model.v24.datatype.XTN
+import ca.uhn.hl7v2.model.v24.segment.ROL
+
+
+class MagicSegmentGenerator implements ISegmentGenerator {
+	
+	static final Random random = new Random()
+
+	private static final int MAX_REPS = 5
+	@Value('''#{'${person.names.first}'.split(',')}''') List<String> firstNames
+	@Value('''#{'${person.names.last}'.split(',')}''') List<String> lastNames
+	
+	@Value('''#{'${addres.streetNames}'.split(',')}''') List<String> streetNames
+	@Value('''#{'${addres.cities}'.split(',')}''') List<String> cities
+	@Value('''#{'${addres.states}'.split(',')}''') List<String> states
+	@Value('''#{'${addres.zips}'.split(',')}''') List<String> zips
+	@Value('''#{'${address.countries}'.split(',')}''') List<String> countries
+	@Value('''#{'${phones}'.split(',')}''') List<String> phones
+
+	TypeAwareFieldGenerator fieldGenerator = new TypeAwareFieldGenerator()
+	
+	public AbstractMessage generate(AbstractMessage message, String segment, List attributes) {
+		
+		boolean isRep = isSegmentRepeated(segment)
+		String segmentName = getSegmentName(segment)
+		
+		int totalReps = (isRep)? Math.abs(random.nextInt() % MAX_REPS ):1
+		
+		for(int i=0; i<totalReps; i++){
+			AbstractSegment seg = (isRep)?message."get$segmentName"(i) :message."get$segmentName"()
+			generateSegment(attributes, seg)
+		}
+
+		return message
+	}
+	
+	// Metadata removed segment to get its name 
+	//TODO: message dup in ProfileParser
+	public String getSegmentName(String segment){
+		return segment.replaceAll("~|\\[|\\]|\\{|\\}","")
+	}
+	
+	//Check if segment alows repetitions
+	public boolean isSegmentRepeated(String segment){
+		return segment.contains("~{")
+	}
+	
+	// Generate a Segment based on list of attributes for each field
+	// Method uses reflection to call particular type of field implementation
+	public void generateSegment(List details, AbstractSegment seg) {
+		
+		for(int i=0; i<details.size(); i++){
+			def attributes = details.get(i)
+			
+			//Get field by position and add it to the map, which will be sent to generator
+			def fld = seg.getTypedField(attributes?.piece?.toInteger(), 0)
+			Map map = ['fld':fld]
+			map.putAll(attributes)
+			
+			//Derive the method name from the data type, and call generator method via 'reflection'
+			def methodName = attributes.datatype?.toLowerCase()
+			try{
+				fieldGenerator."${methodName}"(map)
+			}catch (Exception e){
+				println e.message
+			}
+		}
+	}
+
+
+}

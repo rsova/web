@@ -1,5 +1,7 @@
 package segments
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value
 
 import ca.uhn.hl7v2.model.AbstractMessage
@@ -11,7 +13,7 @@ class PidSegmentGenerator implements ISegmentGenerator {
 	@Value('''#{'${person.names.first}'.split(',')}''') List<String> firstNames
 	@Value('''#{'${person.names.last}'.split(',')}''') List<String> lastNames
 
-	public AbstractMessage generate(AbstractMessage message, Map details) {
+	public AbstractMessage generate(AbstractMessage message, String segment, List details){
 		PID pid = message.PID
 		//pid.getPatientName(0).familyName.surname.value = firstName;
 		int idx = Math.abs(random.nextInt() % firstNames.size())
@@ -23,6 +25,5 @@ class PidSegmentGenerator implements ISegmentGenerator {
 
 		return message
 	}
-
 
 }

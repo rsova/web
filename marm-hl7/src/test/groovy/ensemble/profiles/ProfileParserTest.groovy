@@ -40,6 +40,7 @@ class ProfileParserTest {
 		assertNotNull(struct)
 		println struct
 	}
+	
 	@Test
 	public void testGetSegments() {
 			

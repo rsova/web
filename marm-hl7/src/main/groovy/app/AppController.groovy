@@ -54,5 +54,28 @@ public class AppController {
 		return [ "$response": true, message: msg ]
 		
 	}
+	@RequestMapping(value="/gen/{version}/{message}")
+	@ResponseBody
+	public Map generate1( @PathVariable String version, @PathVariable String message){
+		String response = 'success'
+		String msg = ''
+
+		try {
+			System.err.println("Generate version: " + version +" message: " + message )
+			
+			
+			def hl7Msg = messageFactory.generate1(version, message)
+			msg = contextGenerator.outAsEr7(hl7Msg)
+			msg = msg.replace('\r','\n' )
+
+		} catch (Exception e) {
+			println e.message
+			response = 'error'
+			msg = "Err, Somethng went the wrong way... Version: $version , Message: $message"
+		}
+
+		return [ "$response": true, message: msg ]
+
+	}
 
 }

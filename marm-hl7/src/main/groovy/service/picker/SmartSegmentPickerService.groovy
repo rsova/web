@@ -18,6 +18,11 @@ class SmartSegmentPickerService {
 		this.profile = profile;
 	}
 	
+	public SmartSegmentPickerService(Map segmentsMap) {
+		this.segments = segmentsMap.segments;
+		this.profile = segmentsMap.profile;
+	}
+	
 	public List getSegmentsToBuild(){
 		List pList = profile.split("~")
 			

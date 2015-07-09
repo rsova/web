@@ -4,12 +4,13 @@ import static org.junit.Assert.*
 import hapi.ContextGenerator
 
 import org.junit.Test
+import segments.PidSegmentGenerator
 
 import ca.uhn.hl7v2.model.AbstractMessage
 
 public class SmartSegmentGeneratorServiceTest {
 
-	@Test
+	//@Test
 	public void testGenerateAdt01() {
 		def segments = ["MSH"," EVN"," PID"," [~{~ROL~}~]"," [~{~NK1~}~]"," PV1"," [~PV2~]"," [~{~DB1~}~]"," [~{~AL1~}~]"," [~{~DG1~}~]"," [~{~PR1~10~}~]"," [~UB1~]"]
 		

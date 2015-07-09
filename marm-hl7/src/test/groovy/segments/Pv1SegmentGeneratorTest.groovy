@@ -18,7 +18,7 @@ class Pv1SegmentGeneratorTest {
 		
 		ADT_A01 hl7Msg = new ADT_A01();
 		hl7Msg.initQuickstart("ADT", "A01", "P")
-		hl7Msg = psg.generate(hl7Msg,[:])
+		hl7Msg = psg.generate(hl7Msg,null, [])
 		println new ContextGenerator().outAsEr7(hl7Msg)
 	}
 

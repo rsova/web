@@ -1,5 +1,7 @@
 package segments
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value
 
 import ca.uhn.hl7v2.model.AbstractMessage
@@ -11,7 +13,7 @@ class Pv1SegmentGenerator implements ISegmentGenerator {
 	@Value('''#{'${person.names.first}'.split(',')}''') List<String> firstNames
 	@Value('''#{'${person.names.last}'.split(',')}''') List<String> lastNames
 
-	public AbstractMessage generate(AbstractMessage message, Map details) {
+	public AbstractMessage generate(AbstractMessage message, String segment, List details) {
 		PV1 pv1 = message.PV1
 		pv1.getSetIDPV1().value = "1"
 		pv1.patientClass.value = 'I'

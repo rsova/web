@@ -1,6 +1,6 @@
 package ensemble.profiles
 
-import groovy.util.slurpersupport.NodeChild
+import groovy.util.slurpersupport.GPathResult
 
 import java.util.regex.Matcher
 
@@ -16,16 +16,25 @@ class ProfileParser {
 	final static String SEGCNTRL = '~'
 	final static String BLNK = ''
 
+	public static final String PROFILE = 'profile'
+	public static final String SEGMENTS = 'segments'
+
 	String version
 	String messageType
+	GPathResult export
+	String xml
 
 	public ProfileParser(String version, String messageType) {
 		this.version = version;
 		this.messageType = messageType;
+		this.xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+		this.export = new XmlSlurper().parseText(xml)
 	}
 	
 	protected Map getSegments(){
-		String xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+		if(this.xml == null)
+			this.xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+		
 		String segments = getMessageStructure(xml, messageType)
 		return processSegments(segments)
 	}
@@ -36,7 +45,7 @@ class ProfileParser {
 
 		while(segments.contains("[")){
 
-			Matcher matcher = segments =~ /\[([^\[\]]*)\]/
+			Matcher matcher = segments =~ /\[([^\[\]]*)\]/ //\[([^()]|(?R))*\]
 
 			StringBuffer sb = new StringBuffer();
 			while (matcher.find()) {
@@ -50,27 +59,49 @@ class ProfileParser {
 			matcher.each{ segColl.add(it);}
 		}
 		segColl.eachWithIndex {o,i -> println i +": "+o }
-		return [profile: segments, collection: segColl]
+		return [profile: segments, segments: segColl]
 	}
 
 	public List getCoreSegments(){
-		String xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+		if(this.xml == null)
+			 xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+		
 		String msgStructure = getMessageStructure(xml, messageType)
 		def reqSegments = getRequiredSegments(msgStructure)
 		return reqSegments
 	}
 		
 	protected String getMessageStructure(String xml, String message) {
-		def export = new XmlSlurper().parseText(xml)
+		if(this.export == null)
+			this.export = new XmlSlurper().parseText(xml)
+			
 		String strtructAttribute = export.Document.Category.MessageType.find{ it.@name == message}.@structure.text()
 		def structure = export.Document.Category.MessageStructure.find{ it.@name == strtructAttribute}.@definition.text()
 		return structure
 	}
+	protected String getMessageStructure(String message) {
+		if(this.xml == null)
+			 xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+			 
+		return getMessageStructure(xml, message)
+	}
 		
 		//R = Required; N = Not required; C = Conditionally Required/Recommended.
+	protected List getSegmentStructure(String segment) {
+		if(this.xml == null)
+			 xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+			 
+		return getSegmentStructure(xml,  segment)
+	}
+	
 	protected List getSegmentStructure(String xml, String segment) {
-		def export = new XmlSlurper().parseText(xml)
-		NodeChild node = export.Document.Category.SegmentStructure.find{ it.@name == segment}
+		if(this.export == null)
+			this.export = new XmlSlurper().parseText(xml)
+		
+		String segmentName = getSegmentName(segment)	
+		println "~~~~~~~~~~~~~~~~~~~~~~> " + segment + ": " + segmentName
+		//NodeChild node = export.Document.Category.SegmentStructure.find{ it.@name == segment}
+		def node = export.Document.Category.SegmentStructure.find{ it.@name == segmentName}
 		//Collect all attributes
 		//List pieces = node.SegmentSubStructure.collect{ return[datatype:it.@datatype, required: it.@required, ifrepeating:it.@ifrepeating, codetable:it.@codetable] }
 		List pieces = node.SegmentSubStructure.collect{ return it.attributes() }
@@ -78,8 +109,17 @@ class ProfileParser {
 		return pieces
 	}
 
+	protected List getCodeTable(String tableName) {
+		if(this.xml == null)
+			 xml = IOUtils.toString(this.getClass().getResourceAsStream("/base24.xml"), "UTF-8");
+			 
+		return getCodeTable(xml,tableName)
+	}
+	
 	protected List getCodeTable(String xml, String tableName) {
-		def export = new XmlSlurper().parseText(xml)
+		if(this.export == null)
+			this.export = new XmlSlurper().parseText(xml)
+			
 		List values = export.Document.Category.CodeTable.find { it.@name == tableName}.Enumerate.collect{return it.attributes() }
 		values.each{println it}
 		return values
@@ -125,5 +165,10 @@ class ProfileParser {
 		int index = string.lastIndexOf(substring);
 		return (index == -1)?string: string.substring(0, index) + replacement + string.substring(index+substring.length());
 	}
+	
+	static public String getSegmentName(String segment){
+		return segment.replaceAll("~|\\[|\\]|\\{|\\}","")
+	}
+
 	
 }
