@@ -144,6 +144,16 @@ class ProfileParserTest {
 		assertEquals(12,fields.size())
 		
 	}
+	
+	@Test
+	void testGetSegmentStructureMSH() {
+	
+		ProfileParser pp = new ProfileParser('2.4', 'ADT_A01')
+		List fields = pp.getSegmentStructure("MSH")
+		assertEquals(21,fields.size())
+		
+	}
+	
 	@Test
 	void testGetCodeTable() {
 		def xml = """

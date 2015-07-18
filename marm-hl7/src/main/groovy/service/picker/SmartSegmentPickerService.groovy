@@ -1,17 +1,17 @@
 package service.picker
 
-import java.util.List;
-import java.util.Random;
-
-import ensemble.profiles.ProfileParser;
+import java.util.regex.Matcher
 
 class SmartSegmentPickerService {
 	private List segments
 	private String profile
 	
 	//load 50 percent of optional segments
-	static final loadFactor = 0.5
+	public double loadFactor = 0.5
 	static final Random random = new Random()
+	
+	public SmartSegmentPickerService(){
+	}
 	
 	public SmartSegmentPickerService( String profile, List segments) {
 		this.segments = segments;
@@ -19,8 +19,19 @@ class SmartSegmentPickerService {
 	}
 	
 	public SmartSegmentPickerService(Map segmentsMap) {
+		init(segmentsMap);
+	}
+
+	private SmartSegmentPickerService init(segmentsMap) {
 		this.segments = segmentsMap.segments;
-		this.profile = segmentsMap.profile;
+		this.profile = segmentsMap.profile
+		return this
+	}
+	
+	public List pickSegments(){
+		List nonReqSegments = getSegmentCandidates()
+		List segments = getSegmentsToBuild(nonReqSegments);
+		return segments
 	}
 	
 	public List getSegmentsToBuild(){
@@ -43,6 +54,39 @@ class SmartSegmentPickerService {
 			}else{ segmentsToKeep.add(seg) }
 		}		
 		return segmentsToKeep
+	}
+	
+	public List getSegmentsToBuild(List pickedSegments){
+		List tokens  = profile.split("~")
+		List segmentsToKeep = []
+
+		for(String token in tokens){
+
+			//token can be encoded as number
+			if(token.isNumber()){
+				Integer tokenIdx = token.toInteger()
+				if(pickedSegments.contains(tokenIdx)){
+					//get string that was encoded
+					String sequence = segments.get(tokenIdx).get(0)
+					//token can be a group of symbols
+					if(isGroup(sequence)){
+						//TODO: Just skip group processing for now
+						println 'group : ' + sequence
+					}else{
+						segmentsToKeep.add(sequence)
+					}
+				}
+			}else{ // non encoded token is a keeper
+				segmentsToKeep.add(token)
+			}
+		}
+		return segmentsToKeep
+	}
+	
+	//Check if encoded segment is a group
+	protected boolean isGroup(String encoded){
+		Matcher matcher = encoded =~ /\~\d+\~/
+		return matcher.find()
 	}
 	
 	protected handleSegment(int idx){

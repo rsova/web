@@ -1,0 +1,19 @@
+MSH|^~\&|||||20150202154627.109-1000||ADT^A01^ADT_A01|67301|P|2.4|||NE|AL||8859/4
+EVN|A05|20150518154627.489-1000
+PID|||||||20140811154627.613-1000||||||(662) 120-6474|(470) 446-7282|^No suggested values defined||||606121126|||^Not Hispanic or Latino||Y||||^No suggested values defined|20150209154627.811-1000|N|Y||||^No suggested values defined|^No suggested values defined||^Show
+PD1||||159^Smith^Bill^J|||||Y||^Family only||||^Do not resuscitate
+ROL|5|UC|^Referring Provider|52^Lee^Bill^J|20150330154628.351-1000|20151214154628.352-1000|120|79||||(601) 110-8688
+ROL|17|LI|^Attending|162^Lee^Bob^J|20140901154628.373-1000|20160509154628.374-1000|162|87
+ROL|0|DE|^Referring Provider|277^Smith^Bill^J||20150831154628.39-1000|181|156
+PV1|||||||||182^Smith^Bill^J||||||||14^Smith^Bob^J|||||||||||||||||||||||||||20140922154628.144-1000|20150223154628.145-1000|||||||5^Smith^Bill^J
+PV2||^No suggested values defined|72||||||||||189^Lee^Bob^J||||||Y|||||||||||||||N|||Y||||||||||20141124154628.265-1000
+DB1||||Y
+AL1|99||24|^Unknown
+DRG|||||||285.73&USD||573.47&USD
+GT1|||||&7741 Foggy Pond Jetty^^Dollar Settlement^TN^37326-6978^US|(931) 872-7634|||||^Grandparent|606121126|||||&7061 Iron Blossom Ridge^^Saint-Quentin^MS^39377-7406^US|(662) 120-6474||||Y|||N|^No suggested values defined|||||||||^No suggested values defined|^No suggested values defined||^Family only|N||^Christian: Wesleyan Methodist||^No suggested values defined|||(662) 120-6474
+GT1|||||||(601) 110-8688||||^Grandparent|||||||||||||20140915154633.837-1000||^No suggested values defined|42.42&USD|||^Separated|||||^No suggested values defined|||^Family only|Y|||||||(601) 110-8688
+GT1||||||||20141006154633.895-1000||||606121126||||||||||N|^No suggested values defined|||||||^Annulled||||||||^Unknown|N||||^No suggested values defined|^Unknown
+ACC|20141215154634.009-1000|^No suggested values defined||||N|71^Smith^Bill^J|||N
+UB1||||||||||||^EPSDT-CHAP|^Admission denied||||||||41|15
+UB2||40||59|||||||5
+PDA|16||N|||||58^Lee^Bob^J|N

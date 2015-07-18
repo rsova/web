@@ -1,21 +1,30 @@
 package service.picker;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.*
+
+import java.util.regex.Matcher
+
+import org.junit.Test
+
 import ensemble.profiles.ProfileParser
-
-import org.junit.Test;
-
-import service.picker.SmartSegmentPickerService;
 
 class SmartSegmentPickerServiceTest {
 
 	@Test
-	public void testGetSegmentsToBuild() {
+	public void testPickSegments() {
+		
 		Map segmentsList = new ProfileParser("2", "ADT_A01").getSegments();
-		List segments = new SmartSegmentPickerService(segmentsList.profile, segmentsList.collection).getSegmentsToBuild();
+		List segments = new SmartSegmentPickerService(segmentsList.profile, segmentsList.segments).pickSegments();
 		assertNotNull(segments)
 		println segments
-		assertEquals(12, segments.size());
+ 	}
+	
+	@Test
+	public void testGetSegmentsToBuild() {
+		Map segmentsList = new ProfileParser("2", "ADT_A01").getSegments();
+		List segments = new SmartSegmentPickerService(segmentsList.profile, segmentsList.segments).getSegmentsToBuild();
+		assertNotNull(segments)
+		println segments
 	}
 	
 	@Test

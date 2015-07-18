@@ -2,9 +2,17 @@ package types
 
 import org.springframework.beans.factory.annotation.Value
 
+import ca.uhn.hl7v2.model.AbstractPrimitive
+import ca.uhn.hl7v2.model.primitive.DT
 import ca.uhn.hl7v2.model.primitive.ID
+import ca.uhn.hl7v2.model.primitive.IS
 import ca.uhn.hl7v2.model.v24.datatype.CE
+import ca.uhn.hl7v2.model.v24.datatype.CP
+import ca.uhn.hl7v2.model.v24.datatype.CX
+import ca.uhn.hl7v2.model.v24.datatype.DLD
+import ca.uhn.hl7v2.model.v24.datatype.DLN
 import ca.uhn.hl7v2.model.v24.datatype.EI
+import ca.uhn.hl7v2.model.v24.datatype.ST
 import ca.uhn.hl7v2.model.v24.datatype.TS
 import ca.uhn.hl7v2.model.v24.datatype.XAD
 import ca.uhn.hl7v2.model.v24.datatype.XCN
@@ -24,6 +32,7 @@ class TypeAwareFieldGenerator {
 	@Value('''#{'${addres.zips}'.split(',')}''') List<String> zips
 	@Value('''#{'${address.countries}'.split(',')}''') List<String> countries
 	@Value('''#{'${phones}'.split(',')}''') List<String> phones
+	@Value('''#{'${states}'.split(',')}''') List<String> allStates
 
 	ProfileParser pp = new ProfileParser("","")
 	
@@ -56,12 +65,11 @@ class TypeAwareFieldGenerator {
 	
 	// Generate HL7 ID, usually using value from code table
 	//public ID generateId(ID id, String code = null, boolean isReq = true){
-	public ID id(LinkedHashMap map){
-		if((map.required == 'O')&&(random.nextBoolean()))return null
-		def alphas = ("A".."Z")
+	public void id(LinkedHashMap map){
+		if((map.required == 'O')&&(random.nextBoolean())){return}
+		//def alphas = ("A".."Z")
 		String val = (map.codetable != null)? getCodedValue(pp, map.codetable): Math.abs(random.nextInt() % 200).toString()
 		((ID) map.fld).setValue(val)
-		return (ID) map.fld
 	}
 	
 	// Generate HL7 CE
@@ -127,7 +135,7 @@ class TypeAwareFieldGenerator {
 		
 		TS ts = (TS) map.fld
 		//for Time Stamp one way to figure out if event is in the future of in the past to look for key words in description
-		boolean isFutureEvent = map.description?.contains(' End ') //so 'Role End Date/Time' 
+		boolean isFutureEvent = map.description?.contains('End') //so 'Role End Date/Time' 
 		int seed = 52 //seed bounds duration of time to 52 weeks, a year baby...
 		use(TimeCategory) {
 			Duration duration = Math.abs(random.nextInt() % seed).toInteger().week
@@ -186,4 +194,110 @@ class TypeAwareFieldGenerator {
 		return xtn
 	}
 	
+	//[cp, cx, dld,
+	// dln, dr, dt, fc, hd, jcc, msg, nm, ocd, osp, pl, pt, si, st, uvc, vid, xon, xpn]
+	
+	//Generate HL7 CP (composite price) data type.
+	public void cp(LinkedHashMap map){
+		if((map.required == 'O')&&(random.nextBoolean())){return}
+		
+		CP cp = (CP) map.fld
+		//price (MO)
+		cp.getPrice().getQuantity().value = String.format("%.2f", (Math.abs(random.nextDouble())) *1000)  //under $1,000
+		cp.getPrice().getDenomination().value = "USD"
+		//price type (ID)
+		//from value (NM)
+		//to value (NM)
+		//range units (CE)
+		//range type (ID)
+	}
+	
+	//Generate HL7 CX (extended composite ID with check digit) data type. 
+	public void cx(LinkedHashMap map){
+		if((map.required == 'O')&&(random.nextBoolean())){return}
+		
+		CX cx = (CX) map.fld
+		//ID (ST)
+		st(["fld":cx.getID(), description:"Number", required:"R"])
+		println cx.getID()
+		//check digit (ST) (ST)
+		//code identifying the check digit scheme employed (ID)
+		//assigning authority (HD)
+		//identifier type code (ID) (ID)
+		//assigning facility (HD)
+		//effective date (DT) (DT)
+		//expiration date (DT)
+	}
+	
+	//Generate HHL7 DLN (driver's license number) data type
+	public void dln(LinkedHashMap map){
+		//if((map.required == 'O')&&(random.nextBoolean())){return}
+		
+		DLN dln = (DLN) map.fld
+		//Driver´s License Number (ST)
+		dln.getDriverSLicenseNumber().setValue(String.format("%07d", (Math.abs(random.nextInt()))))// 7 Numeric, as for some states in real life
+		//Issuing State, province, country (IS)
+		dln.getIssuingStateProvinceCountry().setValue(allStates.get(Math.abs(random.nextInt()%allStates.size())))
+		
+		//expiration date (DT)
+		dt(["fld":dln.getExpirationDate(),"description":"End", "required":"R"])
+		
+		println dln
+	}
+	
+	// Generates an HL7 DT (date) datatype.
+	public void dt(Map map){
+		boolean isFutureEvent = map.description?.contains('End') //so 'Role End Date/Time'
+		int seed = 52 //seed bounds duration of time to 52 weeks, a year baby...
+		use(TimeCategory) {
+			Duration duration = Math.abs(random.nextInt() % seed).toInteger().week
+			Date evnt = (isFutureEvent)?new Date() + duration:new Date() - duration
+			//YYYY[MM[DD]]
+			//String v = evnt.format( 'YYYYMMDD')
+			String v = evnt.format( 'YYYYMMdd')
+			((DT)map.fld).setValue(v)
+		}
+	}
+	
+	public void is(Map map){
+		//if((map.required == 'O')&&(random.nextBoolean())){return}
+		String val = (map.codetable != null)? getCodedValue(pp, map.codetable): Math.abs(random.nextInt() % 200).toString()
+		((IS) map.fld).setValue(val)
+	}
+	
+	//Generate HL7 DLD (discharge location) data type. This type consists of the following components:
+	public void dld(LinkedHashMap map){
+		if((map.required == 'O')&&(random.nextBoolean())){return}
+		
+		DLD dld = (DLD) map.fld
+		//discharge location (ID)
+		id(["fld":dld.getDischargeLocation(), required:"R"])
+		//effective date (TS)
+		ts(["fld":dld.getEffectiveDate(), required:"R"])
+		println dld
+	}
+	
+	//Generate HL7 ST (string data) data type. A ST contains a single String value.
+	public void st(LinkedHashMap map){
+		if((map.required == 'O')&&(random.nextBoolean())){return}
+		
+		ST st = (ST) map.fld
+		//this one returns empty string if field has not been set
+		def x  =  st.getValueOrEmpty()//number,-id, code
+		if(x.isEmpty()){
+			String val = map.description
+			//[Continuation Pointer, SSN Number - Patient, Birth Place, Strain, Patient Valuables Location, Observation Sub-Id, References Range, User Defined Access Checks, Allergy Reaction Code, Guarantor SSN, Job Title, UB-82 Locator 2, UB-82 Locator 9, UB-82 Locator 27, UB-82 Locator 45, Covered Days (7), Non-Covered Days (8), UB92 Locator 56 (State), UB92 Locator 57 (National)]
+			
+			if(val.contains("SSN")){//if SSN
+				val = "606121126"
+			}else if(map.max_length < 4 || val.contains("Id")|| val.contains("Days")|| val.contains("Code") || val.contains("Number") ){
+				val = (Math.abs(random.nextInt()%100))// up to 3 spaces
+			}else{//use description
+			    //if description does not fit use number
+				val = (val.length() > map.max_length.toInteger())?(Math.abs(random.nextInt()%100)):val
+			}
+			st.setValue(val)
+		}
+	}
+		
 }

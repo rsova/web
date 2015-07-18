@@ -18,11 +18,15 @@ import ensemble.profiles.ProfileParser
 
 @Component
 public class MessageFactory {
+	public static Set set = []
 	@Autowired
 	AdtMessageGenerator adtMessageGenerator
 	
 	@Autowired
 	MagicSegmentGenerator magicGenerator
+	
+	@Autowired
+	SmartSegmentPickerService segmentPicker
 	
 	public AbstractMessage generate(String version, String message, List segmentList){
 		AbstractMessage hl7Msg = adtMessageGenerator.genreateAdtA01Msg()
@@ -37,13 +41,16 @@ public class MessageFactory {
 //		1: [[~{~ROL~}~], ~{~ROL~}~]
 //		2: [[~{~NK1~}~], ~{~NK1~}~]
 //		3: [[~PV2~], ~PV2~]		
-		Map segmentsMap = parser.getSegments()
-		List segments = new SmartSegmentPickerService(segmentsMap).getSegmentsToBuild();		
+		Map segmentsMap = parser.getSegments()	
+					
+		// Get list of non required segments randomly selected for this build
+		List segments = segmentPicker.init(segmentsMap).pickSegments()
 		
 		for (segment in segments) {
 			List attributes = parser.getSegmentStructure(segment)
 			hl7Msg = magicGenerator.generate(hl7Msg, segment, attributes)			
 		}
+		println MessageFactory.set.sort()
 		return hl7Msg
 	}
 	

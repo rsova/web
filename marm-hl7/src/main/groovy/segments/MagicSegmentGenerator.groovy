@@ -1,27 +1,24 @@
 package segments
 
-import java.util.List;
+import hapi.MessageFactory
+
+import java.lang.invoke.MethodHandleImpl.BindCaller.T
 
 import org.springframework.beans.factory.annotation.Value
 
 import types.TypeAwareFieldGenerator
 import ca.uhn.hl7v2.model.AbstractMessage
 import ca.uhn.hl7v2.model.AbstractSegment
-import ca.uhn.hl7v2.model.primitive.ID
-import ca.uhn.hl7v2.model.v24.datatype.CE
-import ca.uhn.hl7v2.model.v24.datatype.EI
-import ca.uhn.hl7v2.model.v24.datatype.TS
-import ca.uhn.hl7v2.model.v24.datatype.XAD
-import ca.uhn.hl7v2.model.v24.datatype.XCN
-import ca.uhn.hl7v2.model.v24.datatype.XTN
-import ca.uhn.hl7v2.model.v24.segment.ROL
+import ca.uhn.hl7v2.model.Type
 
 
 class MagicSegmentGenerator implements ISegmentGenerator {
-	
+	//Set set = []
 	static final Random random = new Random()
+	
+	int maxReps = 5
+	TypeAwareFieldGenerator fieldGenerator = new TypeAwareFieldGenerator()
 
-	private static final int MAX_REPS = 5
 	@Value('''#{'${person.names.first}'.split(',')}''') List<String> firstNames
 	@Value('''#{'${person.names.last}'.split(',')}''') List<String> lastNames
 	
@@ -32,20 +29,20 @@ class MagicSegmentGenerator implements ISegmentGenerator {
 	@Value('''#{'${address.countries}'.split(',')}''') List<String> countries
 	@Value('''#{'${phones}'.split(',')}''') List<String> phones
 
-	TypeAwareFieldGenerator fieldGenerator = new TypeAwareFieldGenerator()
 	
 	public AbstractMessage generate(AbstractMessage message, String segment, List attributes) {
 		
 		boolean isRep = isSegmentRepeated(segment)
 		String segmentName = getSegmentName(segment)
 		
-		int totalReps = (isRep)? Math.abs(random.nextInt() % MAX_REPS ):1
+		int totalReps = (isRep)? Math.abs(random.nextInt() % maxReps ):1 //decide if segment needs to repeat and how many times
 		
 		for(int i=0; i<totalReps; i++){
 			AbstractSegment seg = (isRep)?message."get$segmentName"(i) :message."get$segmentName"()
 			generateSegment(attributes, seg)
 		}
-
+		println ('--------------')
+		println MessageFactory.set
 		return message
 	}
 	
@@ -63,12 +60,12 @@ class MagicSegmentGenerator implements ISegmentGenerator {
 	// Generate a Segment based on list of attributes for each field
 	// Method uses reflection to call particular type of field implementation
 	public void generateSegment(List details, AbstractSegment seg) {
-		
 		for(int i=0; i<details.size(); i++){
 			def attributes = details.get(i)
 			
 			//Get field by position and add it to the map, which will be sent to generator
 			def fld = seg.getTypedField(attributes?.piece?.toInteger(), 0)
+			//((Type<T>)fld)
 			Map map = ['fld':fld]
 			map.putAll(attributes)
 			
@@ -77,6 +74,7 @@ class MagicSegmentGenerator implements ISegmentGenerator {
 			try{
 				fieldGenerator."${methodName}"(map)
 			}catch (Exception e){
+				//MessageFactory.set.add(methodName)
 				println e.message
 			}
 		}
