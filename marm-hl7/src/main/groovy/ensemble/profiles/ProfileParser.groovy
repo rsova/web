@@ -117,6 +117,11 @@ class ProfileParser {
 	}
 	
 	protected List getCodeTable(String xml, String tableName) {
+		//exclude 361,362 sending/receiving app and facility
+		if(tableName in ['72','88','132','264','269','471','9999']){
+			println tableName
+			println '-----------'
+		}
 		if(this.export == null)
 			this.export = new XmlSlurper().parseText(xml)
 			

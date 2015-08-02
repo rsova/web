@@ -14,6 +14,8 @@ import segments.MagicSegmentGenerator
 import service.generator.SmartSegmentGeneratorService
 import service.picker.SmartSegmentPickerService
 import ca.uhn.hl7v2.model.AbstractMessage
+import ca.uhn.hl7v2.model.Structure
+import ca.uhn.hl7v2.model.v24.segment.MSH
 import ensemble.profiles.ProfileParser
 
 @Component
@@ -59,6 +61,16 @@ public class MessageFactory {
 		//AbstractMessage hl7Msg = this.getClass().classLoader.loadClass( "ca.uhn.hl7v2.model.v24.message."+message, true, false )?.newInstance()		
 		AbstractMessage hl7Msg = this.getClass().classLoader.loadClass("ca.uhn.hl7v2.model.v24.message."+ message, true)?.newInstance()		
 		hl7Msg.initQuickstart("ADT", "A01", "P")
+		MSH msh = hl7Msg.get('MSH')
+		//MSH-3: Sending Application (HD) optional
+		msh.getSendingApplication().getNamespaceID().setValue("Sending App")
+		//MSH-4: Sending Facility (HD) optional
+		msh.getSendingFacility().getNamespaceID().setValue("Sending Facility")
+		//MSH-5: Receiving Application (HD) optional
+		msh.getReceivingApplication().getNamespaceID().setValue("MARM")
+		//MSH-6: Receiving Facility (HD) optional
+		msh.getReceivingFacility().getNamespaceID().setValue("HL7 Generator")
+		
 		return hl7Msg
 	}
 }

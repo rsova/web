@@ -72,6 +72,7 @@ class MagicSegmentGenerator implements ISegmentGenerator {
 			//Derive the method name from the data type, and call generator method via 'reflection'
 			def methodName = attributes.datatype?.toLowerCase()
 			try{
+				println methodName
 				fieldGenerator."${methodName}"(map)
 			}catch (Exception e){
 				//MessageFactory.set.add(methodName)

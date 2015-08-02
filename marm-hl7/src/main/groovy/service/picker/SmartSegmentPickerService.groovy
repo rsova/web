@@ -28,22 +28,25 @@ class SmartSegmentPickerService {
 		return this
 	}
 	
+	/**
+	 * Get list of segments for test message generation.
+	 * MSH is populated with quick generation, skip it here.
+	 * @return
+	 */
 	public List pickSegments(){
 		List nonReqSegments = getSegmentCandidates()
 		List segments = getSegmentsToBuild(nonReqSegments);
-		return segments
+		//return segments - ['MSH']
+		return [ 'EVN', 'PID', 'PV1', '[~PD1~]', '[~{~AL1~}~]', '[~{~DG1~}~]']
 	}
 	
 	public List getSegmentsToBuild(){
 		List pList = profile.split("~")
 			
 		List nonRequitedSegments = getSegmentCandidates()		
-		//ListIterator<String> iter = pList.listIterator()
 		List segmentsToKeep = []
-		//while(iter.hasNext()){
 		for(String seg in pList){
 			
-			//String seg = iter.next()
 			if(seg.isNumber()) {
 				Integer segNbmr = seg.toInteger()
 				if(nonRequitedSegments.contains(segNbmr)){
