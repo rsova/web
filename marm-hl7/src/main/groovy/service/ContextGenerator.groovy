@@ -1,4 +1,4 @@
-package hapi
+package service
 
 import org.springframework.stereotype.Component
 
@@ -22,7 +22,7 @@ class ContextGenerator {
 		
 		try {
 			encodedMessage = parser.encode(hl7Msg);
-			System.out.println("Successfully parsed valid message");
+			//System.out.println("Successfully parsed valid message");
 		} catch (HL7Exception e) {
 			// This shouldn't happen!
 			System.out.println("Something went wrong!");

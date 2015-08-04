@@ -1,17 +1,19 @@
 package segments
 
-import hapi.MessageFactory
-
 import java.lang.invoke.MethodHandleImpl.BindCaller.T
 
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
+import service.MessageFactory;
 import types.TypeAwareFieldGenerator
 import ca.uhn.hl7v2.model.AbstractMessage
 import ca.uhn.hl7v2.model.AbstractSegment
 import ca.uhn.hl7v2.model.Type
 
-
+@Component
+//@Configuration
 class MagicSegmentGenerator implements ISegmentGenerator {
 	//Set set = []
 	static final Random random = new Random()
@@ -22,14 +24,16 @@ class MagicSegmentGenerator implements ISegmentGenerator {
 	@Value('''#{'${person.names.first}'.split(',')}''') List<String> firstNames
 	@Value('''#{'${person.names.last}'.split(',')}''') List<String> lastNames
 	
-	@Value('''#{'${addres.streetNames}'.split(',')}''') List<String> streetNames
-	@Value('''#{'${addres.cities}'.split(',')}''') List<String> cities
-	@Value('''#{'${addres.states}'.split(',')}''') List<String> states
-	@Value('''#{'${addres.zips}'.split(',')}''') List<String> zips
+	@Value('''#{'${address.streetNames}'.split(',')}''') List<String> streetNames
+	@Value('''#{'${address.cities}'.split(',')}''') List<String> cities
+	@Value('''#{'${address.states}'.split(',')}''') List<String> states
+	@Value('''#{'${address.zips}'.split(',')}''') List<String> zips
 	@Value('''#{'${address.countries}'.split(',')}''') List<String> countries
 	@Value('''#{'${phones}'.split(',')}''') List<String> phones
 
 	
+//	public MagicSegmentGenerator() {}
+
 	public AbstractMessage generate(AbstractMessage message, String segment, List attributes) {
 		
 		boolean isRep = isSegmentRepeated(segment)

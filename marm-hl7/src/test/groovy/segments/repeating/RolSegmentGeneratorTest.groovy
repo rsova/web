@@ -1,11 +1,11 @@
 package segments.repeating;
 
 import static org.junit.Assert.*
-import hapi.ContextGenerator
 
 import org.junit.Before
 import org.junit.Test
 
+import service.ContextGenerator;
 import ca.uhn.hl7v2.model.v24.message.ADT_A01
 import ensemble.profiles.ProfileParser
 

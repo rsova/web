@@ -117,14 +117,18 @@ class TypeAwareFieldGenerator {
 	 * @return id as string
 	 */
 	protected String generateLengthBoundId(int maxlen){
-		//def max_length = (maxlen >str.length()?str.length()-1:maxlen)
-		
-		def str = String.sprintf("%0${maxlen}d", Math.abs(random.nextInt()))
-		return str
+		return generateLengthBoundId(maxlen, Math.abs(random.nextInt()).toString())
 	}
-//		def str = Math.abs(random.nextInt()).toString()
-//		def idx = (maxlen >str.length()?str.length()-1:maxlen)
-//		return str[1..idx]
+	
+	protected String generateLengthBoundId(int maxlen, String str){
+		def idx = maxlen
+
+		if(maxlen > str.length()){
+			str = str.padRight(maxlen,'0')
+			idx = str.length()
+		}
+		return str[0..idx-1]
+	}
 
 	/**
 	 * If field is returns true, if field are Not Supported, Withdrawn Fields  or Backward Compatible (X,W,B) returns false.
@@ -134,14 +138,13 @@ class TypeAwareFieldGenerator {
 	 * @return true or false
 	 */
 	protected boolean isAutogenerate(Map map) {
-//		if(map.required in ['X','W','B']) return false
-//		if(map.required =='R') return true
-//		if(map.required == 'O') return random.nextBoolean()
-		return true
+		if(map.required in ['X','W','B']) return false
+		if(map.required =='R') return true
+		if(map.required == 'O') return random.nextBoolean()
+		//return true
 	}
 
 	// Generate HL7 CE (coded element) data type
-	//public CE ce(LinkedHashMap map){
 	public void ce(LinkedHashMap map){
 		//check if the field is optional and randomly generate it of skip
 		if(!isAutogenerate(map)){return}

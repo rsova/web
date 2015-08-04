@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.Test
 
 import segments.MagicSegmentGenerator
+import service.ContextGenerator;
+import service.MessageFactory;
 import service.picker.SmartSegmentPickerService
 import groovy.time.Duration
 import groovy.time.TimeCategory
@@ -35,11 +37,11 @@ class MessageFactoryTest {
 		SmartSegmentPickerService segmentPicker = new SmartSegmentPickerService()
 		segmentPicker.loadFactor = 1
 		MessageFactory mf = new MessageFactory()
-		mf.magicGenerator = msgen
-		mf.segmentPicker = segmentPicker
+		mf.magicSegmentGenerator = msgen
+		mf.smartSegmentPickerService = segmentPicker
 		
 		
-		def msg = mf.generate1("2.4","ADT_A01")
+		def msg = mf.generate("2.4","ADT_A01")
 		println new ContextGenerator().outAsEr7(msg, true)
 	}
 	
@@ -75,9 +77,10 @@ class MessageFactoryTest {
 		println String.sprintf("%0${max_length}d", 123456)
 		def frmt = "%"+max_length+"d"
 		println frmt
-		max_length=4
-		println String.sprintf("%${max_length}d", 159952992)
-
+		max_length=9
+		println '1234iuyiyiooiiuyuyyiuuiiyuiy'.padLeft(max_length,'0')
+		fail()
+		
 		def str = Math.abs(random.nextInt()).toString()
 		println str[0..(max_length >str.length()?str.length()-1 :max_length)]
 		//fail()
@@ -163,8 +166,8 @@ class MessageFactoryTest {
 //		}
 		segmentPicker.loadFactor = 1
 		MessageFactory mf = new MessageFactory()
-		mf.magicGenerator = msgen
-		mf.segmentPicker = segmentPicker
+		mf.magicSegmentGenerator = msgen
+		mf.smartSegmentPickerService = segmentPicker
 		
 		
 		def msg = mf.generate1("2.4","ADT_A01")

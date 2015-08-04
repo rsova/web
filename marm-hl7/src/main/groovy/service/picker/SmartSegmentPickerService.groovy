@@ -2,6 +2,11 @@ package service.picker
 
 import java.util.regex.Matcher
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+
+@Component
+//@Configuration
 class SmartSegmentPickerService {
 	private List segments
 	private String profile

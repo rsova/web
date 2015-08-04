@@ -1,11 +1,11 @@
 package service.generator;
 
 import static org.junit.Assert.*
-import hapi.ContextGenerator
 
 import org.junit.Test
-import segments.PidSegmentGenerator
 
+import segments.PidSegmentGenerator
+import service.ContextGenerator;
 import ca.uhn.hl7v2.model.AbstractMessage
 
 public class SmartSegmentGeneratorServiceTest {
